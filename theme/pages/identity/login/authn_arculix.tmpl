@@ -1,0 +1,107 @@
+{{ define "authn_arculix" }}
+
+    <div class="log-in-header-container">
+        <h2 id="log-in-header">Log in with Arculix</h2>
+        {{ if .Data.Is2FAStep }}
+            <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="icon" class="icon-2fa"/>
+        {{ end }}
+    </div>
+
+    {{ if not .Data.FormError.Errors }}
+      <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+      {{ if .Data.ArculixPairQR }}
+        <img src="data:image/png;base64, {{ .Data.ArculixPairQR }}" />
+      {{ else }}
+        <span class="loader"></span>
+      {{ end }}
+      </div>
+    {{ else }}
+      <a href="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}" class="submit-button">
+        Retry
+      </a>
+    {{ end}}
+
+    {{ if .Data.AuthnModeSwitch }}
+          <div id="authn-mode-switch-container">
+
+              <div class="spacer-container">
+                  <div>or log in with</div>
+              </div>
+
+              <div class="form-field">
+
+              {{ if .Data.AuthenticationMechanismsAvailability.password }}
+            <button class="href-card" type="submit" name="action" value="change_to_password" id="login-option-password">
+                          <div>
+                <span class="href-card-avatar href-card-avatar-with-img">
+                  <img src="{{ .Config.Assets }}/static/images/password-icon.svg" alt="icon" />
+                </span>
+                  <span>Password</span>
+                          </div>
+                          <i class="material-icons">navigate_next</i>
+                      </button>
+                  {{ end }}
+
+                  {{ if .Data.AuthenticationMechanismsAvailability.otp }}
+            <button class="href-card" type="submit" name="action" value="change_to_otp" id="login-option-code" style="display: flex">
+                          <div>
+                <span class="href-card-avatar href-card-avatar-with-img">
+                  <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="icon" />
+                </span>
+                              <span>Verification Code</span>
+                          </div>
+                          <i class="material-icons">navigate_next</i>
+                      </button>
+                  {{ end }}
+
+                  {{ if .Data.AuthenticationMechanismsAvailability.webauthn }}
+            <button class="href-card" type="submit" name="action" value="change_to_web_authn" id="login-option-web-authn">
+                          <div>
+                <span class="href-card-avatar href-card-avatar-with-img">
+                  <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="icon" />
+                </span>
+                              <span>Passkey</span>
+                          </div>
+                          <i class="material-icons">navigate_next</i>
+                      </button>
+                  {{ end }}
+
+                {{ if .Data.AuthenticationMechanismsAvailability.totp }}
+          <button class="href-card" type="submit" name="action" value="change_to_totp" id="login-option-totp">
+                        <div>
+              <span class="href-card-avatar href-card-avatar-with-img">
+                <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="icon" />
+              </span>
+                            <span>Authenticator Code</span>
+                        </div>
+                        <i class="material-icons">navigate_next</i>
+                    </button>
+                {{ end }}
+
+              </div>
+          </div>
+      {{ end }}
+
+    <input type="checkbox" name="arculixMode" id="arculixMode" checked class="non-visible">
+    <input type="hidden" name="arculixChannel" value="{{ .Data.ArculixChannel }}" id="arculixChannel">
+    <input type="hidden" name="authn_mode" value="arculix_view" id="authnView-input">
+
+    <script src="{{ .Data.ArculixFayeURL }}/faye/faye.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/JavaScript">
+      $(function() {
+          var faye = new Faye.Client("{{ .Data.ArculixFayeURL }}/faye");
+          var form = document.getElementById("sign-in-form");
+          faye.subscribe("/messages/{{ .Data.ArculixChannel }}", function (data) {
+              {{/* after pairing reload the page to restart the authentication flow */}}
+              {{ if .Data.ArculixPairQR }}
+              window.location.reload();
+              {{ else }}
+              form.submit();
+              {{ end }}
+          });
+      });
+    </script>
+
+{{ end }}
