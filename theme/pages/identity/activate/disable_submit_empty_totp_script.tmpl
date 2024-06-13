@@ -1,0 +1,26 @@
+{{ define "identity_activate_disable_submit_empty_totp_script" }}
+
+  <script nonce="{{.Config.Nonce}}">
+
+    var totpLength = {{ .Data.TotpLength }};
+
+    document.addEventListener("DOMContentLoaded", onPageLoad);
+
+    function onPageLoad() {
+      disableButtonsOnEmptyInputs();
+      setButtonEnablementOnInput();
+    }
+
+    function setButtonEnablementOnInput() {
+      var totpInput = document.getElementById("totp-input")
+      if (!!totpInput) totpInput.addEventListener('input', disableButtonsOnEmptyInputs);
+    }
+
+    function disableButtonsOnEmptyInputs() {
+      var totpInput = document.getElementById("totp-input")
+      var submitButton = document.getElementById("sign-up-button");
+      if(submitButton && totpInput) submitButton.disabled = !totpInput.value || totpInput.value.length < totpLength;
+    }
+
+  </script>
+{{ end }}
