@@ -22,65 +22,8 @@
     {{ end}}
 
     {{ if .Data.AuthnModeSwitch }}
-          <div id="authn-mode-switch-container">
-
-              <div class="spacer-container">
-                  <div>or log in with</div>
-              </div>
-
-              <div class="form-field">
-
-              {{ if .Data.AuthenticationMechanismsAvailability.password }}
-            <button class="href-card" type="submit" name="action" value="change_to_password" id="login-option-password">
-                          <div>
-                <span class="href-card-avatar href-card-avatar-with-img">
-                  <img src="{{ .Config.Assets }}/static/images/password-icon.svg" alt="icon" />
-                </span>
-                  <span>Password</span>
-                          </div>
-                          <i class="material-icons">navigate_next</i>
-                      </button>
-                  {{ end }}
-
-                  {{ if .Data.AuthenticationMechanismsAvailability.otp }}
-            <button class="href-card" type="submit" name="action" value="change_to_otp" id="login-option-code" style="display: flex">
-                          <div>
-                <span class="href-card-avatar href-card-avatar-with-img">
-                  <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="icon" />
-                </span>
-                              <span>Verification Code</span>
-                          </div>
-                          <i class="material-icons">navigate_next</i>
-                      </button>
-                  {{ end }}
-
-                  {{ if .Data.AuthenticationMechanismsAvailability.webauthn }}
-            <button class="href-card" type="submit" name="action" value="change_to_web_authn" id="login-option-web-authn">
-                          <div>
-                <span class="href-card-avatar href-card-avatar-with-img">
-                  <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="icon" />
-                </span>
-                              <span>Passkey</span>
-                          </div>
-                          <i class="material-icons">navigate_next</i>
-                      </button>
-                  {{ end }}
-
-                {{ if .Data.AuthenticationMechanismsAvailability.totp }}
-          <button class="href-card" type="submit" name="action" value="change_to_totp" id="login-option-totp">
-                        <div>
-              <span class="href-card-avatar href-card-avatar-with-img">
-                <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="icon" />
-              </span>
-                            <span>Authenticator Code</span>
-                        </div>
-                        <i class="material-icons">navigate_next</i>
-                    </button>
-                {{ end }}
-
-              </div>
-          </div>
-      {{ end }}
+        {{ template "authn_methods" . }}
+    {{ end }}
 
     <input type="checkbox" name="arculixMode" id="arculixMode" checked class="non-visible">
     <input type="hidden" name="arculixChannel" value="{{ .Data.ArculixChannel }}" id="arculixChannel">
