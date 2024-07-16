@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cloudentity</title>
+    <title>SecureAuth</title>
 
     <!--[if !mso]><!-->
     <style type="text/css">
@@ -29,12 +29,12 @@
           {{with (eq .Config.Styling.LogoSize "")}} height: 36px; {{end}}
           {{with (eq .Config.Styling.LogoSize "L")}} height: 48px; {{end}}
         {{else}}
-          height: 64px;
+          height: 48px;
         {{end}}
       }
 
       body {
-        background-color: {{if .Config.Styling.Colors.Background}}{{.Config.Styling.Colors.Background}}{{else}}#f7faff{{end}};
+        background-color: {{if .Config.Styling.Colors.Background}}{{.Config.Styling.Colors.Background}}{{else}}#F6F7F8{{end}};
         font-family: Helvetica, arial, sans-serif;
       }
 
@@ -54,7 +54,6 @@
         text-align: center;
         margin-bottom: 32px;
         padding: 10px 20px;
-        background-color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}30{{else}}#0083ff30{{end}};
         color: #212533;
         border-radius: 4px;
       }
@@ -97,7 +96,7 @@
       }
 
       .link-container > a {
-        background-color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0083ff{{end}};
+        background-color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0075E2{{end}};
         color: white;
         padding: 8px 12px;
         border-radius: 4px;
@@ -115,7 +114,7 @@
 
       .link-container-box {
         background-color: white;
-        border: 1px solid #e9ebec;
+        border: 1px solid #DCDCDC;
         border-radius: 4px;
         padding: 10px 12px;
         margin-top: 8px;
@@ -227,7 +226,7 @@
       }
 
       a {
-        color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0083ff{{end}};
+        color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0075E2{{end}};
         text-decoration: none;
         text-decoration: none !important;
       }
@@ -243,7 +242,7 @@
         a[href^="tel"],
         a[href^="sms"] {
           text-decoration: none;
-          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0083ff{{end}};
+          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0075E2{{end}};
           /* or whatever your want */
           pointer-events: none;
           cursor: default;
@@ -252,7 +251,7 @@
         .mobile_link a[href^="tel"],
         .mobile_link a[href^="sms"] {
           text-decoration: default;
-          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0083ff{{end}} !important;
+          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0075E2{{end}} !important;
           pointer-events: auto;
           cursor: default;
         }
@@ -283,7 +282,7 @@
         a[href^="tel"],
         a[href^="sms"] {
           text-decoration: none;
-          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0083ff{{end}};
+          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0075E2{{end}};
           /* or whatever your want */
           pointer-events: none;
           cursor: default;
@@ -292,7 +291,7 @@
         .mobile_link a[href^="tel"],
         .mobile_link a[href^="sms"] {
           text-decoration: default;
-          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0083ff{{end}} !important;
+          color: {{if .Config.Styling.Colors.Primary}}{{.Config.Styling.Colors.Primary}}{{else}}#0075E2{{end}} !important;
           pointer-events: auto;
           cursor: default;
         }
@@ -381,8 +380,7 @@
                                 <tr>
                                   <td width="169" align="center">
                                     <div class="imgpop">
-                                      <img src={{if
-                                      .Config.Styling.LogoURL}}"{{.Config.Styling.LogoURL}}"{{else}}"https://us.authz.cloudentity.io/static/images/email/logo.png"{{end}}
+                                      <img src={{if .Styling.LogoURL}}"{{.Styling.LogoURL}}"{{else}}"{{.Config.Assets}}/static/images/email/sa-logo.png"{{end}}
                                       alt="" border="0"
                                       class="styling--logo-image logo-image" />
                                     </div>
@@ -471,7 +469,7 @@
                               If you are not sure why you are receiving this
                               email, please
                               <a
-                                href="https://cloudentity.com/contact-us/"
+                              href="https://www.secureauth.com/contact/"
                                 rel="noopener noreferrer"
                                 >contact us</a
                               >.
@@ -479,17 +477,16 @@
                             <div class="caption footer-caption">POWERED BY</div>
                             <div class="footer-logo">
                               <a
-                                href="https://cloudentity.com/"
+                                href="https://secureauth.com/"
                                 rel="noopener noreferrer"
                               >
                                 <img
-                                  src="https://us.authz.cloudentity.io/static/images/email/logo-white.png"
+                                  src="{{.Config.Assets}}/static/images/email/sa-logo.png"
                                   alt=""
                                   border="0"
                                 />
                               </a>
                             </div>
-                            <div style="display: none;">{{ .Config.Assets }}</div>
                           </td>
                         </tr>
 

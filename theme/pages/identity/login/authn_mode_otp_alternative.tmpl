@@ -11,19 +11,7 @@
 
   <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
 
-    {{ if and .Data.Is2FAStep .Data.ReduceMFAPromptsAvailable }}
-        <div class="pool-login-reduce-mfa-prompts-switch-container">
-              <div id="reduce-mfa-prompts">
-                  <label class="switch-container" tabindex="0">
-                    <div class="switch">
-                      <input type="checkbox" name="reduce_mfa_prompts" tabindex="-1" {{ if .Data.ReduceMFAPromptsSelected }} checked {{ end }}>
-                      <span class="slider"></span>
-                    </div>
-                    <span>Don't ask again on this device</span>
-                  </label>
-              </div>
-        </div>
-    {{ end }}
+  {{ template "reduce_mfa_prompts" . }}
 
   <div class="buttons-container-full-width">
     <button class="text-button" type="submit" name="action" value="change_to_otp_verify" id="back-to-verify-otp">Back</button>

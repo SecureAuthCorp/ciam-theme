@@ -30,7 +30,7 @@
 
     <div class="pool-login-remember-idp-switch-container">
       <div id="remember-my-sign-in-method">
-        {{ if .Data.AuthnModeSwitch }}
+        {{ if and (.Data.AuthnModeSwitch) (not .Data.IsForceAuthMode) }}
           <label class="switch-container" tabindex="0">
             <div class="switch">
               <input type="checkbox" name="remember_my_sign_in_method" tabindex="-1" {{ if .Data.RememberAuthnMode }} checked {{ end }}>
@@ -41,7 +41,7 @@
         {{ end }}
       </div>
 
-      {{ if .Data.PublicRegistration }}
+      {{ if and (.Data.PublicRegistration) (not .Data.IsForceAuthMode)}}
         <button id="sign-up-button" type="submit" name="action" value="change_to_register">Sign Up</button>
       {{ end }}
     </div>
