@@ -4,7 +4,7 @@
 {{ template "submit_button_disabling_script" . }}
 
 <div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
-<h2>Generate new passkey</h2>
+<h2>Use passkey for sign-in</h2>
 
 <input id="from-view-input" name="from-view" type="text" value="passkey" form="sign-up-form" hidden>
 
@@ -30,7 +30,7 @@
   </button>
 </div>
 
-{{ if (or .Data.PasswordAuthEnabled .Data.CodeAuthEnabled .Data.TOTPAuthEnabled) }}
+{{ if (or .Data.PasswordAuthEnabled .Data.CodeAuthEnabled) }}
 <div class="spacer-container extra-top-margin-small">
   <div>or register with</div>
 </div>
@@ -51,22 +51,11 @@
 <button class="href-card" type="submit" name="action" value="change_to_verification_code_entry" form="sign-up-form">
   <div>
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="icon" />
+        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="icon" />
       </span>
     <span>Verification Code</span>
   </div>
 </button>
-{{ end }}
-
-{{ if .Data.TOTPAuthEnabled }}
-    <button class="href-card" type="submit" name="action" value="change_to_totp_entry" form="sign-up-form">
-        <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="icon" />
-      </span>
-            <span>Authenticator App</span>
-        </div>
-    </button>
 {{ end }}
 
 {{ end }}

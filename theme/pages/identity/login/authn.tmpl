@@ -22,15 +22,11 @@
       {{ template "authn_set_new_password" . }}
     {{ else if eq .Data.AuthnView "web_authn_view" }}
       {{ template "authn_web_authn" . }}
-    {{ else if eq .Data.AuthnView "arculix_view" }}
-      {{ template "authn_arculix" . }}
-    {{ else if eq .Data.AuthnView "totp_view" }}
-      {{ template "authn_totp" . }}
     {{ end }}
 
     <div class="pool-login-remember-idp-switch-container">
       <div id="remember-my-sign-in-method">
-        {{ if and (.Data.AuthnModeSwitch) (not .Data.IsForceAuthMode) }}
+        {{ if .Data.AuthnModeSwitch }}
           <label class="switch-container" tabindex="0">
             <div class="switch">
               <input type="checkbox" name="remember_my_sign_in_method" tabindex="-1" {{ if .Data.RememberAuthnMode }} checked {{ end }}>
@@ -41,14 +37,10 @@
         {{ end }}
       </div>
 
-      {{ if and (.Data.PublicRegistration) (not .Data.IsForceAuthMode)}}
+      {{ if .Data.PublicRegistration }}
         <button id="sign-up-button" type="submit" name="action" value="change_to_register">Sign Up</button>
       {{ end }}
     </div>
-
-    {{ if .Data.ArculixDBFPURL }}
-      <script type="text/JavaScript" src="{{ .Data.ArculixDBFPURL }}"></script>
-    {{ end }}
 
   </form>
 
