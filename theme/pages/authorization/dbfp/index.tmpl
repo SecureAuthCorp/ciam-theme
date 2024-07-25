@@ -13,13 +13,13 @@
 
   <div id="content-container">
     <div class="card">
-        <div id="sign-in">
-            <div class="content">
-                <div class="skeleton skeleton-input" style="width: 100%;"></div>
-                <div class="skeleton skeleton-input" style="width: 100%;"></div>
-                <div class="skeleton skeleton-button" style="width: 100%;"></div>
-            </div>
+      <div id="sign-in">
+        <div class="content">
+          <div class="skeleton skeleton-input" style="width: 100%;"></div>
+          <div class="skeleton skeleton-input" style="width: 100%;"></div>
+          <div class="skeleton skeleton-button" style="width: 100%;"></div>
         </div>
+      </div>
     </div>
   </div>
 
@@ -27,12 +27,19 @@
 
   <script nonce="{{ .Nonce }}">
     const baseURL = `${window.location.protocol}//${window.location.host}`;
+    const startTime = performance.now();
+
+    function redirect(status, duration) {
+      const redirectURL = new URL(decodeURI("{{ .Data.URL }}"), baseURL);
+      redirectURL.searchParams.set('dbfp', status);
+      redirectURL.searchParams.set('duration', Math.round(duration));
+      window.location.href = redirectURL.toString();
+    }
 
     function setDeadline() {
       setTimeout(() => {
-        const redirectURL = new URL(decodeURI("{{ .Data.URL }}"), baseURL);
-        redirectURL.searchParams.set('dbfp', 'failure');
-        window.location.href = redirectURL.toString();
+        const duration = performance.now() - startTime;
+        redirect('failure', duration);
       }, {{ .Data.Timeout }});
     }
 
@@ -44,13 +51,10 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('onBfpDataLoad', (e) => {
-        const redirectURL = new URL(decodeURI("{{ .Data.URL }}"), baseURL);
-        redirectURL.searchParams.set('dbfp', 'success');
-        window.location.href = redirectURL.toString();
+        const duration = performance.now() - startTime;
+        redirect('success', duration);
       });
     });
-  </script>
-
   </script>
 
   {{ template "footer" }}
