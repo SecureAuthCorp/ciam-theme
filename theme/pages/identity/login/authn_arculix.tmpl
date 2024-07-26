@@ -1,11 +1,22 @@
 {{ define "authn_arculix" }}
 
     <div class="log-in-header-container">
-        <h2 id="log-in-header">Log in with Arculix</h2>
+        <h2 id="log-in-header">{{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with Arculix</h2>
         {{ if .Data.Is2FAStep }}
             <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="icon" class="icon-2fa"/>
         {{ end }}
     </div>
+
+    {{ if .Data.IsForceAuthMode}}
+        <div class="login-welcome-back-card">
+            <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="icon"/>
+            <div>
+                <div class="login-welcome-back-card-name">
+                    {{ .Data.UserDisplayName }}
+                </div>
+            </div>
+        </div>
+    {{ end }}
 
     {{ if not .Data.FormError.Errors }}
       <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
