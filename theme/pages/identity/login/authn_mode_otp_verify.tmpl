@@ -16,16 +16,6 @@
         {{ end }}
     </div>
 
-    {{ if .Data.IsForceAuthMode}}
-        <div class="login-welcome-back-card">
-            <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="icon"/>
-            <div>
-            <div class="login-welcome-back-card-name">
-                {{ .Data.UserDisplayName }}
-            </div>
-            </div>
-        </div>
-    {{ else }}
     <div class="form-field">
         <label for="text-field-username-input" class="label-with-link">
             <span id="username-label">User Identifier</span>
@@ -35,7 +25,6 @@
         </label>
         <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}" disabled>
     </div>
-    {{ end }}
 
     <div class="form-field" id="otp-container">
         <div id="otp-input-container" class="form-field otp-input-container">

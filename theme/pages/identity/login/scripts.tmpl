@@ -99,14 +99,7 @@
   function webAuthnLogin() {
     var webAuthnError = document.querySelector("#hidden-text-field-webauthn-error");
     var server_id = (new URL(document.location)).searchParams.get("server_id");
-    var user_id = "";
-    if (document.querySelector("#user-id") !== null) {
-        user_id = document.querySelector("#user-id").value;
-    }
-    var identifier = "";
-    if (document.querySelector("#text-field-username-input") !== null) {
-        identifier = document.querySelector("#text-field-username-input").value;
-    }
+    var identifier = document.querySelector("#text-field-username-input").value;
 
     webAuthnError.value = '';
 
@@ -114,7 +107,6 @@
       method: "POST",
       body: JSON.stringify({
         identifier: identifier,
-        user_id: user_id,
       }),
     })
     .then(function (response) {

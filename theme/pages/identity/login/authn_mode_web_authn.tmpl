@@ -1,40 +1,19 @@
 {{ define "authn_web_authn" }}
 
     <div class="log-in-header-container">
-        <h2 id="log-in-header" {{ if .Data.IsForceAuthMode}}class="no-margin-bottom"{{ end }}>
-            {{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with passkey
-        </h2>
+        <h2 id="log-in-header">Log in with passkey</h2>
         {{ if .Data.Is2FAStep }}
             <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="icon" class="icon-2fa"/>
         {{ end }}
     </div>
 
-    {{ if .Data.IsForceAuthMode}}
-        <label class="label-with-link">
-            <span id="empty-webauthn-label"></span>
-            <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">Lost passkey?</a>
-        </label>
-        <div class="login-welcome-back-card">
-            <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="icon"/>
-            <div>
-            <div class="login-welcome-back-card-name">
-                {{ .Data.UserDisplayName }}
-            </div>
-            </div>
-        </div>
-    {{ else }}
-        <div class="form-field">
-          <label for="text-field-username-input" class="label-with-link">
-            <span id="username-label">Email | Mobile | Username</span>
-            <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">Lost passkey?</a>
-          </label>
-          <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}"{{ if .Data.Is2FAStep }} disabled{{ end }}>
-        </div>
-    {{ end }}
-
-    {{ if .Data.IsForceAuthMode }}
-        <input id="user-id" type="hidden" name="user_id" value={{ .Data.UserID }} >
-    {{ end }}
+    <div class="form-field">
+      <label for="text-field-username-input" class="label-with-link">
+        <span id="username-label">Email | Mobile | Username</span>
+        <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">Lost passkey?</a>
+      </label>
+      <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}"{{ if .Data.Is2FAStep }} disabled{{ end }}>
+    </div>
 
     {{ template "reduce_mfa_prompts" . }}
 
