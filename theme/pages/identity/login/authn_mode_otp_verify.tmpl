@@ -49,7 +49,7 @@
 
     {{ template "reduce_mfa_prompts" . }}
 
-    {{ if and .Data.Is2FAStep .Data.AuthnModeSwitch }}
+    {{ if and (or .Data.Is2FAStep .Data.IsForceAuthMode) .Data.AuthnModeSwitch }}
         <div class="buttons-container-full-width">
             <button class="text-button" type="submit" name="action" value="change_to_otp">Back</button>
             <button class="contained-button" type="submit" id="verify-button">Continue</button>
