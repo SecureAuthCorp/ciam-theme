@@ -39,12 +39,14 @@
     function setDeadline() {
       setTimeout(() => {
         const duration = performance.now() - startTime;
+        console.log("dbfp timeout")
         redirect('failure', duration);
       }, {{ .Data.Timeout }});
     }
 
     setTimeout(() => {
       const duration = performance.now() - startTime;
+      console.log("dbfp gps timeout")
       redirect('failure', duration);
     }, {{ .Data.GPSTimeout }});
 
@@ -57,6 +59,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('onBfpDataLoad', (e) => {
         const duration = performance.now() - startTime;
+        console.log("loaded dbfp")
         redirect('success', duration);
       });
     });
