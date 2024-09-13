@@ -2,7 +2,7 @@
 
     <div id="authn-mode-switch-container">
       <div class="spacer-container">
-        <div>or{{ if not .Data.IsForceAuthMode}} log in with{{ end }}</div>
+        <div>or log in with</div>
       </div>
 
       <div class="form-field">
@@ -22,7 +22,7 @@
 
         {{ if .Data.AuthenticationMechanismsAvailability.otp }}
             {{ if ne .Data.AuthnView "otp_send_view" }}
-                <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep }}send_otp{{ else }}change_to_otp{{ end }}" id="login-option-code" style="display: flex">
+                <button class="href-card" type="submit" name="action" value="change_to_otp" id="login-option-code" style="display: flex">
                     <div>
                         <span class="href-card-avatar href-card-avatar-with-img small-icon">
                             <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="icon" />
@@ -66,7 +66,7 @@
           {{if ne .Data.AuthnView "arculix_view" }}
               <button class="href-card" type="submit" name="action" value="change_to_arculix" id="login-option-arculix">
                 <div>
-                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                  <span class="href-card-avatar href-card-avatar-with-img">
                     <img src="{{ .Config.Assets }}/static/images/arculix-icon.svg" alt="icon" />
                   </span>
                   <span>Arculix</span>
