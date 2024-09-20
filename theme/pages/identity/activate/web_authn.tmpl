@@ -16,7 +16,7 @@
     </button>
   </div>
 
-  {{ if (or .Data.PasswordAuthEnabled .Data.TOTPAuthEnabled) }}
+  {{ if (or .Data.PasswordAuthEnabled .Data.TOTPAuthEnabled .Data.OTPAuthEnabled) }}
       <div class="spacer-container extra-top-margin-small">
           <div>or register with</div>
       </div>
@@ -41,6 +41,17 @@
                   <span>Authenticator App</span>
               </div>
           </button>
+      {{ end }}
+
+      {{ if .Data.OTPAuthEnabled }}
+        <button class="href-card" type="submit" name="action" value="skip">
+          <div>
+            <span class="href-card-avatar href-card-avatar-with-img small-icon">
+              <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="icon" />
+            </span>
+            <span>Verification Code</span>
+          </div>
+        </button>
       {{ end }}
   {{ end }}
 
