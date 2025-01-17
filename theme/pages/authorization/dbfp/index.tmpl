@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <script src="/dbfp/bfp7.js" defer></script>
+  <script src="{{ .Data.DBFPURL }}" defer></script>
 
   <script nonce="{{ .Nonce }}">
     const baseURL = `${window.location.protocol}//${window.location.host}`;
@@ -46,7 +46,6 @@
       SecureAuth.getFingerprint({
         enableGps: false,
         jwtEnabled: true,
-        apiEndpoint: "dbfp/data/fingerprint",
         mode: "default",
       });
       document.addEventListener('onBfpDataLoad', (e) => {
