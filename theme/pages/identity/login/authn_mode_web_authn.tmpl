@@ -10,10 +10,12 @@
     </div>
 
     {{ if .Data.IsForceAuthMode}}
-        <label class="label-with-link">
-            <span id="empty-webauthn-label"></span>
-            <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
-        </label>
+        {{ if .Data.IsSelfResetCredentialsAllowed }}
+            <label class="label-with-link">
+                <span id="empty-webauthn-label"></span>
+                <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+            </label>
+        {{ end }}
         <div class="login-welcome-back-card">
             <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="person icon"/>
             <div>
@@ -26,7 +28,9 @@
         <div class="form-field">
           <label for="text-field-username-input" class="label-with-link">
             <span id="username-label">Email | Mobile | Username</span>
-            <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+            {{ if .Data.IsSelfResetCredentialsAllowed }}
+                <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+            {{ end }}
           </label>
           <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}"{{ if .Data.Is2FAStep }} disabled{{ end }}>
         </div>

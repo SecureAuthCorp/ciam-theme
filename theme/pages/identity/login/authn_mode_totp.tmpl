@@ -28,7 +28,9 @@
    <div class="form-field totp-container" id="totp-container">
        <label for="text-field-totp-input">
            <span id="totp-label">Enter code from your authenticator app</span>
-           <a href="{{ .Data.ResetTOTPPath }}" id="forgot-totp" class="input-above-link" tabindex="0">Lost authenticator?</a>
+           {{ if .Data.IsSelfResetCredentialsAllowed }}
+               <a href="{{ .Data.ResetTOTPPath }}" id="forgot-totp" class="input-above-link" tabindex="0">Lost authenticator?</a>
+           {{ end }}
        </label>
 
        <div id="totp-input-container" class="form-field otp-input-container">
