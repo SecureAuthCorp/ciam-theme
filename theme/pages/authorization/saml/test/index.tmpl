@@ -8,7 +8,7 @@
     {{ template "header" .Config }}
   </div>
 
-  <div class="card">
+  <div class="card" {{ if .Data.Response }} style="max-width: 90%" {{ end }}>
     <h3 class="header">SAML Test</h3>
 
     <div class="content" id="saml-response-raw">
@@ -17,6 +17,10 @@
       {{ else }}
         <form action="?action=login" method="post">
           <button class="submit-button" type="submit" id="sign-in">Login</button>
+          <div class="form-field">
+            <label>Subject Name ID</label>
+            <input name="subject-name-id">
+          </div>
         </form>
       {{ end }}
     </div>
@@ -24,4 +28,4 @@
 
   {{ template "footer" . }}
 
-{{ end }}
+{{ end }}%
