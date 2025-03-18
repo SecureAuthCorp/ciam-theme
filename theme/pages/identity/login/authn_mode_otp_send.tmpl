@@ -1,7 +1,7 @@
 {{ define "authn_otp_send" }}
 
   <div class="log-in-header-container">
-      <h2 id="log-in-header">{{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with verification code</h2>
+      <h2 id="log-in-header">{{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with {{ if eq .Data.OtpMode "sms"}}sms{{ else if eq .Data.OtpMode "email"}}email{{ else }}verification{{ end }} code</h2>
       {{ if .Data.Is2FAStep }}
           <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
       {{ end }}
@@ -27,7 +27,7 @@
 
   {{ template "reduce_mfa_prompts" . }}
 
-  <button class="submit-button" type="submit" name="action" value="send_otp" id="send-code-button">
+  <button class="submit-button" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp" id="send-code-button">
     Continue
   </button>
 

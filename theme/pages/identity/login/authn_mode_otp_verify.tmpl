@@ -3,7 +3,7 @@
     <div class="notification-container" id="code-sent-notification">
         <i class="material-icons">send</i>
         <span>We sent a code to {{ .Data.ResolvedDestinationAddress }}</span>
-    <button id="use-alternative-address-button" type="submit" name="action" value="change_to_otp_use_alternative">Use Alternative</button>
+    <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">Use Alternative</button>
     </div>
 
   <input id="original-identifier-input" type="hidden" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
@@ -30,7 +30,7 @@
         <label for="text-field-username-input" class="label-with-link">
             <span id="username-label">User Identifier</span>
             {{ if not .Data.Is2FAStep }}
-                <button id="not-you-button" type="submit" name="action" value="change_to_otp">Change</button>
+                <button id="not-you-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Change</button>
             {{ end }}
         </label>
         <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}" disabled>
@@ -43,7 +43,7 @@
         </div>
         <div class="footer-with-link">
             Still didn't receive?
-            <button id="resend-otp" type="submit" name="action" value="send_otp">Resend Code</button>
+            <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Resend Code</button>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
 
     {{ if and (or .Data.Is2FAStep .Data.IsForceAuthMode) .Data.AuthnModeSwitch }}
         <div class="buttons-container-full-width">
-            <button class="text-button" type="submit" name="action" value="change_to_otp">Back</button>
+            <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Back</button>
             <button class="contained-button" type="submit" id="verify-button">Continue</button>
           </div>
     {{ else }}

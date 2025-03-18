@@ -5,15 +5,27 @@
 
 <div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
 
-<h2>Use {{ .Data.EnteredIdentifierType }} for sign-in</h2>
+<h2>Use {{ if eq .Data.OtpMode "email" }}email{{ else if eq .Data.OtpMode "sms" }}mobile{{ else }}{{ .Data.EnteredIdentifierType }}{{ end }} for sign-in</h2>
 
-<input id="from-view-input" name="from-view" type="text" value="otp" form="sign-up-form" hidden>
+<input id="from-view-input" name="from-view" type="text" value="{{ if eq .Data.OtpMode "email" }}email_{{ else if eq .Data.OtpMode "sms" }}sms_{{ end }}otp" form="sign-up-form" hidden>
 
 <div class="form-field">
   <label for="entered-identifier">
-    Email | Mobile
+      {{ if eq .Data.OtpMode "email" }}
+          Email
+      {{ else if eq .Data.OtpMode "sms" }}
+          Mobile
+      {{ else }}
+          Email | Mobile
+      {{ end }}
   </label>
-  <input id="entered-identifier" name="notused" autocomplete="off" data-lpignore="true" value="{{ .Data.EnteredIdentifier }}" disabled>
+    {{ if or (eq .Data.OtpMode "") (eq .Data.OtpMode .Data.EnteredIdentifierType) }}
+      <input id="entered-identifier" name="notused" autocomplete="off" data-lpignore="true" value="{{ .Data.EnteredIdentifier }}" disabled>
+    {{ else if eq .Data.OtpMode "email" }}
+      <input id="email_address" name="new_address" data-lpignore="true" form="sign-up-form">
+    {{ else if eq .Data.OtpMode "sms" }}
+      <input id="mobile_number" name="new_address" data-lpignore="true" form="sign-up-form">
+    {{ end }}
 </div>
 
 {{ template "form" . }}
@@ -29,43 +41,8 @@
   </button>
 </div>
 
-{{ if (or .Data.PasswordAuthEnabled .Data.PasskeyAuthEnabled .Data.TOTPAuthEnabled) }}
-<div class="spacer-container extra-top-margin-small">
-  <div>or register with</div>
-</div>
-{{ end }}
-
-{{ if .Data.PasswordAuthEnabled }}
-<button class="href-card" type="submit" name="action" value="change_to_password_entry" form="sign-up-form">
-  <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image" />
-      </span>
-    <span>Password</span>
-  </div>
-</button>
-{{ end }}
-
-{{ if .Data.PasskeyAuthEnabled }}
-<button class="href-card" type="submit" name="action" value="change_to_passkey_entry" form="sign-up-form">
-  <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image" />
-      </span>
-    <span>Passkey</span>
-  </div>
-</button>
-{{ end }}
-
-{{ if .Data.TOTPAuthEnabled }}
-    <button class="href-card" type="submit" name="action" value="change_to_totp_entry" form="sign-up-form">
-        <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authenticator app method image" />
-      </span>
-            <span>Authenticator App</span>
-        </div>
-    </button>
+{{ if .Data.AuthnModeSwitch }}
+    {{ template "register_methods" . }}
 {{ end }}
 
 {{ end }}

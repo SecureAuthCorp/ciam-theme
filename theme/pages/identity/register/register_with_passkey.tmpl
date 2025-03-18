@@ -30,43 +30,8 @@
   </button>
 </div>
 
-{{ if (or .Data.PasswordAuthEnabled .Data.CodeAuthEnabled .Data.TOTPAuthEnabled) }}
-<div class="spacer-container extra-top-margin-small">
-  <div>or register with</div>
-</div>
-{{ end }}
-
-{{ if .Data.PasswordAuthEnabled }}
-<button class="href-card" type="submit" name="action" value="change_to_password_entry" form="sign-up-form">
-  <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image" />
-      </span>
-    <span>Password</span>
-  </div>
-</button>
-{{ end }}
-
-{{ if .Data.CodeAuthEnabled }}
-<button class="href-card" type="submit" name="action" value="change_to_verification_code_entry" form="sign-up-form">
-  <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
-      </span>
-    <span>Verification Code</span>
-  </div>
-</button>
-{{ end }}
-
-{{ if .Data.TOTPAuthEnabled }}
-    <button class="href-card" type="submit" name="action" value="change_to_totp_entry" form="sign-up-form">
-        <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authenticator app method image" />
-      </span>
-            <span>Authenticator App</span>
-        </div>
-    </button>
+{{ if .Data.AuthnModeSwitch }}
+    {{ template "register_methods" . }}
 {{ end }}
 
 {{ end }}

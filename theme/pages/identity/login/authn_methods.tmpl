@@ -21,7 +21,7 @@
         {{ end }}
 
         {{ if .Data.AuthenticationMechanismsAvailability.otp }}
-            {{ if and (ne .Data.AuthnView "otp_send_view") (ne .Data.AuthnView "otp_verify_view") (ne .Data.AuthnView "otp_use_alternative_view") }}
+            {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode ""))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode ""))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode ""))) }}
                 <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_otp{{ else }}change_to_otp{{ end }}" id="login-option-code" style="display: flex">
                     <div>
                         <span class="href-card-avatar href-card-avatar-with-img small-icon">
@@ -58,6 +58,34 @@
                   <span>Authenticator Code</span>
                 </div>
                 <i class="material-icons">navigate_next</i>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.email_otp }}
+          {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "email"))) }}
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-code" style="display: flex">
+                  <div>
+                    <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+                    </span>
+                      <span>Email OTP</span>
+                  </div>
+                  <i class="material-icons">navigate_next</i>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.sms_otp }}
+          {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "sms"))) }}
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-code" style="display: flex">
+                  <div>
+                    <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+                    </span>
+                      <span>SMS OTP</span>
+                  </div>
+                  <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
