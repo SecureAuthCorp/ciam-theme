@@ -1,0 +1,73 @@
+{{ define "register_methods" }}
+
+<div class="spacer-container extra-top-margin-small">
+    <div>or register with</div>
+</div>
+
+{{ if and .Data.PasswordAuthEnabled (ne .Data.TargetViewV2 "password") }}
+  <button class="href-card" type="submit" name="action" value="change_to_password_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image"/>
+      </span>
+      <span>Password</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.PasskeyAuthEnabled (ne .Data.TargetViewV2 "passkey") }}
+  <button class="href-card" type="submit" name="action" value="change_to_passkey_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image"/>
+      </span>
+      <span>Passkey</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.TOTPAuthEnabled (ne .Data.TargetViewV2 "totp") }}
+  <button class="href-card" type="submit" name="action" value="change_to_totp_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authenticator app method image"/>
+      </span>
+      <span>Authenticator App</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.CodeAuthEnabled (not (and (eq .Data.TargetViewV2 "otp") (eq .Data.OtpMode ""))) }}
+  <button class="href-card" type="submit" name="action" value="change_to_verification_code_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+      </span>
+      <span>Verification Code</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.EmailOTPAuthEnabled (not (and (eq .Data.TargetViewV2 "otp") (eq .Data.OtpMode "email"))) }}
+  <button class="href-card" type="submit" name="action" value="change_to_email_otp_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="email otp method image" />
+      </span>
+      <span>Email OTP</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.SmsOTPAuthEnabled (not (and (eq .Data.TargetViewV2 "otp") (eq .Data.OtpMode "sms"))) }}
+  <button class="href-card" type="submit" name="action" value="change_to_sms_otp_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="sms otp method image" />
+      </span>
+      <span>SMS OTP</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ end }}
