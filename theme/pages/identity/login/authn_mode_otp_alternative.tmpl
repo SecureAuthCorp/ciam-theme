@@ -19,9 +19,9 @@
 
   {{ template "reduce_mfa_prompts" . }}
 
-  <div class="buttons-container-full-width">
-    <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_verify" id="back-to-verify-otp">Back</button>
+  <div class="buttons-container-full-width flex-row-reverse">
     <button class="contained-button" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp" id="send-code-button">Continue</button>
+    <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_verify" id="back-to-verify-otp">Back</button>
   </div>
   <br />
 
