@@ -1,0 +1,28 @@
+{{ define "setup_with_email" }}
+
+  <h2>Set up email address</h2>
+
+  <div class="form-field">
+      <label for="text-field-username-input">
+          Email | Mobile
+      </label>
+      <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" value="{{ .Data.Identifier }}" disabled>
+  </div>
+
+  <div class="form-field">
+      <label for="new_address">Email</label>
+      <input id="email_address" name="new_address" data-lpignore="true">
+  </div>
+
+  <div class="buttons-container-full-width extra-top-margin">
+      <button class="contained-button" type="submit" id="sign-up-button">
+          <span>Continue</span>
+          <div class="non-visible">{{ template "loader" . }}</div>
+      </button>
+  </div>
+
+  {{ if .Data.ModeSwitch }}
+      {{ template "activation_methods" . }}
+  {{ end }}
+
+{{ end }}

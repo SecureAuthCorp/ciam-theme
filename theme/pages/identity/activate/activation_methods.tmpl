@@ -1,0 +1,73 @@
+{{ define "activation_methods" }}
+
+<div class="spacer-container extra-top-margin-small">
+  <div>or register with</div>
+</div>
+
+{{ if and .Data.PasswordAuthEnabled (ne .Data.Mode "password") }}
+  <button class="href-card" type="submit" name="action" value="change_to_password">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image" />
+      </span>
+        <span>Password</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.PasskeyAuthEnabled (ne .Data.Mode "web_authn") }}
+  <button class="href-card" type="submit" name="action" value="change_to_web_authn">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image" />
+      </span>
+      <span>Passkey</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.TOTPAuthEnabled (ne .Data.Mode "totp") }}
+  <button class="href-card" type="submit" name="action" value="change_to_totp">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authentication app method image" />
+      </span>
+      <span>Authenticator App</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if .Data.OTPAuthEnabled }}
+  <button class="href-card" type="submit" name="action" value="skip">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+      </span>
+      <span>Verification Code</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.EmailOTPAuthEnabled (ne .Data.Mode "email") }}
+  <button class="href-card" type="submit" name="action" value="change_to_email_otp">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+      </span>
+      <span>Email OTP</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ if and .Data.SmsOTPAuthEnabled (ne .Data.Mode "mobile") }}
+  <button class="href-card" type="submit" name="action" value="change_to_sms_otp">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+      </span>
+      <span>SMS OTP</span>
+    </div>
+  </button>
+{{ end }}
+
+{{ end }}
