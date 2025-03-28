@@ -1,29 +1,56 @@
 {{ define "authn_use_otp_alternative" }}
 
-  <h2 id="log-in-header">Provide alternative</h2>
+  <h2 id="log-in-header">{{ if ne .Data.UserID "" }}Select{{ else }}Provide{{ end }} alternative</h2>
 
   <div class="form-field">
-    <label for="text-field-username-input" class="label-with-link">
-    {{ if eq .Data.OtpMode "email" }}
-        <span id="username-label">Email</span>
-    {{ else if eq .Data.OtpMode "sms" }}
-        <span id="username-label">Mobile</span>
+    {{ if ne .Data.UserID "" }}
+      {{ $first := true }}
+      {{ if or (eq .Data.OtpMode "email") (eq .Data.OtpMode "") }}
+        {{range $id, $value := .Data.UserEmails}}
+          <div class="href-card radio-card">
+            <div class="radio-card-left">
+              <img src="{{ $.Config.Assets }}/static/images/mail-icon.svg" alt="at" />
+              <label for="option-{{$id}}">{{$value}}</label>
+            </div>
+            <input type="radio" name="destination_address_key" value="{{$id}}" id="option-{{$id}}" {{if $first}}checked{{end}} required>
+          </div>
+          {{ $first = false }}
+        {{end}}
+      {{ end }}
+      {{ if or (eq .Data.OtpMode "sms") (eq .Data.OtpMode "") }}
+        {{range $id, $value := .Data.UserMobiles}}
+          <div class="href-card radio-card">
+            <div class="radio-card-left">
+              <img src="{{ $.Config.Assets }}/static/images/smartphone-icon.svg" alt="smartphone" />
+              <label for="option-{{$id}}">{{$value}}</label>
+            </div>
+            <input type="radio" name="destination_address_key" value="{{$id}}" id="option-{{$id}}" {{if $first}}checked{{end}} required>
+          </div>
+          {{ $first = false }}
+        {{end}}
+      {{end}}
     {{ else }}
-        <span id="username-label">Email | Mobile</span>
+      <label for="text-field-username-input" class="label-with-link">
+        {{ if eq .Data.OtpMode "email" }}
+          <span id="username-label">Email</span>
+        {{ else if eq .Data.OtpMode "sms" }}
+          <span id="username-label">Mobile</span>
+        {{ else }}
+          <span id="username-label">Email | Mobile</span>
+        {{ end }}
+        </label>
+      <input id="text-field-username-input" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
     {{ end }}
-    </label>
-    <input id="text-field-username-input" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
   </div>
 
   <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
 
   {{ template "reduce_mfa_prompts" . }}
 
-  <div class="buttons-container-full-width flex-row-reverse">
+  <div class="buttons-container-full-width extra-top-margin flex-row-reverse">
     <button class="contained-button" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp" id="send-code-button">Continue</button>
     <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_verify" id="back-to-verify-otp">Back</button>
   </div>
-  <br />
 
   {{ if .Data.AuthnModeSwitch }}
       {{ template "authn_methods" . }}

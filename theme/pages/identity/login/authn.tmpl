@@ -33,23 +33,25 @@
       {{ template "authn_totp" . }}
     {{ end }}
 
-    <div class="pool-login-remember-idp-switch-container">
-      <div id="remember-my-sign-in-method">
-        {{ if and (.Data.AuthnModeSwitch) (not .Data.IsForceAuthMode) }}
-          <label class="switch-container" tabindex="0">
-            <div class="switch">
-              <input type="checkbox" name="remember_my_sign_in_method" tabindex="-1" {{ if .Data.RememberAuthnMode }} checked {{ end }}>
-              <span class="slider"></span>
-            </div>
-            <span>Remember my selection</span>
-          </label>
+    {{ if and (not .Data.IsForceAuthMode) (or .Data.AuthnModeSwitch .Data.PublicRegistration) }}
+      <div class="pool-login-remember-idp-switch-container">
+        <div id="remember-my-sign-in-method">
+          {{ if and (.Data.AuthnModeSwitch) (not .Data.IsForceAuthMode) }}
+            <label class="switch-container" tabindex="0">
+              <div class="switch">
+                <input type="checkbox" name="remember_my_sign_in_method" tabindex="-1" {{ if .Data.RememberAuthnMode }} checked {{ end }}>
+                <span class="slider"></span>
+              </div>
+              <span>Remember my selection</span>
+            </label>
+          {{ end }}
+        </div>
+
+        {{ if and (.Data.PublicRegistration) (not .Data.IsForceAuthMode)}}
+          <button id="sign-up-button" type="submit" name="action" value="change_to_register">Sign Up</button>
         {{ end }}
       </div>
-
-      {{ if and (.Data.PublicRegistration) (not .Data.IsForceAuthMode)}}
-        <button id="sign-up-button" type="submit" name="action" value="change_to_register">Sign Up</button>
-      {{ end }}
-    </div>
+    {{ end }}
 
   </form>
 
