@@ -3,7 +3,7 @@
 <div class="reverse-flex-container">
     <div>
         <input id="original-identifier-input" type="hidden" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
-        <input type="checkbox" name="{{ if eq .Data.OtpMode ""}}otpMode{{ else if eq .Data.OtpMode "sms" }}smsOtpMode{{ else }}emailOtpMode{{ end }}" id="otpMode" checked class="non-visible">
+        <input type="checkbox" name="otpMode" id="otpMode" checked class="non-visible">
 
         <div class="log-in-header-container">
             <h2 id="log-in-header">Verify code</h2>
@@ -37,12 +37,10 @@
             <div id="otp-input-container" class="form-field otp-input-container">
                 <input type="hidden" name="otp" value="" id="otp-input">
             </div>
-            {{ if or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 0) }}
-                <div class="footer-with-link">
-                    Still didn't receive?
-                    <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Resend Code</button>
-                </div>
-            {{ end }}
+            <div class="footer-with-link">
+                Still didn't receive?
+                <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Resend Code</button>
+            </div>
         </div>
 
         {{ template "reduce_mfa_prompts" . }}
@@ -64,28 +62,9 @@
     </div>
 
     <div class="notification-container" id="code-sent-notification">
-        {{ if eq (len .Data.FormError.Errors) 0 }}
-            {{ if and (ne .Data.UserID "") (not .Data.OtpSent) }}
-                <span>Code not sent{{ if eq .Data.NumberOfAddresses 0 }}. No addresses defined
-                    {{ else if and (eq .Data.OtpMode "email") (eq (len .Data.UserEmails) 0)}}. No emails defined
-                    {{ else if and (eq .Data.OtpMode "sms") (eq (len .Data.UserMobiles) 0)}}. No mobiles defined
-                    {{ end }}
-                </span>
-            {{ else }}
-                <i class="material-icons">send</i>
-                <span>We sent a code to {{ .Data.BlurredResolvedDestinationAddress }}</span>
-            {{ end }}
-        {{ else }}
-            <span></span>
-        {{ end }}
-
-        {{ if or
-            (and (eq .Data.OtpMode "") (or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 1)))
-            (and (eq .Data.OtpMode "email") (or (eq .Data.UserID "") (gt (len .Data.UserEmails) 1)))
-            (and (eq .Data.OtpMode "sms") (or (eq .Data.UserID "") (gt (len .Data.UserMobiles) 1)))
-        }}
-            <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">Use Alternative</button>
-        {{ end }}
+        <i class="material-icons">send</i>
+        <span>We sent a code to {{ .Data.ResolvedDestinationAddress }}</span>
+        <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">Use Alternative</button>
     </div>
 </div>
 
