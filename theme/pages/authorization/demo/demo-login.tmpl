@@ -82,6 +82,11 @@
       </div>
 
       <div class="form-field">
+        <label for="nonce-input">Audience</label>
+        <input id="nonce-input" name="audience" value="{{ .Data.Audience}}">
+      </div>
+
+      <div class="form-field">
         <label for="jwk-input">JSON Web Key for Encryption</label>
         <textarea rows="6" id="jwk-input" name="jwk">{{ .Data.Jwk }}</textarea>
         <div class="text-field-helper">Provide a JSON with single JSON Web Key containing private key</div>
