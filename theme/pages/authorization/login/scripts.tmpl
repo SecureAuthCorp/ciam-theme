@@ -100,41 +100,43 @@
 
     switch (idp.method) {
       case 'github':
-        return '/static/images/idps/github.svg'; 
+        return '/static/images/idps/github.svg';
+      case 'linkedin':
+        return '/static/images/idps/linkedin-icon.svg';
       case 'okta':
-        return '/static/images/idps/okta.svg'; 
+        return '/static/images/idps/okta.svg';
       case 'auth0':
-        return '/static/images/idps/auth0-icon.svg'; 
+        return '/static/images/idps/auth0-icon.svg';
       case 'saml':
-        return '/static/images/idps/saml-icon.svg'; 
+        return '/static/images/idps/saml-icon.svg';
       case 'saml_v2':
-        return '/static/images/idps/saml-icon.svg'; 
+        return '/static/images/idps/saml-icon.svg';
       case 'azureb2c':
-        return '/static/images/idps/azure-b2c-icon.svg'; 
+        return '/static/images/idps/azure-b2c-icon.svg';
       case 'azure':
-        return '/static/images/idps/azure-icon.svg'; 
+        return '/static/images/idps/azure-icon.svg';
       case 'cognito':
-        return '/static/images/idps/cognito-icon.svg'; 
+        return '/static/images/idps/cognito-icon.svg';
       case 'intelli_trust':
-        return '/static/images/idps/entrust-icon.svg'; 
+        return '/static/images/idps/entrust-icon.svg';
       case 'oidc':
-        return '/static/images/idps/openid-icon.svg'; 
+        return '/static/images/idps/openid-icon.svg';
       case 'custom':
-        return '/static/images/idps/custom-circle.svg'; 
+        return '/static/images/idps/custom-circle.svg';
       case 'external':
-        return '/static/images/idps/external-icon.svg'; 
+        return '/static/images/idps/external-icon.svg';
       case 'identity_pool':
-        return '/static/images/idps/cloudentity-icon.svg'; 
+        return '/static/images/idps/cloudentity-icon.svg';
       case 'organization':
-        return '/static/images/idps/organization-icon.svg'; 
+        return '/static/images/idps/organization-icon.svg';
       case 'github_embedded':
-        return '/static/images/idps/github.svg'; 
+        return '/static/images/idps/github.svg';
       case 'google_embedded':
-        return '/static/images/idps/google-icon.svg'; 
+        return '/static/images/idps/google-icon.svg';
       case 'google':
-        return '/static/images/idps/google-icon.svg'; 
+        return '/static/images/idps/google-icon.svg';
       case 'static"':
-        return '/static/images/idps/sandbox-icon.svg'; 
+        return '/static/images/idps/sandbox-icon.svg';
       default:
         return '';
     }
