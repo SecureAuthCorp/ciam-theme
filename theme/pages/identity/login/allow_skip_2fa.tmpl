@@ -1,0 +1,14 @@
+{{ define "allow_skip_2fa" }}
+
+    {{ if and .Data.Is2FAStep .Data.UserAllowedToSkip2FA }}
+
+        <div id="skip_2fa-container" style="margin-top: 24px;">
+            <div class="spacer-container">
+                <div>or</div>
+            </div>
+        </div>
+
+        <button class="submit-button" type="submit" id="skip-2fa-button" name="action" value="skip_2fa">Skip for now</button>
+
+    {{ end }}
+{{ end }}
