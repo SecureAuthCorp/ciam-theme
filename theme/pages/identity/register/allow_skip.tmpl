@@ -1,0 +1,9 @@
+{{ define "allow_skip" }}
+
+    {{ if .Data.AllowToSkip }}
+        <div class="skip-for-now-blue">
+            <button type="submit" id="skip-button" style="margin-top: 24px;" name="action" value="skip" form="sign-up-form">Set up later</button>
+        </div>
+    {{ end }}
+
+{{ end }}
