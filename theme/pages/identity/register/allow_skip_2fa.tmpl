@@ -1,0 +1,9 @@
+{{ define "allow_skip_2fa_in_register" }}
+
+    {{ if .Data.AllowToSkip }}
+        <div class="skip-for-now-blue margin-top-24">
+            <button type="submit" id="skip-button" name="action" value="skip" form="sign-up-form">Set up later</button>
+        </div>
+    {{ end }}
+
+{{ end }}
