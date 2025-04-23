@@ -52,8 +52,16 @@
                 <button class="contained-button" type="submit" id="verify-button">Continue</button>
                 <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Back</button>
             </div>
+
+            <!-- allow_skip_2fa as text -->
+            <div class="skip-for-now-blue">
+                <button type="submit" id="skip-2fa-button" name="action" value="skip_2fa">Set up later</button>
+            </div>
         {{ else }}
-            <button class="submit-button" type="submit" id="verify-button">Continue</button>
+            <div class="buttons-container-full-width flex-row-reverse">
+                <button class="submit-button" type="submit" id="verify-button">Continue</button>
+                {{ template "allow_skip_2fa_in_login" . }}
+            </div>
         {{ end }}
 
         {{ if .Data.AuthnModeSwitch }}

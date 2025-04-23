@@ -14,11 +14,12 @@
         <input id="mobile_address" name="new_address" data-lpignore="true">
     </div>
 
-    <div class="buttons-container-full-width extra-top-margin">
+    <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
         <button class="contained-button" type="submit" id="sign-up-button">
             <span>Continue</span>
             <div class="non-visible">{{ template "loader" . }}</div>
         </button>
+        {{ template "allow_skip_2fa_in_activate" . }}
     </div>
 
     {{ if .Data.ModeSwitch }}

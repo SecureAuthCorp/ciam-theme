@@ -50,6 +50,7 @@
             Back
         </button>
     </div>
+    {{ template "allow_skip_2fa_in_register" . }}
 
     {{ if .Data.AuthnModeSwitch }}
         {{ template "register_methods" . }}
