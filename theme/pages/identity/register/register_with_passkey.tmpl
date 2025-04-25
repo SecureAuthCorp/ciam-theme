@@ -4,7 +4,13 @@
 {{ template "submit_button_disabling_script" . }}
 
 <div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
-<h2>Generate new passkey</h2>
+
+<div class="setup-credential-header-container">
+  <h2>Generate new passkey</h2>
+  {{ if .Data.Is2FAStep }}
+    <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
+  {{ end }}
+</div>
 
 <input id="from-view-input" name="from-view" type="text" value="passkey" form="sign-up-form" hidden>
 

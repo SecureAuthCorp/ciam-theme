@@ -5,7 +5,12 @@
 
 <div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
 
-<h2>Use {{ if eq .Data.OtpMode "email" }}email{{ else if eq .Data.OtpMode "sms" }}mobile{{ else }}{{ .Data.EnteredIdentifierType }}{{ end }} for sign-in</h2>
+<div class="setup-credential-header-container">
+    <h2>Use {{ if eq .Data.OtpMode "email" }}email{{ else if eq .Data.OtpMode "sms" }}mobile{{ else }}{{ .Data.EnteredIdentifierType }}{{ end }} for sign-in</h2>
+    {{ if .Data.Is2FAStep }}
+        <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
+    {{ end }}
+</div>
 
 <input id="from-view-input" name="from-view" type="text" value="{{ if eq .Data.OtpMode "email" }}email_{{ else if eq .Data.OtpMode "sms" }}sms_{{ end }}otp" form="sign-up-form" hidden>
 

@@ -2,7 +2,8 @@
 
 <div class="reverse-flex-container">
     <div>
-        <input id="original-identifier-input" type="hidden" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
+        <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
+        <input id="destination_address-input" type="hidden" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
         <input type="checkbox" name="{{ if eq .Data.OtpMode ""}}otpMode{{ else if eq .Data.OtpMode "sms" }}smsOtpMode{{ else }}emailOtpMode{{ end }}" id="otpMode" checked class="non-visible">
 
         <div class="log-in-header-container">
@@ -29,7 +30,7 @@
                     <button id="not-you-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Change</button>
                 {{ end }}
             </label>
-            <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}" disabled>
+            <input id="text-field-username-input" value="{{ .Data.Identifier }}" disabled>
         </div>
         {{ end }}
 

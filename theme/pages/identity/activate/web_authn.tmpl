@@ -1,6 +1,11 @@
 {{ define "setup_with_web_authn" }}
 
-  <h2>Generate new passkey</h2>
+  <div class="setup-credential-header-container">
+    <h2>Generate new passkey</h2>
+    {{ if .Data.Is2FAStep }}
+      <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
+    {{ end }}
+  </div>
 
   <div class="form-field">
     <label for="text-field-username-input">
