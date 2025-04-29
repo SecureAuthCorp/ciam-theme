@@ -30,7 +30,7 @@
                     <button id="not-you-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Change</button>
                 {{ end }}
             </label>
-            <input id="text-field-username-input" value="{{ .Data.Identifier }}" disabled>
+            <div class="username-div">{{ .Data.Identifier }}</div>
         </div>
         {{ end }}
 
