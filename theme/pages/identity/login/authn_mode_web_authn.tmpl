@@ -26,13 +26,18 @@
         </div>
     {{ else }}
         <div class="form-field">
-          <label for="text-field-username-input" class="label-with-link">
-            <span id="username-label">Email | Mobile | Username</span>
-            {{ if .Data.IsSelfResetCredentialsAllowed }}
-                <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+            <label for="text-field-username-input" class="label-with-link">
+                <span id="username-label">Email | Mobile | Username</span>
+                {{ if .Data.IsSelfResetCredentialsAllowed }}
+                    <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+                {{ end }}
+            </label>
+            {{ if .Data.Is2FAStep }}
+                <input id="text-field-username-input" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
+                <div class="username-div">{{ .Data.Identifier }}</div>
+            {{ else }}
+                <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}">
             {{ end }}
-          </label>
-          <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}"{{ if .Data.Is2FAStep }} disabled{{ end }}>
         </div>
     {{ end }}
 

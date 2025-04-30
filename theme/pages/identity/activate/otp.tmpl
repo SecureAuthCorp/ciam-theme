@@ -9,7 +9,8 @@
     <label for="text-field-username-input">
         Email | Mobile
     </label>
-    <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" value="{{.Data.Identifier}}" disabled>
+    <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{.Data.Identifier}}" disabled>
+    <div class="username-div">{{ .Data.Identifier }}</div>
 </div>
 
 <div class="form-field extra-top-margin" id="otp-container">

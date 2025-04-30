@@ -49,15 +49,17 @@
         {{ template "reduce_mfa_prompts" . }}
 
         {{ if and (or .Data.Is2FAStep .Data.IsForceAuthMode) .Data.AuthnModeSwitch }}
-            <div class="buttons-container-full-width flex-row-reverse extra-bottom-margin">
-                <button class="contained-button" type="submit" id="verify-button">Continue</button>
+            <div class="buttons-container-full-width flex-row-reverse">
+                <button class="submit-button" type="submit" id="verify-button">Continue</button>
                 <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Back</button>
             </div>
 
-            <!-- allow_skip_2fa as text -->
-            <div class="skip-for-now-blue">
-                <button type="submit" id="skip-2fa-button" name="action" value="skip_2fa">Set up later</button>
-            </div>
+            {{ if and .Data.Is2FAStep .Data.UserAllowedToSkip2FA }}
+                <!-- allow_skip_2fa as text -->
+                <div class="skip-for-now-blue">
+                    <button type="submit" id="skip-2fa-button" name="action" value="skip_2fa">Set up later</button>
+                </div>
+            {{ end }}
         {{ else }}
             <div class="buttons-container-full-width flex-row-reverse">
                 <button class="submit-button" type="submit" id="verify-button">Continue</button>
@@ -72,30 +74,35 @@
         <input type="hidden" name="authn_mode" value="otp_send_view" id="authnView-input">
     </div>
 
-    <div class="notification-container" id="code-sent-notification">
-        {{ if eq (len .Data.FormError.Errors) 0 }}
-            {{ if and (ne .Data.UserID "") (not .Data.OtpSent) }}
-                <span>Code not sent{{ if eq .Data.NumberOfAddresses 0 }}. No addresses defined
-                    {{ else if and (eq .Data.OtpMode "email") (eq (len .Data.UserEmails) 0)}}. No emails defined
-                    {{ else if and (eq .Data.OtpMode "sms") (eq (len .Data.UserMobiles) 0)}}. No mobiles defined
-                    {{ end }}
-                </span>
-            {{ else }}
-                <i class="material-icons">send</i>
-                <span>We sent a code to {{ .Data.BlurredResolvedDestinationAddress }}</span>
-            {{ end }}
-        {{ else }}
-            <span></span>
-        {{ end }}
+    {{- $showAlternativeButton := or
+        (and (eq .Data.OtpMode "") (or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 1)))
+        (and (eq .Data.OtpMode "email") (or (eq .Data.UserID "") (gt (len .Data.UserEmails) 1)))
+        (and (eq .Data.OtpMode "sms") (or (eq .Data.UserID "") (gt (len .Data.UserMobiles) 1)))
+    -}}
+    {{- $hasErrors := eq (len .Data.FormError.Errors) 0 -}}
 
-        {{ if or
-            (and (eq .Data.OtpMode "") (or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 1)))
-            (and (eq .Data.OtpMode "email") (or (eq .Data.UserID "") (gt (len .Data.UserEmails) 1)))
-            (and (eq .Data.OtpMode "sms") (or (eq .Data.UserID "") (gt (len .Data.UserMobiles) 1)))
-        }}
-            <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">Use Alternative</button>
-        {{ end }}
-    </div>
+    {{ if or $hasErrors $showAlternativeButton }}
+        <div class="notification-container" id="code-sent-notification">
+            {{ if $hasErrors }}
+                {{ if and (ne .Data.UserID "") (not .Data.OtpSent) }}
+                    <span>Code not sent{{ if eq .Data.NumberOfAddresses 0 }}. No addresses defined
+                        {{ else if and (eq .Data.OtpMode "email") (eq (len .Data.UserEmails) 0)}}. No emails defined
+                        {{ else if and (eq .Data.OtpMode "sms") (eq (len .Data.UserMobiles) 0)}}. No mobiles defined
+                        {{ end }}
+                    </span>
+                {{ else }}
+                    <i class="material-icons">send</i>
+                    <span>We sent a code to {{ .Data.BlurredResolvedDestinationAddress }}</span>
+                {{ end }}
+            {{ else }}
+                <span></span>
+            {{ end }}
+
+            {{ if $showAlternativeButton}}
+                <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">Use Alternative</button>
+            {{ end }}
+        </div>
+    {{ end }}
 </div>
 
 {{ end }}

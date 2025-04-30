@@ -12,7 +12,8 @@
         <label for="text-field-username-input">
             Email | Mobile
         </label>
-        <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" value="{{ .Data.Identifier }}" disabled>
+        <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
+        <div class="username-div">{{ .Data.Identifier }}</div>
     </div>
 
     <div class="form-field">
@@ -21,7 +22,7 @@
     </div>
 
     <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
-        <button class="contained-button" type="submit" id="sign-up-button">
+        <button class="submit-button" type="submit" id="sign-up-button">
             <span>Continue</span>
             <div class="non-visible">{{ template "loader" . }}</div>
         </button>

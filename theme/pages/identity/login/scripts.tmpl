@@ -5,6 +5,7 @@
   var otpLength = {{ .Data.OtpLength }};
   var totpLength = {{ .Data.TotpLength }};
   var identifier = "{{ .Data.Identifier }}";
+  var isForceAuthMode = "{{.Data.IsForceAuthMode }}" === "true";
 
   document.addEventListener("DOMContentLoaded", onPageLoad);
 
@@ -68,7 +69,7 @@
   }
 
   function disableButtonsOnEmptyInputs() {
-    var usernameInput = document.getElementById('text-field-username-input');
+    var usernameInput = document.getElementById('text-field-username-input') || document.getElementById('original-identifier-input');
     var passwordInput = document.getElementById('text-field-password-input');
     var otpInput = document.getElementById('otp-input');
     var totpInput = document.getElementById('totp-input');
@@ -81,7 +82,7 @@
     if(usernameInput && passwordInput && signInButton) signInButton.disabled = !usernameInput.value || !passwordInput.value;
     if(usernameInput && webAuthnSignInButton) webAuthnSignInButton.disabled = !usernameInput.value;
     if(usernameInput && sendCodeButton) sendCodeButton.disabled = !usernameInput.value;
-    if(usernameInput && otpInput && verifyButton) verifyButton.disabled = !usernameInput.value || !otpInput.value || otpInput.value.length < otpLength;
+    if(usernameInput && otpInput && verifyButton) verifyButton.disabled = (!isForceAuthMode && !usernameInput.value) || !otpInput.value || otpInput.value.length < otpLength;
     if(usernameInput && totpInput && totpVerifyButton) totpVerifyButton.disabled = !usernameInput.value || !totpInput.value || totpInput.value.length < totpLength;
   }
 

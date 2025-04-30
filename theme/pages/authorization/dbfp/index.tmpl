@@ -7,22 +7,6 @@
     <div class="spinner"></div>
   </div>
 
-  <div class="header-container">
-    {{ template "header" .Config }}
-  </div>
-
-  <div id="content-container">
-    <div class="card">
-      <div id="sign-in">
-        <div class="content" id="main-content">
-          <div class="skeleton skeleton-input" style="width: 100%;"></div>
-          <div class="skeleton skeleton-input" style="width: 100%;"></div>
-          <div class="skeleton skeleton-button" style="width: 100%;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script src="/dbfp/bfp7.js" defer></script>
 
   <script nonce="{{ .Nonce }}">
@@ -56,6 +40,4 @@
       });
     });
   </script>
-
-  {{ template "footer" . }}
 {{ end }}

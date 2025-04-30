@@ -21,7 +21,12 @@
         <label for="text-field-username-input" class="label-with-link">
           <span id="username-label">Email | Mobile | Username</span>
         </label>
-            <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}"{{ if .Data.Is2FAStep }} disabled{{ end }}>
+        {{ if .Data.Is2FAStep }}
+          <input id="text-field-username-input" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
+          <div class="username-div">{{ .Data.Identifier }}</div>
+        {{ else }}
+          <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}">
+        {{ end }}
       </div>
   {{ end }}
 

@@ -38,21 +38,16 @@
       </div>
 
       <form action="{{ .Data.LogoutAPIURL }}" method="post">
-
         <div class="buttons-container-full-width extra-top-margin">
           <button type="submit" class="text-button" name="action" value="deny">
             No
           </button>
-
-          <button type="submit" class="contained-button" name="action" value="explicit">
+          <button type="submit" class="submit-button" name="action" value="explicit">
             Yes
           </button>
         </div>
-
       </form>
     {{ end }}
-
-
 
     </div>
   </div>

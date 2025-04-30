@@ -20,7 +20,8 @@
 
         <h2>Generate new passkey</h2>
 
-        <input id="text-field-identifier-input" type="hidden" name="identifier" autocomplete="off" data-lpignore="true" value="{{ .Data.Identifier }}" disabled>
+        <input id="text-field-identifier-input" type="hidden" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
+        <div class="username-div">{{ .Data.Identifier }}</div>
 
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
