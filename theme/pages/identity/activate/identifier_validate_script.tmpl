@@ -1,0 +1,66 @@
+{{ define "identifier_validate_script_in_activate" }}
+  <script nonce="{{.Nonce}}">
+
+    window.addEventListener("DOMContentLoaded", function () {
+      var identifierInput = document.getElementById("text-field-address-input");
+      var errorField = document.getElementById("address-field-error");
+
+      if (!identifierInput || !errorField) {
+        return;
+      }
+
+      identifierInput.addEventListener("input", function () {
+        if (!errorField.classList.contains("non-visible")) {
+          errorField.classList.add("non-visible");
+          errorField.innerText = "";
+        }
+      });
+    });
+
+    function handleSubmit(event) {
+      var otpMode = "{{ .OtpMode }}";
+
+      var errorField = document.getElementById("address-field-error");
+
+      if (errorField && (otpMode === "email" || otpMode === "sms")) {
+        var action = event.submitter.value;
+        var identifier = document.getElementById("text-field-address-input").value;
+
+        if (identifier) {
+          if (otpMode === "email" && identifier.indexOf("@") === -1) {
+            event.preventDefault();
+
+            errorField.classList.remove("non-visible");
+            errorField.innerText = "Please provide a valid email address";
+
+            return false;
+          }
+          
+          if (otpMode === "sms" && !/^\+[1-9]?[0-9]{7,14}$/.test(identifier)) {
+            event.preventDefault();
+
+            errorField.classList.remove("non-visible");
+            errorField.innerText = "Please provide a valid phone number in international format. Example:\u00A0+1234567890";
+
+            return false;
+          }
+        } else {
+            event.preventDefault();
+
+            errorField.classList.remove("non-visible");
+            errorField.innerText = "Please provide an address";
+
+            return false;
+        }
+      } 
+
+      if (errorField) {
+        errorField.classList.add("non-visible");
+        errorField.innerText = "";
+      }
+
+      // proceed with the form submission
+      return true;
+    }
+  </script>
+{{ end }}
