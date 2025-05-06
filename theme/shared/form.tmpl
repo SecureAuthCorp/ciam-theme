@@ -1,6 +1,8 @@
 {{ define "form" }}
 
-<form {{if .Data.Form.Name}}name="{{.Data.Form.Name}}"{{end}} {{if .Data.Form.ID}}id="{{.Data.Form.ID}}"{{end}}  method="{{ .Data.Form.Method }}" action="?login_id={{ .Data.Form.LoginID }}&login_state={{ .Data.Form.LoginState }}&server_id={{ .Data.ServerID }}"  {{if .Data.Form.CSS}}style="{{range $k, $v := .Data.Form.CSS}}{{$k}}: {{$v}}; {{end}}"{{end}} class="{{ if .Data.Form.Classes }}{{range .Data.Form.Classes}} {{.}}{{end}}{{end}}">
+{{ template "identifier_validate_script" . }}
+
+<form {{if .Data.Form.Name}}name="{{.Data.Form.Name}}"{{end}} {{if .Data.Form.ID}}id="{{.Data.Form.ID}}"{{end}}  method="{{ .Data.Form.Method }}" action="?login_id={{ .Data.Form.LoginID }}&login_state={{ .Data.Form.LoginState }}&server_id={{ .Data.ServerID }}"  {{if .Data.Form.CSS}}style="{{range $k, $v := .Data.Form.CSS}}{{$k}}: {{$v}}; {{end}}"{{end}} class="{{ if .Data.Form.Classes }}{{range .Data.Form.Classes}} {{.}}{{end}}{{end}}" onsubmit="return handleSubmit(event)">
   {{ .Data.CsrfField }}
 
 	<div class="row{{if .Data.Form.Hidden}} non-visible{{end}}" name="row_main" id="row_main">

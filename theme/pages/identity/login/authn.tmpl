@@ -1,6 +1,6 @@
 {{ define "authn" }}
 
-  <form action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}" method="post" id="sign-in-form">
+  <form action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}" method="post" id="sign-in-form" onsubmit="return handleSubmit(event)">
     {{ .Data.CsrfField }}
 
     {{ range .Data.FormError.Errors }}

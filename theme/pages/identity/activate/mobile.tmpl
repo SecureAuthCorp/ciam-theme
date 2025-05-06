@@ -7,18 +7,18 @@
         {{ end }}
     </div>
 
-
     <div class="form-field">
-        <label for="text-field-username-input">
+        <label for="text-field-address-input">
             Email | Mobile
         </label>
-        <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
+        <input name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
         <div class="username-div">{{ .Data.Identifier }}</div>
     </div>
 
     <div class="form-field">
         <label for="new_address">Mobile</label>
-        <input id="mobile_address" name="new_address" data-lpignore="true">
+        <input id="text-field-address-input" name="new_address" data-lpignore="true">
+        <div id="address-field-error" class="non-visible"></div>
     </div>
 
     <div class="buttons-container-full-width flex-row-reverse extra-top-margin">

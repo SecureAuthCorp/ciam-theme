@@ -3,15 +3,25 @@
 {{ define "title" }} User Registration {{ end }}
 
 {{ define "content" }}
+  {{ $mode := .Data.Mode }}
+
+  {{ $otpMode := "" }}
+  {{ if eq $mode "email" }}
+    {{ $otpMode = "email" }}
+  {{ else if eq $mode "mobile" }}
+    {{ $otpMode = "sms" }}
+  {{ end }}
+
+  {{ $partialData := dict "Config" .Config "OtpMode" $otpMode }}
 
   {{ template "identity_activate_scripts" . }}
+  {{ template "identifier_validate_script_in_activate" $partialData }}
 
-  <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&code={{ .Data.Code }}&promptForEmailAddress={{ .Data.PromptForEmail }}&promptForMobileAddress={{ .Data.PromptForMobile }}&promptForTotp={{ .Data.PromptForTotp }}&promptForPassword={{ .Data.PromptForPassword }}&promptForWebAuthn={{ .Data.PromptForWebAuthn }}&identifier={{ .Data.Identifier }}&server_id={{ .Data.ServerID }}&go_to={{ .Data.GoTo }}&post_activation_url={{ .Data.PostAuthenticationURL }}" method="post" id="sign-up-form">
+  <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&code={{ .Data.Code }}&promptForEmailAddress={{ .Data.PromptForEmail }}&promptForMobileAddress={{ .Data.PromptForMobile }}&promptForTotp={{ .Data.PromptForTotp }}&promptForPassword={{ .Data.PromptForPassword }}&promptForWebAuthn={{ .Data.PromptForWebAuthn }}&identifier={{ .Data.Identifier }}&server_id={{ .Data.ServerID }}&go_to={{ .Data.GoTo }}&post_activation_url={{ .Data.PostAuthenticationURL }}" method="post" id="sign-up-form" onsubmit="return handleSubmit(event)">
     <div class="header-container">
       {{ template "header" .Config }}
     </div>
 
-    {{ $mode := .Data.Mode }}
 
     <div class="card">
       <div class="content" id="main-content">

@@ -28,9 +28,11 @@
       <input id="entered-identifier" name="notused" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.EnteredIdentifier }}" disabled>
       <div class="username-div">{{ .Data.EnteredIdentifier }}</div>
     {{ else if eq .Data.OtpMode "email" }}
-      <input id="email_address" name="new_address" data-lpignore="true" form="sign-up-form">
+      <input id="text-field-username-input" name="new_address" data-lpignore="true" form="sign-up-form">
+      <div id="address-field-error" class="non-visible"></div>
     {{ else if eq .Data.OtpMode "sms" }}
-      <input id="mobile_number" name="new_address" data-lpignore="true" form="sign-up-form">
+      <input id="text-field-username-input" name="new_address" data-lpignore="true" form="sign-up-form">
+      <div id="address-field-error" class="non-visible"></div>
     {{ end }}
 </div>
 
