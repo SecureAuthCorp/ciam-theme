@@ -48,24 +48,10 @@
 
         {{ template "reduce_mfa_prompts" . }}
 
-        {{ if and (or .Data.Is2FAStep .Data.IsForceAuthMode) .Data.AuthnModeSwitch }}
-            <div class="buttons-container-full-width flex-row-reverse">
-                <button class="submit-button" type="submit" id="verify-button">Continue</button>
-                <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Back</button>
-            </div>
-
-            {{ if and .Data.Is2FAStep .Data.UserAllowedToSkip2FA }}
-                <!-- allow_skip_2fa as text -->
-                <div class="skip-for-now-blue">
-                    <button type="submit" id="skip-2fa-button" name="action" value="skip_2fa">Set up later</button>
-                </div>
-            {{ end }}
-        {{ else }}
-            <div class="buttons-container-full-width flex-row-reverse">
-                <button class="submit-button" type="submit" id="verify-button">Continue</button>
-                {{ template "allow_skip_2fa_in_login" . }}
-            </div>
-        {{ end }}
+        <div class="buttons-container-full-width flex-row-reverse">
+            <button class="submit-button" type="submit" id="verify-button">Continue</button>
+            {{ template "allow_skip_2fa_in_login" . }}
+        </div>
 
         {{ if .Data.AuthnModeSwitch }}
             {{ template "authn_methods" . }}
