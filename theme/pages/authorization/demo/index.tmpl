@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Demo{{ end }}
+{{ define "title" }}OAuth2 Demo Application{{ end }}
 
 {{ define "content" }}
   {{ template "demo_scripts" . }}
@@ -18,7 +18,7 @@
 
     <div class="card">
 
-      <h3 class="header">Demo {{ .flow }} application</h3>
+      <h3 class="header">OAuth2 Demo {{ .flow }} Application</h3>
 
       {{ if eq .Data.Flow "device" }}
         {{ template "demo-unauthorized" . }}

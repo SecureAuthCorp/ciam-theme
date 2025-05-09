@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}SAML Test{{ end }}
+{{ define "title" }}SAML Demo Application{{ end }}
 
 {{ define "content" }}
 
@@ -8,22 +8,42 @@
     {{ template "header" .Config }}
   </div>
 
+  <script nonce="{{.Config.Nonce}}">
+  function toggleAdvanced() {
+    var el = document.querySelector('#advanced');
+    el.classList.contains('aut-hidden') ? el.classList.remove('aut-hidden') : el.classList.add('aut-hidden');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', delegate('#advanced-button', toggleAdvanced));
+  })
+  </script>
+
   <div class="card" {{ if .Data.Response }} style="max-width: 90%" {{ end }}>
-    <h3 class="header">SAML Test</h3>
+    <h3 class="header">SAML Demo Application</h3>
 
     <div class="content" id="saml-response-raw">
       {{ if .Data.Response  }}
         <pre>{{ .Data.Response }}</pre>
       {{ else }}
         <form action="?action=login" method="post">
-          <button class="submit-button" type="submit" id="sign-in">Login</button>
-          <div class="form-field">
-            <label>Subject Name ID</label>
-            <input name="subject-name-id">
-          </div>
-          <div class="form-field">
-            <label>IDP ID</label>
-            <input name="idp-id">
+          <button class="submit-button" type="submit" id="sign-in" style="margin-bottom: 16px;">
+            Log in to demo app
+          </button>
+
+          <button id="advanced-button" class="text-button full-width" type="button">
+            Configuration
+          </button>
+
+          <div class="aut-hidden" id="advanced" style="margin-top: 16px;">
+            <div class="form-field">
+              <label>Subject Name ID</label>
+              <input name="subject-name-id">
+            </div>
+            <div class="form-field">
+              <label>IDP ID</label>
+              <input name="idp-id">
+            </div>
           </div>
         </form>
       {{ end }}

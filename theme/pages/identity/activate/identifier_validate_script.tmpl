@@ -19,11 +19,10 @@
 
     function handleSubmit(event) {
       var otpMode = "{{ .OtpMode }}";
-
       var errorField = document.getElementById("address-field-error");
+      var action = event.submitter.value;
 
-      if (errorField && (otpMode === "email" || otpMode === "sms")) {
-        var action = event.submitter.value;
+      if (errorField && action === "" && (otpMode === "email" || otpMode === "sms")) {
         var identifier = document.getElementById("text-field-address-input").value;
 
         if (identifier) {
