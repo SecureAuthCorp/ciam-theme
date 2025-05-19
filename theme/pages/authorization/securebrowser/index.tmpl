@@ -1,0 +1,25 @@
+{{ template "base" . }}
+
+{{ define "title" }}Secure Browser recovery{{ end }}
+
+{{ define "content" }}
+
+  <div class="header-container">
+    {{ template "header" .Config }}
+  </div>
+
+  <div class="card">
+      <h3 class="header">Current browser is not secure.</h3>
+
+      {{ if .Data.Client.ApplicationURL }}
+        <a href="secureauth://browse?url={{ .Data.Client.ApplicationURL }}" class="submit-button">
+          Open a secure browser
+        </a>
+      {{ else }}
+        <p class="error-message">Client has no Application URL configured.</p>
+      {{ end }}
+  </div>
+
+  {{ template "footer" . }}
+
+{{ end }}
