@@ -6,8 +6,13 @@
 Excellent!
 <b> Your account is ready to be activated.</b>
 </div>
-<div class="main-text">Enter the code below on the account activation page to activate you account.</div>
+<div class="main-text">Enter the code below on the account activation page to activate your account.</div>
 <div class="code-container">{{ .Data.OTP.Code }}</div>
+
+<div class="caption">
+    Click <a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">here</a>
+    to activate your account directly if you're unable to enter the code manually.
+</div>
 
 <div class="caption content-caption">
 You received this email because you have registered a tenant with SecureAuth.<br/>

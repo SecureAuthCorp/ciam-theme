@@ -42,10 +42,17 @@
           {{ template "error_message" . }}
         {{ end }}
 
-        <button class="submit-button no-bottom-margin extra-top-margin" type="submit" id="reset-button">
-          <span>Continue</span>
-          <div class="non-visible">{{ template "loader" . }}</div>
-        </button>
+        <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
+          <button class="submit-button" type="submit" id="reset-button">
+            <span>Continue</span>
+            <div class="non-visible">{{ template "loader" . }}</div>
+          </button>
+          {{ if not .Data.SetWithoutAuthentication }}
+            <a href="{{ .Data.RestartResetCredentialPath }}" class="text-button-link">
+              Back
+            </a>
+          {{ end }}
+        </div>
 
         <input type="hidden" name="web_authn_error" id="hidden-text-field-webauthn-error">
 

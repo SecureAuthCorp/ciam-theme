@@ -166,6 +166,8 @@
     if (!form || !idpsListHeader || !idpsList || !notYouButton || !usernameInput || !nextButton || !idpsEmptyError || !idpsDiscoveryError) return;
 
     var url = new URL(window.location.href);
+    var loginID = url.searchParams.get("login_id");
+    var loginState = url.searchParams.get("login_state");
     var loginHint = url.searchParams.get("login_hint");
 
     if (loginHint) {
@@ -255,7 +257,7 @@
       handleNextButtonState(username, true);
       fetch(window.location.pathname + "/discovery", {
         method: "POST",
-        body: JSON.stringify({ identifier: username })
+        body: JSON.stringify({ identifier: username, login_id: loginID, login_state: loginState })
       })
       .then(function (response) {
         return response.json()

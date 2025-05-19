@@ -11,7 +11,7 @@
   <div class="card">
     <div class="content" id="main-content">
       <h2>Success!</h2>
-      <div class="header-info">You've successfully set up your credential.</div>
+      <div class="header-info">You've successfully set up your {{ if eq .Data.CredentialType "webauthn"}}passkey{{ else if eq .Data.CredentialType "totp" }}authenticator app{{ else }}{{ .Data.CredentialType }}{{ end }}.</div>
 
       {{ if .Data.LoginPath}}
         <a href="{{ .Data.LoginPath }}">

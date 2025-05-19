@@ -30,10 +30,12 @@
         <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" value="{{ .Data.Identifier }}">
       </div>
 
-      <button class="submit-button" type="button" id="sign-in-button" disabled>
-        <span>Continue</span>
-        <div class="non-visible">{{ template "loader" . }}</div>
-      </button>
+      <div class="buttons-container-full-width">
+        <button class="submit-button" type="button" id="sign-in-button" disabled>
+          <span>Continue</span>
+          <div class="non-visible">{{ template "loader" . }}</div>
+        </button>
+      </div>
     </div>
 
     {{ else }}
