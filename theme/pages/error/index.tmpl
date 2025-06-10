@@ -8,11 +8,12 @@
     {{ template "header" .Config }}
   </div>
 
+<div id="main-content">
   <div id="error-container">
     <input type="hidden" id="error" value="{{ .Data.Error }}">
     <input type="hidden" id="cause" value="{{ .Data.Cause }}">
     <img src="{{ .Config.Assets }}/static/images/no-idp.svg" alt="no idp image" />
-    <div id="error-title">{{ .Data.Name }}</div>
+    <h1 id="error-title">{{ .Data.Name }}</h1>
     <div id="error-description">{{ .Data.Description }}.</div>
 
     {{ if .Data.Hint  }}
@@ -36,6 +37,7 @@
       <div class="error-details">Correlation-ID: {{ .Data.AuthorizationCorrelationID }}</div>
     {{ end }}
   </div>
+</div>
 
 {{ template "footer" . }}
 

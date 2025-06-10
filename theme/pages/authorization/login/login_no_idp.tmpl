@@ -1,10 +1,14 @@
 {{ define "login_no_idp" }}
 
-<div id="error-container">
-  <img src="{{ .Config.Assets }}/static/images/no-idp.svg" alt="no idp image" />
-  <div id="error-title">No Identity Providers Configured</div>
-  <div id="error-description">This server does not have any identity providers configured.</div>
-  <div id="error-hint"></div>
+<div id="main-content">
+    <div id="error-container">
+      <img src="{{ .Config.Assets }}/static/images/no-idp.svg" alt="no idp image" />
+      <h1 id="error-title">No Identity Providers Configured</h1>
+      <div id="error-description">This server does not have any identity providers configured.</div>
+      <div id="error-hint"></div>
+    </div>
 </div>
+
+{{ template "footer" . }}
 
 {{ end }}
