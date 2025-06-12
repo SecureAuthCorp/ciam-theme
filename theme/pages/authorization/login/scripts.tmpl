@@ -24,7 +24,7 @@
 
     if (tab === "sign-in") {
       signInDiv.style.display = "block";
-      cancelButton.style.display = "block";
+      cancelButton && (cancelButton.style.display = "block");
       quickAccessDiv.style.display = "none";
       tabs[0].classList.add('tab-button-active');
       tabs[1].classList.remove('tab-button-active');
@@ -35,7 +35,7 @@
       quickAccessDiv.style.display = "block";
       tabs[0].classList.remove('tab-button-active');
       tabs[1].classList.add('tab-button-active');
-      cancelButton.style.display = "none";
+      cancelButton && (cancelButton.style.display = "none");
     }
   }
 

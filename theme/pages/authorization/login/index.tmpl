@@ -13,14 +13,14 @@
   {{ if not .Data.HasIDPs }}
     {{ template "login_no_idp" . }}
   {{ else }}
-    <div id="content-container">
-      <div class="card">
+    <div id="content-container" >
+      <div class="card" id="main-content">
         {{ if .Data.HasAdminTabs }}
           {{ template "login_admin_tabs" . }}
         {{ end }}
 
         <div id="sign-in">
-          <div class="content" id="main-content">
+          <div class="content">
             {{ template "login_content" . }}
           </div>
         </div>

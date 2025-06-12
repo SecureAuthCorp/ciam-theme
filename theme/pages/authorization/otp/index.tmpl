@@ -13,18 +13,18 @@
 
   <div class="card">
     {{ if and .Data.Session .Data.Session.ClientInfo .Data.Session.ClientInfo.Name }}
-      <h3 class="header header-with-avatar">
+      <h1 class="header header-with-avatar">
         <div>{{ substr 0 1 .Data.Session.ClientInfo.Name }}</div>
         {{ .Data.Session.ClientInfo.Name }}
-      </h3>
+      </h1>
     {{ else }}
-      <h3 class="header">Log in to your account</h3>
+      <h1 class="header">Log in to your account</h1>
     {{ end }}
 
     <form action="?login_id={{ .Data.Session.ID }}" method="post">
       {{ .Data.CsrfField }}
 
-      <div class="content content-otp">
+      <div class="content content-otp" id="main-content">
         <div id="default-view-container">
 
           {{ if .Data.SelectedMethod.ID }}
@@ -32,10 +32,10 @@
             <div class="otp-send-header">
               {{ if eq .Data.SelectedMethod.Mechanism "email"}}
                 <i class="material-icons otp-method-icon">mail_outline</i>
-                <h4>Email verification</h4>
+                <span>Email verification</span>
               {{ else if eq .Data.SelectedMethod.Mechanism "sms" }}
                 <i class="material-icons otp-method-icon">chat_bubble_outline</i>
-                <h4>SMS verification</sph4an>
+                <span>SMS verification</span>
               {{ end }}
             </div>
 
