@@ -6,7 +6,7 @@
     <div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
 
     <div class="setup-credential-header-container">
-        <h2>Set up authenticator app</h2>
+        <h1>Set up authenticator app</h1>
         {{ if .Data.Is2FAStep }}
             <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
         {{ end }}
@@ -24,11 +24,15 @@
 
     <div class="form-field totp-container" id="totp-container">
         <label for="text-field-totp-input">
-            <span id="authenticator-label">Scan QR code with your authenticator app</span>
+            <span id="authenticator-label">Scan QR code or use setup key with your authenticator app</span>
         </label>
 
         <div class="totp-qrcode-container">
             <div id="totp-qrcode" data-qrdata="{{.Data.TOTPRegistrationURL}}"></div>
+            <div class="totp-setup-key-container">
+                <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">View setup key</a>
+                <span id="setup-key"></span>
+            </div>
         </div>
 
         <label for="text-field-totp-input">
