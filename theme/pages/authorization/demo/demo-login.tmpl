@@ -86,6 +86,14 @@
         <textarea rows="6" id="jwk-input" name="jwk">{{ .Data.Jwk }}</textarea>
         <div class="text-field-helper">Provide a JSON with single JSON Web Key containing private key</div>
       </div>
+
+      {{ if .Data.RAREnabled }}
+      <div class="form-field">
+        <label for="authorization-details-input">Authorization Details (RAR)</label>
+        <textarea rows="6" id="authorization-details-input" name="authorization_details">{{ .Data.AuthorizationDetails }}</textarea>
+        <div class="text-field-helper">Provide a JSON array with authorization details objects</div>
+      </div>
+      {{ end }}
     </div>
   </form>
 </div>
