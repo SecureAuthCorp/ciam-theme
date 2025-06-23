@@ -18,21 +18,26 @@
 
         <h1>Set up authenticator app</h1>
 
-        <div class="form-field totp-container" id="totp-container">
-          <label for="text-field-totp-input">
-              <span id="authenticator-label">Scan QR code or use setup key with your authenticator app</span>
-          </label>
-
+        <label for="text-field-totp-input">
+          <span id="authenticator-label">Scan QR code or use setup key with your Authenticator Application</span>
+        </label>
+        <div class="form-field totp-container with-setup" id="totp-container">
           <div class="totp-qrcode-container">
               <div id="totp-qrcode" data-qrdata="{{.Data.TOTPRegistrationURL}}"></div>
               <div class="totp-setup-key-container">
-                  <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">View setup key</a>
-                  <span id="setup-key"></span>
+                  <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">Can’t scan QR?</a>
               </div>
+          </div>
+          <div class="setup-key-block">
+              <span id="setup-key"></span>
+              <a href="" onclick="copySetupKey(event)" aria-label="Copy setup key">
+                  <i class="material-icons">content_copy</i>
+              </a>
+              <span id="copied-confirmation"></span>
           </div>
 
           <label for="text-field-totp-input">
-              <span id="totp-label">Enter generated code from the app</span>
+              <span id="totp-label">Enter generated code from the application</span>
           </label>
 
           <div id="totp-input-container" class="form-field otp-input-container">
@@ -46,7 +51,7 @@
 
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
-            <label for="text-field-otp-input">
+            <label for="text-field-otp-input" class="text-align-center">
               <span id="otp-label">Provide verification code you received</span>
             </label>
             <div id="otp-input-container" class="form-field otp-input-container">
