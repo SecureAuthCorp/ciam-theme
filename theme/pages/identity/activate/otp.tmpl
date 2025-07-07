@@ -2,12 +2,12 @@
 
 {{ template "identity_activate_disable_submit_empty_otp_script" . }}
 
-<div class="steps-container">STEP <b>3</b> OF <b>3</b></div>
-<h2>Activate Your Account</h2>
+<div class="steps-container">{{ T "identity.activate.otp.step" }} <b>3</b> {{ T "identity.activate.otp.of" }} <b>3</b></div>
+<h1>{{ T "identity.activate.otp.activate_account" }}</h1>
 
 <div class="form-field">
     <label for="text-field-username-input">
-        Email | Mobile
+        {{ T "identity.activate.otp.email_or_mobile" }}
     </label>
     <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{.Data.Identifier}}" disabled>
     <div class="username-div">{{ .Data.Identifier }}</div>
@@ -18,13 +18,13 @@
         <input type="hidden" name="otp" value="" id="otp-input">
     </div>
     <div class="footer-with-link">
-        Still didn't receive?
-        <a href="{{ .Data.ResendPath }}">Resend code</a>
+        {{ T "identity.activate.otp.still_didnt_receive" }}
+        <a href="{{ .Data.ResendPath }}">{{ T "identity.activate.otp.resend_code" }}</a>
     </div>
 </div>
 
 <button class="submit-button no-bottom-margin extra-top-margin" type="submit" id="sign-in-button">
-    <span>Continue</span>
+    <span>{{ T "identity.activate.otp.continue" }}</span>
     <div class="non-visible">{{ template "loader" . }}</div>
 </button>
 

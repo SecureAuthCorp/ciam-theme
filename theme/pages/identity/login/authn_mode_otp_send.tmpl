@@ -1,7 +1,7 @@
 {{ define "authn_otp_send" }}
 
   <div class="log-in-header-container">
-      <h2 id="log-in-header">{{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with {{ if eq .Data.OtpMode "sms"}}sms{{ else if eq .Data.OtpMode "email"}}email{{ else }}verification{{ end }} code</h2>
+      <h1 id="log-in-header">{{ if .Data.IsForceAuthMode}}{{ T "identity.login.authn_mode_otp_send.confirm" }}{{ else }}{{ T "identity.login.authn_mode_otp_send.log_in" }}{{ end }} {{ T "identity.login.authn_mode_otp_send.with" }} {{ if eq .Data.OtpMode "sms"}}{{ T "identity.login.authn_mode_otp_send.sms" }}{{ else if eq .Data.OtpMode "email"}}{{ T "identity.login.authn_mode_otp_send.email" }}{{ else }}{{ T "identity.login.authn_mode_otp_send.verification" }}{{ end }} {{ T "identity.login.authn_mode_otp_send.code" }}</h1>
       {{ if .Data.Is2FAStep }}
           <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
       {{ end }}
@@ -19,7 +19,7 @@
   {{ else }}
   <div class="form-field">
     <label for="text-field-username-input" class="label-with-link">
-      <span id="username-label">Email | Mobile | Username</span>
+      <span id="username-label">{{ T "identity.login.authn_mode_otp_send.email_mobile_username" }}</span>
     </label>
       {{ if .Data.Is2FAStep }}
         <input id="text-field-username-input" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
@@ -34,7 +34,7 @@
 
     <div class="buttons-container-full-width flex-row-reverse">
       <button class="submit-button" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp" id="send-code-button">
-        Continue
+        {{ T "identity.login.authn_mode_otp_send.continue" }}
       </button>
       {{ template "allow_skip_2fa_in_login" . }}
     </div>

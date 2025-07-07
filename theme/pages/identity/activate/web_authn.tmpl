@@ -1,7 +1,7 @@
 {{ define "setup_with_web_authn" }}
 
   <div class="setup-credential-header-container">
-    <h2>Generate new passkey</h2>
+    <h1>{{ T "identity.activate.web_authn.generate_new_passkey" }}</h1>
     {{ if .Data.Is2FAStep }}
       <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
     {{ end }}
@@ -9,7 +9,7 @@
 
   <div class="form-field">
     <label for="text-field-username-input">
-      Email | Mobile
+      {{ T "identity.activate.web_authn.email_or_mobile" }}
     </label>
     <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
     <div class="username-div">{{ .Data.Identifier }}</div>
@@ -17,7 +17,7 @@
 
   <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
     <button class="submit-button" type="submit" id="sign-up-button">
-      <span>Continue</span>
+      <span>{{ T "identity.activate.web_authn.continue" }}</span>
       <div class="non-visible">{{ template "loader" . }}</div>
     </button>
     {{ template "allow_skip_2fa_in_activate" . }}

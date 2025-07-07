@@ -1,6 +1,6 @@
 {{ define "authn_use_otp_alternative" }}
 
-  <h2 id="log-in-header">{{ if ne .Data.UserID "" }}Select{{ else }}Provide{{ end }} alternative</h2>
+  <h1 id="log-in-header">{{ if ne .Data.UserID "" }}{{ T "identity.login.authn_mode_otp_alternative.select" }}{{ else }}{{ T "identity.login.authn_mode_otp_alternative.provide" }}{{ end }} {{ T "identity.login.authn_mode_otp_alternative.alternative" }}</h1>
 
   <div class="form-field">
     {{ if ne .Data.UserID "" }}
@@ -32,11 +32,11 @@
     {{ else }}
       <label for="text-field-username-input" class="label-with-link">
         {{ if eq .Data.OtpMode "email" }}
-          <span id="username-label">Email</span>
+          <span id="username-label">{{ T "identity.login.authn_mode_otp_alternative.email" }}</span>
         {{ else if eq .Data.OtpMode "sms" }}
-          <span id="username-label">Mobile</span>
+          <span id="username-label">{{ T "identity.login.authn_mode_otp_alternative.mobile" }}</span>
         {{ else }}
-          <span id="username-label">Email | Mobile</span>
+          <span id="username-label">{{ T "identity.login.authn_mode_otp_alternative.email_or_mobile" }}</span>
         {{ end }}
         </label>
       <input id="text-field-username-input" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
@@ -49,8 +49,8 @@
   {{ template "reduce_mfa_prompts" . }}
 
   <div class="buttons-container-full-width extra-top-margin flex-row-reverse">
-    <button class="submit-button" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp" id="send-code-button">Continue</button>
-    <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_verify" id="back-to-verify-otp">Back</button>
+    <button class="submit-button" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp" id="send-code-button">{{ T "identity.login.authn_mode_otp_alternative.continue" }}</button>
+    <button class="text-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_verify" id="back-to-verify-otp">{{ T "identity.login.authn_mode_otp_alternative.back" }}</button>
   </div>
 
   {{ if .Data.AuthnModeSwitch }}

@@ -7,7 +7,7 @@
         <input type="checkbox" name="{{ if eq .Data.OtpMode ""}}otpMode{{ else if eq .Data.OtpMode "sms" }}smsOtpMode{{ else }}emailOtpMode{{ end }}" id="otpMode" checked class="non-visible">
 
         <div class="log-in-header-container">
-            <h2 id="log-in-header">Verify code</h2>
+            <h1 id="log-in-header">{{ T "identity.login.authn_mode_otp_verify.verify_code" }}</h1>
             {{ if .Data.Is2FAStep }}
                 <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
             {{ end }}
@@ -25,9 +25,9 @@
         {{ else }}
         <div class="form-field">
             <label for="text-field-username-input" class="label-with-link">
-                <span id="username-label">User Identifier</span>
+                <span id="username-label">{{ T "identity.login.authn_mode_otp_verify.user_identifier" }}</span>
                 {{ if not .Data.Is2FAStep }}
-                    <button id="not-you-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Change</button>
+                    <button id="not-you-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">{{ T "identity.login.authn_mode_otp_verify.change" }}</button>
                 {{ end }}
             </label>
             <div class="username-div">{{ .Data.Identifier }}</div>
@@ -40,8 +40,8 @@
             </div>
             {{ if or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 0) }}
                 <div class="footer-with-link">
-                    Still didn't receive?
-                    <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">Resend Code</button>
+                   {{ T "identity.login.authn_mode_otp_verify.still_didnt_receive" }}
+                    <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">{{ T "identity.login.authn_mode_otp_verify.resend_code" }}</button>
                 </div>
             {{ end }}
         </div>
@@ -49,7 +49,7 @@
         {{ template "reduce_mfa_prompts" . }}
 
         <div class="buttons-container-full-width flex-row-reverse">
-            <button class="submit-button" type="submit" id="verify-button">Continue</button>
+            <button class="submit-button" type="submit" id="verify-button">{{ T "identity.login.authn_mode_otp_verify.continue" }}</button>
             {{ template "allow_skip_2fa_in_login" . }}
         </div>
 
@@ -71,21 +71,21 @@
         <div class="notification-container" id="code-sent-notification">
             {{ if $hasErrors }}
                 {{ if and (ne .Data.UserID "") (not .Data.OtpSent) }}
-                    <span>Code not sent{{ if eq .Data.NumberOfAddresses 0 }}. No addresses defined
-                        {{ else if and (eq .Data.OtpMode "email") (eq (len .Data.UserEmails) 0)}}. No emails defined
-                        {{ else if and (eq .Data.OtpMode "sms") (eq (len .Data.UserMobiles) 0)}}. No mobiles defined
+                    <span>{{ T "identity.login.authn_mode_otp_verify.code_not_sent" }}{{ if eq .Data.NumberOfAddresses 0 }}. {{ T "identity.login.authn_mode_otp_verify.no_addresses_defined" }}
+                        {{ else if and (eq .Data.OtpMode "email") (eq (len .Data.UserEmails) 0)}}. {{ T "identity.login.authn_mode_otp_verify.no_emails_defined" }}
+                        {{ else if and (eq .Data.OtpMode "sms") (eq (len .Data.UserMobiles) 0)}}. {{ T "identity.login.authn_mode_otp_verify.no_mobiles_defined" }}
                         {{ end }}
                     </span>
                 {{ else }}
                     <i class="material-icons">send</i>
-                    <span>We sent a code to {{ .Data.BlurredResolvedDestinationAddress }}</span>
+                    <span>{{ T "identity.login.authn_mode_otp_verify.code_sent" }} {{ .Data.BlurredResolvedDestinationAddress }}</span>
                 {{ end }}
             {{ else }}
                 <span></span>
             {{ end }}
 
             {{ if $showAlternativeButton}}
-                <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">Use Alternative</button>
+                <button id="use-alternative-address-button" type="submit" name="action" value="change_to_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp_use_alternative">{{ T "identity.login.authn_mode_otp_verify.use_alternative" }}</button>
             {{ end }}
         </div>
     {{ end }}

@@ -1,9 +1,9 @@
 {{ define "authn_web_authn" }}
 
     <div class="log-in-header-container">
-        <h2 id="log-in-header" {{ if .Data.IsForceAuthMode}}class="no-margin-bottom"{{ end }}>
-            {{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with passkey
-        </h2>
+        <h1 id="log-in-header" {{ if .Data.IsForceAuthMode}}class="no-margin-bottom"{{ end }}>
+            {{ if .Data.IsForceAuthMode}}{{ T "identity.login.authn_mode_web_authn.confirm" }}{{ else }}{{ T "identity.login.authn_mode_web_authn.log_in" }}{{ end }} {{ T "identity.login.authn_mode_web_authn.with_passkey" }}
+        </h1>
         {{ if .Data.Is2FAStep }}
             <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor icon" class="icon-2fa"/>
         {{ end }}
@@ -13,7 +13,7 @@
         {{ if .Data.IsSelfResetCredentialsAllowed }}
             <label class="label-with-link">
                 <span id="empty-webauthn-label"></span>
-                <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+                <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">{{ T "identity.login.authn_mode_web_authn.no_access" }}</a>
             </label>
         {{ end }}
         <div class="login-welcome-back-card">
@@ -27,9 +27,9 @@
     {{ else }}
         <div class="form-field">
             <label for="text-field-username-input" class="label-with-link">
-                <span id="username-label">Email | Mobile | Username</span>
+                <span id="username-label">{{ T "identity.login.authn_mode_web_authn.username_label" }}</span>
                 {{ if .Data.IsSelfResetCredentialsAllowed }}
-                    <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">No access to passkey?</a>
+                    <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">{{ T "identity.login.authn_mode_web_authn.no_access" }}</a>
                 {{ end }}
             </label>
             {{ if .Data.Is2FAStep }}
@@ -49,7 +49,7 @@
 
     <div class="buttons-container-full-width flex-row-reverse">
         <button class="submit-button" type="submit" id="web-authn-sign-in-button">
-            Continue
+            {{ T "identity.login.authn_mode_web_authn.continue" }}
         </button>
         {{ template "allow_skip_2fa_in_login" . }}
     </div>

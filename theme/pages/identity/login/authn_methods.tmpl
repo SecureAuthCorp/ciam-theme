@@ -2,7 +2,7 @@
 
     <div id="authn-mode-switch-container">
       <div class="spacer-container">
-        <div>or{{ if not .Data.IsForceAuthMode}} log in with{{ end }}</div>
+        <div>{{ T "identity.login.authn_methods.or" }}{{ if not .Data.IsForceAuthMode}} {{ T "identity.login.authn_methods.log_in_with" }}{{ end }}</div>
       </div>
 
       <div class="form-field">
@@ -13,7 +13,7 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image" />
                   </span>
-                  <span>Password</span>
+                  <span>{{ T "identity.login.authn_methods.password" }}</span>
                 </div>
                 <i class="material-icons">navigate_next</i>
               </button>
@@ -27,7 +27,7 @@
                         <span class="href-card-avatar href-card-avatar-with-img small-icon">
                             <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
                         </span>
-                        <span>Verification Code</span>
+                        <span>{{ T "identity.login.authn_methods.verification_code" }}</span>
                     </div>
                     <i class="material-icons">navigate_next</i>
                 </button>
@@ -41,7 +41,7 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image" />
                   </span>
-                  <span>Passkey</span>
+                  <span>{{ T "identity.login.authn_methods.passkey" }}</span>
                 </div>
                 <i class="material-icons">navigate_next</i>
               </button>
@@ -55,7 +55,7 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authenticator code method image" />
                   </span>
-                  <span>Authenticator Code</span>
+                  <span>{{ T "identity.login.authn_methods.authenticator_code" }}</span>
                 </div>
                 <i class="material-icons">navigate_next</i>
               </button>
@@ -67,9 +67,9 @@
               <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-code" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+                        <img src="{{ .Config.Assets }}/static/images/email-otp.svg" alt="verification code method image" />
                     </span>
-                      <span>Email OTP</span>
+                      <span>{{ T "identity.login.authn_methods.email_otp" }}</span>
                   </div>
                   <i class="material-icons">navigate_next</i>
               </button>
@@ -81,9 +81,9 @@
               <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-code" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+                        <img src="{{ .Config.Assets }}/static/images/sms-otp.svg" alt="verification code method image" />
                     </span>
-                      <span>SMS OTP</span>
+                      <span>{{ T "identity.login.authn_methods.sms_otp" }}</span>
                   </div>
                   <i class="material-icons">navigate_next</i>
               </button>

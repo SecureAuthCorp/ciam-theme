@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} User activated {{ end }}
+{{ define "title" }} {{ T "identity.activation_completed.user_activated" }} {{ end }}
 
 {{ define "content" }}
 
@@ -10,12 +10,12 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <h2>Success!</h2>
-      <div class="header-info">You've successfully activated your account</div>
+      <h1>{{ T "identity.activation_completed.success" }}!</h1>
+      <div class="header-info">{{ T "identity.activation_completed.info" }}</div>
 
       {{ if .Data.LoginPath }}
         <a href="{{ .Data.LoginPath }}">
-          <button class="submit-button" id="sign-in">Sign in</button>
+          <button class="submit-button" id="sign-in">{{ T "identity.activation_completed.sign_in" }}</button>
         </a>
       {{ end }}
     </div>

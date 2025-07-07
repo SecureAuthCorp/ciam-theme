@@ -30,7 +30,7 @@
             event.preventDefault();
 
             errorField.classList.remove("non-visible");
-            errorField.innerText = "Please provide a valid email address";
+            errorField.innerText = "{{ T "identity.activate.identifier_validate_script.invalid_email" }}";
 
             return false;
           }
@@ -39,7 +39,7 @@
             event.preventDefault();
 
             errorField.classList.remove("non-visible");
-            errorField.innerText = "Please provide a valid phone number in international format. Example:\u00A0+1234567890";
+            errorField.innerText = "{{ T "identity.activate.identifier_validate_script.invalid_phone" }}\u00A0+1234567890";
 
             return false;
           }
@@ -47,7 +47,7 @@
             event.preventDefault();
 
             errorField.classList.remove("non-visible");
-            errorField.innerText = "Please provide an address";
+            errorField.innerText = "{{ T "identity.activate.identifier_validate_script.empty_address" }}";
 
             return false;
         }

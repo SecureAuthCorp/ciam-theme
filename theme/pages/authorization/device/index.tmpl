@@ -11,13 +11,13 @@
   <div class="card">
     <div class="content" id="main-content">
       {{ if .Data.Connected }}
-        <h2>Success! Device connected</h2>
+        <h1>Success! Device connected</h1>
         <div class="header-info">Continue on your device</div>
       {{ else }}
         <form action="?action=verify" method="post" id="enter-code-form">
           {{ .Data.CsrfField }}
 
-          <h2>Connect a device</h2>
+          <h1>Connect a device</h1>
 
           <div class="form-field">
             <label for="text-field-user-code-input">

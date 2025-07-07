@@ -1,7 +1,7 @@
 {{ define "allow_skip_2fa_in_activate" }}
 
     {{ if .Data.AllowToSkip }}
-        <button class="text-button" type="submit" id="skip-button" name="action" value="skip">Set up later</button>
+        <button class="text-button" type="submit" id="skip-button" name="action" value="skip">{{ T "identity.activate.allow_skip_2fa.set_up_later" }}</button>
     {{ end }}
 
 {{ end }}

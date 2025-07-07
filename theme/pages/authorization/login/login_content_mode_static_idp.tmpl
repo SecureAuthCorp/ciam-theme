@@ -17,37 +17,37 @@
   {{ if gt (len .Data.Methods) 1 }}
     <button id="go-back-button" type="submit" name="mode" value="select">
       <i class="material-icons">chevron_left</i>
-      Back
+      {{ T "authorization.login.login_content_mode_static_idp.back" }}
     </button>
   {{ end }}
 
-  <h2 id="log-in-header">Log in to continue</h2>
+  <h1 id="log-in-header">{{ T "authorization.login.login_content_mode_static_idp.log_in_to_continue" }}</h1>
 
   <div id="username-password-form">
     {{ .Data.CsrfField }}
 
     {{ if and .Data.IDP.SettingsHint (gt (len .Data.IDP.Credentials.Users) 0) }}
       <div id="login-hint-description">
-        <p>This is a mock IDP login page.</p>
+        <p>{{ T "authorization.login.login_content_mode_static_idp.mock_idp_login_page" }}</p>
         <div>
-          <div>Username: <b>{{ (index .Data.IDP.Credentials.Users 0).Username }}</b></div>
-          <div>Password: <b>{{ (index .Data.IDP.Credentials.Users 0).Password }}</b></div>
+          <div>{{ T "authorization.login.login_content_mode_static_idp.username" }}: <b>{{ (index .Data.IDP.Credentials.Users 0).Username }}</b></div>
+          <div>{{ T "authorization.login.login_content_mode_static_idp.password" }}: <b>{{ (index .Data.IDP.Credentials.Users 0).Password }}</b></div>
         </div>
       </div>
     {{ end }}
 
     <div class="form-field">
       <label for="text-field-username-input" class="label-with-link">
-        Email | Mobile | Username
+        {{ T "authorization.login.login_content_mode_static_idp.email_mobile_username" }}
       </label>
       <input id="text-field-username-input" name="username" value="{{ .Data.Identifier }}">
     </div>
 
     <div class="form-field">
-      <label for="text-field-password-input">Password</label>
+      <label for="text-field-password-input">{{ T "authorization.login.login_content_mode_static_idp.password" }}</label>
       <div class="input-with-button">
         <input id="text-field-password-input" name="password" type="password">
-        <button id="toggle-password-visibility-button" type="button" aria-label="Toggle password visibility">
+        <button id="toggle-password-visibility-button" type="button" aria-label="{{ T "authorization.login.login_content_mode_static_idp.toggle_password_visibility" }}">
           <i id="toggle-password-visibility-icon" class="material-icons">visibility_off</i>
         </button>
       </div>
@@ -56,7 +56,7 @@
     <input type="hidden" id="remember_my_sign_in_method" name="remember_my_sign_in_method" value="{{ if .Data.RememberMySignInMethod }}on{{ end }}">
 
     <button id="sign-in-button" class="submit-button no-bottom-margin" type="submit" disabled>
-      Continue
+      {{ T "authorization.login.login_content_mode_static_idp.continue" }}
     </button>
   </div>
 

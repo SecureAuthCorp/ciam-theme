@@ -1,7 +1,7 @@
 {{ define "setup_with_email" }}
 
   <div class="setup-credential-header-container">
-    <h2>Set up email address</h2>
+    <h1>{{ T "identity.activate.email.set_up_email_address" }}</h1>
     {{ if .Data.Is2FAStep }}
       <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
     {{ end }}
@@ -9,21 +9,21 @@
 
   <div class="form-field">
     <label for="text-field-address-input">
-        Email | Mobile
+      {{ T "identity.activate.email.email_or_mobile" }}
     </label>
     <input name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
     <div class="username-div">{{ .Data.Identifier }}</div>
   </div>
 
   <div class="form-field">
-      <label for="new_address">Email</label>
+      <label for="new_address">{{ T "identity.activate.email.email" }}</label>
       <input id="text-field-address-input" name="new_address" data-lpignore="true">
       <div id="address-field-error" class="non-visible"></div>
   </div>
 
   <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
       <button class="submit-button" type="submit" id="sign-up-button">
-          <span>Continue</span>
+          <span>{{ T "identity.activate.email.continue" }}</span>
           <div class="non-visible">{{ template "loader" . }}</div>
       </button>
       {{ template "allow_skip_2fa_in_activate" . }}

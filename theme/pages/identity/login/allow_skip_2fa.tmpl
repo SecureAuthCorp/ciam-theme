@@ -1,7 +1,7 @@
 {{ define "allow_skip_2fa_in_login" }}
 
     {{ if and .Data.Is2FAStep .Data.UserAllowedToSkip2FA }}
-        <button class="text-button" type="submit" id="skip-2fa-button" name="action" value="skip_2fa">Set up later</button>
+        <button class="text-button" type="submit" id="skip-2fa-button" name="action" value="skip_2fa">{{ T "identity.login.allow_skip_2fa.set_up_later" }}</button>
     {{ end }}
 
 {{ end }}

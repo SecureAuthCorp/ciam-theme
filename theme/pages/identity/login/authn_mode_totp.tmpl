@@ -1,7 +1,7 @@
 {{ define "authn_totp" }}
 
   <div class="log-in-header-container">
-      <h2 id="log-in-header">{{ if .Data.IsForceAuthMode}}Confirm{{ else }}Log in{{ end }} with authenticator</h2>
+      <h1 id="log-in-header">{{ if .Data.IsForceAuthMode}}{{ T "identity.login.authn_mode_totp.confirm" }}{{ else }}{{ T "identity.login.authn_mode_totp.log_in" }}{{ end }} {{ T "identity.login.authn_mode_totp.with_authenticator" }}</h1>
       {{ if .Data.Is2FAStep }}
           <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor icon" class="icon-2fa"/>
       {{ end }}
@@ -19,7 +19,7 @@
   {{ else }}
       <div class="form-field">
         <label for="text-field-username-input" class="label-with-link">
-          <span id="username-label">Email | Mobile | Username</span>
+          <span id="username-label">{{ T "identity.login.authn_mode_totp.username_label" }}</span>
         </label>
         {{ if .Data.Is2FAStep }}
           <input id="text-field-username-input" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
@@ -32,9 +32,9 @@
 
    <div class="form-field totp-container" id="totp-container">
        <label for="text-field-totp-input">
-           <span id="totp-label">Enter code from your authenticator app</span>
+           <span id="totp-label">{{ T "identity.login.authn_mode_totp.totp_label" }}</span>
            {{ if .Data.IsSelfResetCredentialsAllowed }}
-               <a href="{{ .Data.ResetTOTPPath }}" id="forgot-totp" class="input-above-link" tabindex="0">Lost authenticator?</a>
+               <a href="{{ .Data.ResetTOTPPath }}" id="forgot-totp" class="input-above-link" tabindex="0">{{ T "identity.login.authn_mode_totp.lost_authenticator" }}</a>
            {{ end }}
        </label>
 
@@ -47,7 +47,7 @@
 
     <div class="buttons-container-full-width flex-row-reverse">
       <button class="submit-button" type="submit" id="totp-sign-in-button">
-          Continue
+          {{ T "identity.login.authn_mode_totp.continue" }}
       </button>
       {{ template "allow_skip_2fa_in_login" . }}
     </div>

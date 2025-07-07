@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} Address verified {{ end }}
+{{ define "title" }} {{ T "identity.address_verification_completed.address_verified" }} {{ end }}
 
 {{ define "content" }}
 
@@ -10,8 +10,8 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <h2>Success!</h2>
-      <div class="header-info">You've successfully verified your address.</div>
+      <h1>{{ T "identity.address_verification_completed.success" }}!</h1>
+      <div class="header-info">{{ T "identity.address_verification_completed.info" }}</div>
     </div>
   </div>
 

@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} Challenge confirmed {{ end }}
+{{ define "title" }} {{ T "identity.challenge_confirmed.challenge_confirmed" }} {{ end }}
 
 {{ define "content" }}
 
@@ -10,8 +10,8 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <h2>Success!</h2>
-      <div class="header-info">Challenge confirmed.</div>
+      <h1>{{ T "identity.challenge_confirmed.success" }}!</h1>
+      <div class="header-info">{{ T "identity.challenge_confirmed.challenge_confirmed" }}</div>
     </div>
   </div>
 

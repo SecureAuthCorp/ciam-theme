@@ -1,7 +1,7 @@
 {{ define "setup_with_mobile" }}
 
     <div class="setup-credential-header-container">
-        <h2>Set up mobile address</h2>
+        <h1>{{ T "identity.activate.mobile.set_up_mobile_address" }}</h1>
         {{ if .Data.Is2FAStep }}
             <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
         {{ end }}
@@ -9,7 +9,7 @@
 
     <div class="form-field">
         <label for="text-field-address-input">
-            Email | Mobile
+            {{ T "identity.activate.mobile.email_or_mobile" }}
         </label>
         <input name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
         <div class="username-div">{{ .Data.Identifier }}</div>
@@ -23,7 +23,7 @@
 
     <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
         <button class="submit-button" type="submit" id="sign-up-button">
-            <span>Continue</span>
+            <span>{{ T "identity.activate.mobile.continue" }}</span>
             <div class="non-visible">{{ template "loader" . }}</div>
         </button>
         {{ template "allow_skip_2fa_in_activate" . }}

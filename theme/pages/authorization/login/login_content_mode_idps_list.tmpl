@@ -6,40 +6,40 @@
 
   <div class="error-container non-visible" id="idps-discovery-error">
     <i class="material-icons">error_outline</i>
-    Failed to fetch IDPs
+    {{ T "authorization.login.login_content_mode_idps_list.failed_to_fetch_idps" }}
   </div>
 
   <div class="error-container non-visible" id="idps-empty-error">
     <i class="material-icons">error_outline</i>
-    Authentication is not supported for this user/domain
+    {{ T "authorization.login.login_content_mode_idps_list.authentication_not_supported" }}
   </div>
 
   {{ if .Data.RememberedSignInMethod }}
     {{ template "login_content_remembered_idp" . }}
   {{ else }}
     {{ if .Data.IDPDiscoveryEnabled }}
-      <h2 id="log-in-header">Log in to continue</h2>
+      <h1 id="log-in-header">{{ T "authorization.login.login_content_mode_idps_list.log_in_to_continue" }}</h1>
       <div id="username-password-form">
       {{ .Data.CsrfField }}
 
       <div class="form-field">
         <label for="text-field-username-input" class="label-with-link">
-          Email | Mobile | Username
-          <button id="not-you-button" class="non-visible" type="button">Change</button>
+          {{ T "authorization.login.login_content_mode_idps_list.email_mobile_username" }}
+          <button id="not-you-button" class="non-visible" type="button">{{ T "authorization.login.login_content_mode_idps_list.change" }}</button>
         </label>
         <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" value="{{ .Data.Identifier }}">
       </div>
 
       <div class="buttons-container-full-width">
         <button class="submit-button" type="button" id="sign-in-button" disabled>
-          <span>Continue</span>
+          <span>{{ T "authorization.login.login_content_mode_idps_list.continue" }}</span>
           <div class="non-visible">{{ template "loader" . }}</div>
         </button>
       </div>
     </div>
 
     {{ else }}
-      <h2 id="log-in-header" class="header-small-margin">Log in with</h2>
+      <h1 id="log-in-header" class="header-small-margin">{{ T "authorization.login.login_content_mode_idps_list.log_in_with" }}</h1>
       <input type="hidden" name="username" value="{{ .Data.Identifier }}">
       <input type="hidden" name="password" value="">
     {{ end }}
@@ -50,7 +50,7 @@
     class="spacer-container {{ if .Data.HasNonHiddenIDP }}visible{{ else }}non-visible{{ end }}"
   >
     {{ if or .Data.RememberedSignInMethod .Data.IDPDiscoveryEnabled }}
-      <div>or log in with</div>
+      <div>{{ T "authorization.login.login_content_mode_idps_list.or_log_in_with" }}</div>
     {{ end }}
   </div>
 
@@ -159,7 +159,7 @@
           <input type="checkbox" name="remember_my_sign_in_method" tabindex="-1" {{ if .Data.RememberedSignInMethod }} checked {{ end }}>
           <span class="slider"></span>
         </div>
-        <span>Remember me</span>
+        <span>{{ T "authorization.login.login_content_mode_idps_list.remember_me" }}</span>
       </label>
     </div>
   </div>

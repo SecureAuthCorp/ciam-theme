@@ -4,7 +4,7 @@
     {{ $context := .Data.RememberedSignInMethod.AuthenticationContext }}
 
     <div class="login-welcome-back-container" id="welcome-back">
-      <h2>Welcome back</h2>
+      <h1>{{ T "authorization.login.login_content_remembered_idp.welcome_back" }}</h1>
       <div class="login-welcome-back-card">
         <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="welcome back image"/>
         <div>
@@ -19,7 +19,7 @@
 
       {{ if (gt (len .Data.Methods) 1) }}
         <button type="submit" class="login-welcome-back-select-different-link" id="go-back-to-idps-list-button" name="mode" value="select-different-account">
-          Select a different account
+          {{ T "authorization.login.login_content_remembered_idp.select_different_account" }}
         </button>
       {{ end }}
     </div>

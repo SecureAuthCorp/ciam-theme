@@ -1,7 +1,7 @@
 {{ define "activation_methods" }}
 
 <div class="spacer-container extra-top-margin-small">
-  <div>or register with</div>
+  <div>{{ T "identity.activate.activation_methods.or_register_with" }}</div>
 </div>
 
 {{ if and .Data.PasswordAuthEnabled (ne .Data.Mode "password") }}
@@ -10,7 +10,7 @@
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
         <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image" />
       </span>
-        <span>Password</span>
+        <span>{{ T "identity.activate.activation_methods.password" }}</span>
     </div>
   </button>
 {{ end }}
@@ -21,7 +21,7 @@
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
         <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image" />
       </span>
-      <span>Passkey</span>
+      <span>{{ T "identity.activate.activation_methods.passkey" }}</span>
     </div>
   </button>
 {{ end }}
@@ -32,7 +32,7 @@
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
         <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authentication app method image" />
       </span>
-      <span>Authenticator App</span>
+      <span>{{ T "identity.activate.activation_methods.authenticator_app" }}</span>
     </div>
   </button>
 {{ end }}
@@ -43,7 +43,7 @@
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
         <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
       </span>
-      <span>Verification Code</span>
+      <span>{{ T "identity.activate.activation_methods.verification_code" }}</span>
     </div>
   </button>
 {{ end }}
@@ -52,9 +52,9 @@
   <button class="href-card" type="submit" name="action" value="change_to_email_otp">
     <div>
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+        <img src="{{ .Config.Assets }}/static/images/email-otp.svg" alt="verification code method image" />
       </span>
-      <span>Email OTP</span>
+      <span>{{ T "identity.activate.activation_methods.email_otp" }}</span>
     </div>
   </button>
 {{ end }}
@@ -63,9 +63,9 @@
   <button class="href-card" type="submit" name="action" value="change_to_sms_otp">
     <div>
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+        <img src="{{ .Config.Assets }}/static/images/sms-otp.svg" alt="verification code method image" />
       </span>
-      <span>SMS OTP</span>
+      <span>{{ T "identity.activate.activation_methods.sms_otp" }}</span>
     </div>
   </button>
 {{ end }}

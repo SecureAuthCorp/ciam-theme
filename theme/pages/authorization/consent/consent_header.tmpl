@@ -1,7 +1,7 @@
 {{ define "consent_header" }}
 
 <div class="content consent-header">
-  <h2>{{ or .Data.Session.AuthenticationContext.name .Data.Session.AuthenticationContext.given_name .Data.Session.Subject }},</h2>
+  <h1>{{ or .Data.Session.AuthenticationContext.name .Data.Session.AuthenticationContext.given_name .Data.Session.Subject }},</h1>
   <h3>Your consent is requested by</h3>
 
   <div class="consent-header-name-container">
