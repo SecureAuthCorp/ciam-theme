@@ -1,8 +1,8 @@
 {{ define "otp_select" }}
 
   <strong>{{ or .Data.Session.AuthenticationContext.name .Data.Session.AuthenticationContext.given_name .Data.Session.Subject }}</strong>
-  <h2>Additional verification required</h2>
-  <p>To proceed, select how you would like to verify your identity</p>
+  <h2>{{ T "authorization.otp.otp_select.additional_verification_required" }}</h2>
+  <p>{{ T "authorization.otp.otp_select.to_proceed" }}</p>
 
   <div class="otp-methods">
     {{ range .Data.Methods }}
@@ -12,8 +12,8 @@
             <div class="otp-method-info">
               <i class="material-icons otp-method-icon">chat_bubble_outline</i>
               <div>
-                <span>SMS verification</span>
-                <p>Enter a single-use code sent to {{ index $.Data.Addresses .ID }}</p>
+                <span>{{ T "authorization.otp.otp_select.sms_verification" }}</span>
+                <p>{{ T "authorization.otp.otp_select.enter_single_use_code" }} {{ index $.Data.Addresses .ID }}</p>
               </div>
             </div>
             <i class="material-icons">chevron_right</i>
@@ -21,8 +21,8 @@
             <div class="otp-method-info">
               <i class="material-icons otp-method-icon">mail_outline</i>
               <div>
-                <span>Email verification</span>
-                <p>Email a verification code sent to {{ index $.Data.Addresses .ID }}</p>
+                <span>{{ T "authorization.otp.otp_select.email_verification" }}</span>
+                <p>{{ T "authorization.otp.otp_select.enter_verification_code" }} {{ index $.Data.Addresses .ID }}</p>
               </div>
             </div>
             <i class="material-icons">chevron_right</i>

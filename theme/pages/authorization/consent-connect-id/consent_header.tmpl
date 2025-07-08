@@ -73,10 +73,10 @@
     {{ end }}
 </div>
 
-<div style="font-size: 18px; font-weight: 600; margin-top: 32px; text-align: center">Do you want to share the following data with {{ .Data.Session.ClientInfo.Name }}?</div>
+<div style="font-size: 18px; font-weight: 600; margin-top: 32px; text-align: center">{{ T "authorization.consent-connect-id.consent_header.do_you_want_to_share" }} {{ .Data.Session.ClientInfo.Name }}?</div>
 
 <div style="margin-top: 24px; margin-bottom: 24px; font-size: 12px; text-align: center;">
-    Your details will be shared only once{{ if .Data.Session.Purpose }}, for the purpose of {{ .Data.Session.Purpose }}{{end}} with {{ .Data.Session.ClientInfo.Name }}
+    {{ T "authorization.consent-connect-id.consent_header.your_details_will_be_shared_only_once" }}{{ if .Data.Session.Purpose }}, {{ T "authorization.consent-connect-id.consent_header.for_the_purpose_of" }} {{ .Data.Session.Purpose }}{{end}} {{ T "authorization.consent-connect-id.consent_header.with" }} {{ .Data.Session.ClientInfo.Name }}
 </div>
 
 {{ end }}

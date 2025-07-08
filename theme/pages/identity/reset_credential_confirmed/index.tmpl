@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} Credential set {{ end }}
+{{ define "title" }}{{ T "identity.reset_credentials_confirmed.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -10,12 +10,12 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <h2>Success!</h2>
-      <div class="header-info">You've successfully set up your {{ if eq .Data.CredentialType "webauthn"}}passkey{{ else if eq .Data.CredentialType "totp" }}authenticator app{{ else }}{{ .Data.CredentialType }}{{ end }}.</div>
+      <h1>{{ T "identity.reset_credentials_confirmed.success" }}!</h1>
+      <div class="header-info">{{ T "identity.reset_credentials_confirmed.info" }} {{ if eq .Data.CredentialType "webauthn"}}{{ T "identity.reset_credentials_confirmed.passkey" }}{{ else if eq .Data.CredentialType "totp" }}{{ T "identity.reset_credentials_confirmed.authenticator_app" }}{{ else }}{{ .Data.CredentialType }}{{ end }}.</div>
 
       {{ if .Data.LoginPath}}
         <a href="{{ .Data.LoginPath }}">
-          <button class="submit-button" id="sign-in">Sign in</button>
+          <button class="submit-button" id="sign-in">{{ T "identity.reset_credentials_confirmed.sign_in" }}</button>
         </a>
       {{ end }}
     </div>

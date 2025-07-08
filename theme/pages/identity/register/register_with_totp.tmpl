@@ -3,10 +3,10 @@
     {{ template "identity_register_ux_improved_scripts" . }}
     {{ template "submit_button_disabling_script" . }}
 
-    <div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
+    <div class="steps-container">{{ T "identity.register.register_with_totp.step" }} <b>2</b> {{ T "identity.register.register_with_totp.of" }} <b>3</b></div>
 
     <div class="setup-credential-header-container">
-        <h1>Set up authenticator app</h1>
+        <h1>{{ T "identity.register.register_with_totp.set_up_authenticator_app" }}</h1>
         {{ if .Data.Is2FAStep }}
             <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
         {{ end }}
@@ -16,33 +16,33 @@
 
     <div class="form-field">
         <label for="entered-identifier">
-            Email | Mobile
+            {{ T "identity.register.register_with_totp.email_or_mobile" }}
         </label>
         <input id="entered-identifier" name="notused" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.EnteredIdentifier }}" disabled>
         <div class="username-div">{{ .Data.EnteredIdentifier }}</div>
     </div>
 
     <label for="text-field-totp-input">
-        <span id="authenticator-label">Scan QR code or use setup key with your Authenticator Application</span>
+        <span id="authenticator-label">{{ T "identity.register.register_with_totp.scan_qr_code" }}</span>
     </label>
     <div class="form-field totp-container with-setup" id="totp-container">
 
         <div class="totp-qrcode-container">
             <div id="totp-qrcode" data-qrdata="{{.Data.TOTPRegistrationURL}}"></div>
             <div class="totp-setup-key-container">
-                <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">Can’t scan QR?</a>
+                <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">{{ T "identity.register.register_with_totp.cant_scan_qr_code" }}</a>
             </div>
         </div>
         <div class="setup-key-block">
             <span id="setup-key"></span>
-            <a href="" onclick="copySetupKey(event)" aria-label="Copy setup key">
+            <a href="" onclick="copySetupKey(event)" aria-label="{{ T "identity.register.register_with_totp.copy_setup_key" }}">
                 <i class="material-icons">content_copy</i>
             </a>
             <span id="copied-confirmation"></span>
         </div>
 
         <label for="text-field-totp-input">
-            <span id="totp-label">Enter generated code from the application</span>
+            <span id="totp-label">{{ T "identity.register.register_with_totp.enter_generated_code" }}</span>
         </label>
 
         <div id="totp-input-container" class="form-field otp-input-container">
@@ -58,12 +58,12 @@
 
     <div class="buttons-container-full-width extra-top-margin flex-row-reverse">
         <button class="submit-button" type="submit" id="submit-next" name="action" value="submit" form="sign-up-form" {{ if .Data.CaptchaSiteKey }}disabled{{end}}>
-            <span>Continue</span>
+            <span>{{ T "identity.register.register_with_totp.continue" }}</span>
             <div class="non-visible">{{ template "loader" . }}</div>
         </button>
 
         <button type="submit" name="action" value="change_to_user" class="text-button" form="sign-up-form">
-            Back
+            {{ T "identity.register.register_with_totp.back" }}
         </button>
     </div>
     {{ template "allow_skip_2fa_in_register" . }}

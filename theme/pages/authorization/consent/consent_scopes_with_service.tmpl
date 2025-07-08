@@ -1,7 +1,7 @@
 {{ define "consent_scopes_with_service" }}
 
 <div class="consent-scopes-container">
-  <h3>Scopes</h3>
+  <h3>{{ T "authorization.consent.consent_scopes_with_service.scopes" }}</h3>
   {{ range .Data.ServicesWithScopes }}
     <h4>{{ .Service.Name }}</h4>
     <div>
@@ -18,7 +18,8 @@
               {{ end }}
 
               {{ if not .GrantAllowed }}
-                {{ template "tooltip" "Additional verification required" }}
+                {{ $msg := T "authorization.consent.consent_scopes_with_service.additional_verification_required" }}
+                {{ template "tooltip" $msg }}
               {{ end }}
             </div>
           </label>
@@ -42,18 +43,18 @@
               <div>
                 <div>
                   <i class="material-icons" tabindex="-1">error_outline</i>
-                  <h5>Additional verification required</h5>
+                  <h5>{{ T "authorization.consent.consent_scopes_with_service.additional_verification_required" }}</h5>
                 </div>
                 <button class="submit-button" type="submit" name="verify_scope" value="{{ .RequestedScopeName }}">
-                  Verify now
+                  {{ T "authorization.consent.consent_scopes_with_service.verify_now" }}
                 </button>
               </div>
-              <p>Application features or functionality may be limited if you continue without granting this permission</p>
+              <p>{{ T "authorization.consent.consent_scopes_with_service.features_limited" }}</p>
             {{ else }}
               <div>
                 <div>
                   <i class="material-icons" tabindex="-1">error_outline</i>
-                  <h5>Access to this scope is not authorized</h5>
+                  <h5>{{ T "authorization.consent.consent_scopes_with_service.access_not_authorized" }}</h5>
                 </div>
               </div>
             {{ end }}

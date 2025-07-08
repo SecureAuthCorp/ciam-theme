@@ -7,39 +7,39 @@
 
     <div class="custom-header">
         <div class="demo-container">
-            <h1>Demo Application</h1>
+            <h1>{{ T "authorization.demo.demo-claims-and-tokens.demo_application" }}</h1>
         </div>
         <div class="demo-info">
             <div class="demo-container">
                 <i class="material-icons">error_outline</i>
                 <div class="demo-info-text">
-                    <p><b>This is a demo application to showcase the SecureAuth CIAM Capability</b></p>
+                    <p><b>{{ T "authorization.demo.demo-claims-and-tokens.info" }}</b></p>
                 </div>
             </div>
         </div>
         <div class="demo-container">
             <p>
-                The information below is used for demo and testing purposes.
-                You can view aggregated claims or the tokens issued to the Demo Application below.
+                {{ T "authorization.demo.demo-claims-and-tokens.testing_purpose" }}
+                {{ T "authorization.demo.demo-claims-and-tokens.aggregated_claims" }}
             </p>
             <div class="tabs-container">
                 <button id="claims-tab" role="tab" data-tabid="claims" class="tab-button tab-button-active">
-                    Claims
+                    {{ T "authorization.demo.demo-claims-and-tokens.claims" }}
                 </button>
 
                 <button id="access-token-tab" role="tab" data-tabid="access-token" class="tab-button">
-                    Access Token
+                    {{ T "authorization.demo.demo-claims-and-tokens.access_token" }}
                 </button>
 
                 {{ if .Data.IDTokenRaw }}
                     <button id="id-token-tab" role="tab" data-tabid="id-token" class="tab-button">
-                        ID Token
+                        {{ T "authorization.demo.demo-claims-and-tokens.id_token" }}
                     </button>
                 {{ end }}
 
                 {{ if .Data.RefreshTokenRaw }}
                     <button id="refresh-token-tab" role="tab" data-tabid="refresh-token" class="tab-button">
-                        Refresh Token
+                        {{ T "authorization.demo.demo-claims-and-tokens.refresh_token" }}
                     </button>
                 {{ end }}
             </div>

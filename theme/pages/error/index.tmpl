@@ -22,11 +22,11 @@
 
     {{ if .Data.RetryURL }}
       <br/>
-      <a href="{{ .Data.RetryURL }}">Retry</a>
+      <a href="{{ .Data.RetryURL }}">{{ T "error.retry" }}</a>
     {{ end }}
 
     {{ if .Data.Version }}
-      <div class="error-details">Version: {{ .Data.Version }}</div>
+      <div class="error-details">{{ T "error.version" }}: {{ .Data.Version }}</div>
     {{ end }}
 
     {{ if .Data.TraceID }}

@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Choose an account{{ end }}
+{{ define "title" }}{{ T "authorization.select-account.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -12,9 +12,9 @@
     <div class="content" id="main-content">
       {{ .Data.CsrfField }}
 
-      <h2 class="margin-bottom-16">Choose an account</h2>
+      <h1 class="margin-bottom-16">{{ T "authorization.select-account.title" }}</h1>
 
-      <div class="header-info">to continue to <b>{{ .Data.AppName }}</b></div>
+      <div class="header-info">{{ T "authorization.select-account.to_continue_to" }} <b>{{ .Data.AppName }}</b></div>
 
       <a class="choose-account-card-link" href="{{ .Data.SelectOriginalAccountURL }}">
         <div class="login-welcome-back-card">
@@ -31,7 +31,7 @@
       </a>
 
       <a href="{{ .Data.SelectDifferentAccountURL }}" class="login-welcome-back-select-different-link no-bottom-margin">
-        Sign in with different account
+        {{ T "authorization.select-account.sign_in_with_different_account" }}
       </a>
     </div>
   </div>

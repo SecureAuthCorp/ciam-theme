@@ -15,13 +15,14 @@
             {{ end }}
 
             {{ if not .GrantAllowed }}
-              {{ template "tooltip" "Additional verification required" }}
+              {{ $msg := T "authorization.consent-rar.consent_scopes_without_service.additional_verification_required" }}
+              {{ template "tooltip" $msg }}
             {{ end }}
           </div>
         </label>
 
         {{ if (or .Description (not .GrantAllowed)) }}
-          <button type="button" aria-label="Show scope description" data-scope-name="{{ .RequestedScopeName }}" class="scope-desc-toggle">
+          <button type="button" aria-label="{{ T "authorization.consent-rar.consent_scopes_without_service.show_scope_description" }}" data-scope-name="{{ .RequestedScopeName }}" class="scope-desc-toggle">
             <i class="material-icons" data-icon-id="{{ .RequestedScopeName }}">keyboard_arrow_down</i>
           </button>
         {{ end }}

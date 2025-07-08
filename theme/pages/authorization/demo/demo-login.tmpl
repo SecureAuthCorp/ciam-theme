@@ -3,95 +3,95 @@
 <div class="content" id="main-content">
   <form action="?action=login" method="post">
     <button id="sign-in" class="submit-button margin-bottom-16">
-      Log in to demo app
+     {{ T "authorization.demo.demo-login.log_in_to_demo_app" }}
     </button>
 
     <button id="advanced-button" class="text-button full-width" type="button">
-      Configuration
+      {{ T "authorization.demo.demo-login.configuration" }}
     </button>
 
     <div class="aut-hidden" id="advanced">
       <div class="form-field margin-top-24">
-        <label for="client_id-input">Client ID</label>
+        <label for="client_id-input">{{ T "authorization.demo.demo-login.client_id" }}</label>
         <input id="client_id-input" name="client_id" value="{{ .Data.ClientID }}">
       </div>
 
       <div class="form-field">
-        <label for="client_secret-input">Client Secret</label>
+        <label for="client_secret-input">{{ T "authorization.demo.demo-login.client_secret" }}</label>
         <input id="client_secret-input" name="client_secret" value="{{ .Data.ClientSecret }}">
       </div>
 
       <div class="form-field">
-        <label for="redirect_uri-input">Redirect URI</label>
+        <label for="redirect_uri-input">{{ T "authorization.demo.demo-login.redirect_uri" }}</label>
         <input id="redirect_uri-input" name="redirect_uri" value="{{ .Data.RedirectURL }}">
       </div>
 
       <div class="form-field">
-        <label for="response_type-input">Response type</label>
+        <label for="response_type-input">{{ T "authorization.demo.demo-login.response_type" }}</label>
         <input id="response_type-input" name="response_type" value="code">
       </div>
 
       <div class="form-field">
-        <label for="response_mode-input">Response mode</label>
+        <label for="response_mode-input">{{ T "authorization.demo.demo-login.response_mode" }}</label>
         <input id="response_mode-input" name="response_mode" value="">
       </div>
 
       <div class="form-field">
-        <label for="prompt-input">Prompt</label>
+        <label for="prompt-input">{{ T "authorization.demo.demo-login.prompt" }}</label>
         <input id="prompt-input" name="prompt" value="">
       </div>
 
       <div class="form-field">
-        <label for="state-input">State</label>
+        <label for="state-input">{{ T "authorization.demo.demo-login.state" }}</label>
         <input id="state-input" name="state" value="{{ .Data.State }}">
       </div>
 
       <div class="form-field">
-        <label for="scope-input">Scope</label>
+        <label for="scope-input">{{ T "authorization.demo.demo-login.scope" }}</label>
         <input id="scope-input" name="scope" value="{{ .Data.Scope }}">
       </div>
 
      <div class="form-field">
-        <label for="purpose-input">Purpose</label>
+        <label for="purpose-input">{{ T "authorization.demo.demo-login.purpose" }}</label>
         <input id="purpose-input" name="purpose" value="{{ .Data.Purpose }}">
       </div>
 
       <div class="form-field">
-        <label for="login_hint-input">Login hint</label>
+        <label for="login_hint-input">{{ T "authorization.demo.demo-login.login_hint" }}</label>
         <input id="login_hint-input" name="login_hint" value="{{ .Data.LoginHint }}">
       </div>
 
       <div class="form-field">
-        <label for="idp_hint-input">IDP hint</label>
+        <label for="idp_hint-input">{{ T "authorization.demo.demo-login.idp_hint" }}</label>
         <input id="idp_hint-input" name="idp_hint" value="{{ .Data.IDPHint }}">
       </div>
 
       <div class="form-field">
-        <label for="acr_values-input">ACR values</label>
+        <label for="acr_values-input">{{ T "authorization.demo.demo-login.acr_values" }}</label>
         <input id="acr_values-input" name="acr_values" value="{{ .Data.AcrValues }}">
       </div>
 
       <div class="form-field">
-        <label for="max_age-input">Max age</label>
+        <label for="max_age-input">{{ T "authorization.demo.demo-login.max_age" }}</label>
         <input id="max_age-input" name="max_age" value="{{ .Data.MaxAge }}">
       </div>
 
       <div class="form-field">
-        <label for="nonce-input">Nonce</label>
+        <label for="nonce-input">{{ T "authorization.demo.demo-login.nonce" }}</label>
         <input id="nonce-input" name="nonce" value="{{ .Data.Nonce }}">
       </div>
 
       <div class="form-field">
-        <label for="jwk-input">JSON Web Key for Encryption</label>
+        <label for="jwk-input">{{ T "authorization.demo.demo-login.json_web_key_for_encryption" }}</label>
         <textarea rows="6" id="jwk-input" name="jwk">{{ .Data.Jwk }}</textarea>
-        <div class="text-field-helper">Provide a JSON with single JSON Web Key containing private key</div>
+        <div class="text-field-helper">{{ T "authorization.demo.demo-login.jwk_provide_json" }}</div>
       </div>
 
       {{ if .Data.RAREnabled }}
       <div class="form-field">
-        <label for="authorization-details-input">Authorization Details (RAR)</label>
+        <label for="authorization-details-input">{{ T "authorization.demo.demo-login.authorization_details_rar" }}</label>
         <textarea rows="6" id="authorization-details-input" name="authorization_details">{{ .Data.AuthorizationDetails }}</textarea>
-        <div class="text-field-helper">Provide a JSON array with authorization details objects</div>
+        <div class="text-field-helper">{{ T "authorization.demo.demo-login.rar_provide_json" }}</div>
       </div>
       {{ end }}
     </div>

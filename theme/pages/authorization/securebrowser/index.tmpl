@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Secure Browser recovery{{ end }}
+{{ define "title" }}{{ T "authorization.securebrowser.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -9,14 +9,14 @@
   </div>
 
   <div class="card">
-      <h3 class="header">Current browser is not secure.</h3>
+      <h3 class="header">{{ T "authorization.securebrowser.current_browser_is_not_secure" }}</h3>
 
       {{ if .Data.Client.ApplicationURL }}
         <a href="secureauth://browse?url={{ .Data.Client.ApplicationURL }}" class="submit-button">
-          Open a secure browser
+          {{ T "authorization.securebrowser.open_a_secure_browser" }}
         </a>
       {{ else }}
-        <p class="error-message">Client has no Application URL configured.</p>
+        <p class="error-message">{{ T "authorization.securebrowser.client_has_no_application_url_configured" }}</p>
       {{ end }}
   </div>
 

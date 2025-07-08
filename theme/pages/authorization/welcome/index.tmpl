@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Authorization Control Plane - Landing page{{ end }}
+{{ define "title" }}{{ T "authorization.welcome.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -9,21 +9,21 @@
   </div>
 
   <div class="card">
-    <h3 class="header">Welcome to<br/> Authorization Control Plane</h3>
+    <h3 class="header">{{ T "authorization.welcome.welcome_to" }}</h3>
 
     <div class="content" id="main-content">
-      <p>Find out how to</p>
+      <p>{{ T "authorization.welcome.find_out_how_to" }}</p>
 
       <a class="href-card" href="https://docs.authorization.cloudentity.com/howto/configure/tenants/" target="_blank" rel="noopener noreferrer">
         <div>
           <span class="href-card-avatar"><i class="material-icons">business</i></span>
-          <span>Create a tenant</span>
+          <span>{{ T "authorization.welcome.create_a_tenant" }}</span>
         </div>
         <i class="material-icons">navigate_next</i>
       </a>
 
       <div class="caption">
-        Need more technical details? Access <a href="https://cloudentity.com/developers/" target="_blank" rel="noopener noreferrer">Documentation</a>
+        {{ T "authorization.welcome.need_more" }} <a href="https://cloudentity.com/developers/" target="_blank" rel="noopener noreferrer">{{ T "authorization.welcome.documentation" }}</a>
       </div>
     </div>
   </div>

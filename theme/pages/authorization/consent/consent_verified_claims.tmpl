@@ -1,7 +1,7 @@
 {{ define "consent_verified_claims" }}
 
 <div class="consent-scopes-container">
-<h3>Verified Claims</h3>
+<h3>{{ T "authorization.consent.consent_verified_claims.verified_claims" }}</h3>
   {{ range .Data.VerifiedClaims.Claims }}
     <div class="consent-scopes-container-row-container">
       <div class="form-field consent-scope-row">

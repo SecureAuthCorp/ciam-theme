@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} Generate new passkey {{ end }}
+{{ define "title" }}{{ T "identity.reset_web_authn.title" }}{{ end }}
 
 {{ define "content" }}
   {{ template "submit_button_disabling_script" . }}
@@ -15,11 +15,11 @@
 
       <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post">
 
-        <h2>Enroll new passkey</h2>
+        <h1>{{ T "identity.reset_web_authn.enroll_new_passkey" }}</h1>
 
         <div class="form-field">
           <label for="text-field-identifier-input">
-            Email | Mobile
+            {{ T "identity.reset_web_authn.email_or_mobile" }}
           </label>
           <input id="text-field-identifier-input" name="identifier" value="">
         </div>
@@ -41,11 +41,11 @@
 
         <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
           <button id="submit-next" class="submit-button" type="submit" {{ if .Data.CaptchaSiteKey }} disabled {{ end }} >
-            Next
+            {{ T "identity.reset_web_authn.next" }}
           </button>
           {{ if not .Data.ResetWithoutAuthentication }}
             <a href="{{ .Data.LoginPath }}" class="text-button-link">
-              Back
+              {{ T "identity.reset_web_authn.back" }}
             </a>
           {{ end }}
         </div>

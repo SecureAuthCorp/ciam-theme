@@ -2,19 +2,19 @@
 
 <div class="content demo-unauthorized-container">
   {{ if .Data.DevicePollError }}
-    The authorization hasn't been approved yet.
+    {{ T "authorization.demo.demo-unauthorized.the_authorization_hasnt_been_approved_yet" }}
     <pre>{{ .Data.DevicePollError }}</pre>
   {{ else }}
     <p>
-      Open <a href="{{ .Data.Device.VerificationURI }}">{{ .Data.Device.VerificationURI }}</a><br/>
-      and enter the following code:
+      {{ T "authorization.demo.demo-unauthorized.open" }} <a href="{{ .Data.Device.VerificationURI }}">{{ .Data.Device.VerificationURI }}</a><br/>
+      {{ T "authorization.demo.demo-unauthorized.and_enter_the_following_code" }}:
     </p>
     <pre>{{ .Data.Device.UserCode }}</pre>
   {{ end }}
 
   <form action="?action=device_poll" method="post">
     <button type="submit" class="submit-button" id="sign-in">
-      {{ if .Data.DevicePollError }} Retry {{ else }} Next {{ end }}
+      {{ if .Data.DevicePollError }} {{ T "authorization.demo.demo-unauthorized.retry" }} {{ else }} {{ T "authorization.demo.demo-unauthorized.next" }} {{ end }}
     </button>
   </form>
 </div>

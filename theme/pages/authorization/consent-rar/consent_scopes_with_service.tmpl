@@ -17,13 +17,14 @@
               {{ end }}
 
               {{ if not .GrantAllowed }}
-                {{ template "tooltip" "Additional verification required" }}
+                {{ $msg := T "authorization.consent-rar.consent_scopes_with_service.additional_verification_required" }}
+                {{ template "tooltip" $msg }}
               {{ end }}
             </div>
           </label>
 
           {{ if (or .Description (not .GrantAllowed)) }}
-            <button type="button" aria-label="Show scope description" data-scope-name="{{ .RequestedScopeName }}" class="scope-desc-toggle">
+            <button type="button" aria-label="{{ T "authorization.consent-rar.consent_scopes_with_service.show_scope_description" }}" data-scope-name="{{ .RequestedScopeName }}" class="scope-desc-toggle">
               <i class="material-icons" data-icon-id="{{ .RequestedScopeName }}"> keyboard_arrow_down</i>
             </button>
           {{ end }}
@@ -41,18 +42,18 @@
               <div>
                 <div>
                   <i class="material-icons" tabindex="-1">error_outline</i>
-                  <h5>Additional verification required</h5>
+                  <h5>{{ T "authorization.consent-rar.consent_scopes_with_service.additional_verification_required" }}</h5>
                 </div>
                 <button class="submit-button" type="submit" name="verify_scope" value="{{ .RequestedScopeName }}">
-                  Verify now
+                  {{ T "authorization.consent-rar.consent_scopes_with_service.verify_now" }}
                 </button>
               </div>
-              <p>Application features or functionality may be limited if you continue without granting this permission</p>
+              <p>{{ T "authorization.consent-rar.consent_scopes_with_service.features_limited" }}</p>
             {{ else }}
               <div>
                 <div>
                   <i class="material-icons" tabindex="-1">error_outline</i>
-                  <h5>Access to this scope is not authorized</h5>
+                  <h5>{{ T "authorization.consent-rar.consent_scopes_with_service.access_not_authorized" }}</h5>
                 </div>
               </div>
             {{ end }}

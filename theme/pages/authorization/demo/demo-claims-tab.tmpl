@@ -5,9 +5,9 @@
     <table class="demo-table">
       <thead>
         <tr>
-          <th role="columnheader" scope="col">Claim name</th>
-          <th role="columnheader" scope="col">Source path</th>
-          <th role="columnheader" scope="col">Value</th>
+          <th role="columnheader" scope="col">{{ T "authorization.demo.demo-claims-tab.claim_name" }}</th>
+          <th role="columnheader" scope="col">{{ T "authorization.demo.demo-claims-tab.source_path" }}</th>
+          <th role="columnheader" scope="col">{{ T "authorization.demo.demo-claims-tab.value" }}</th>
           <th role="columnheader" scope="col" class="demo-table-action-col" />
         </tr>
       </thead>
@@ -48,7 +48,7 @@
       </tbody>
     </table>
   {{ else }}
-    <div class="empty-info">No claims</div>
+    <div class="empty-info">{{ T "authorization.demo.demo-claims-tab.no_claims" }}</div>
   {{ end }}
 </div>
 

@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Select authentication method{{ end }}
+{{ define "title" }}{{ T "authorization.select.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -9,7 +9,7 @@
   </div>
 
   <div class="card">
-    <h3 class="header">Log in</h3>
+    <h3 class="header">{{ T "authorization.select.log_in" }}</h3>
 
     <div class="content" id="main-content">
       {{ range .Data.FormError.Errors }}

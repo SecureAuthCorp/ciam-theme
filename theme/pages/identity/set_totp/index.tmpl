@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} Set up authenticator app {{ end }}
+{{ define "title" }}{{ T "identity.set_totp.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -16,28 +16,28 @@
       <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&identifier={{ .Data.Identifier }}&code={{ .Data.Code }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post">
         {{ .Data.CsrfField }}
 
-        <h1>Set up authenticator app</h1>
+        <h1>{{ T "identity.set_totp.set_up_authenticator_app" }}</h1>
 
         <label for="text-field-totp-input">
-          <span id="authenticator-label">Scan QR code or use setup key with your Authenticator Application</span>
+          <span id="authenticator-label">{{ T "identity.set_totp.scan_qr_code" }}</span>
         </label>
         <div class="form-field totp-container with-setup" id="totp-container">
           <div class="totp-qrcode-container">
               <div id="totp-qrcode" data-qrdata="{{.Data.TOTPRegistrationURL}}"></div>
               <div class="totp-setup-key-container">
-                  <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">Can’t scan QR?</a>
+                  <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">{{ T "identity.set_totp.cant_scan_qr" }}</a>
               </div>
           </div>
           <div class="setup-key-block">
               <span id="setup-key"></span>
-              <a href="" onclick="copySetupKey(event)" aria-label="Copy setup key">
+              <a href="" onclick="copySetupKey(event)" aria-label="{{ T "identity.set_totp.copy_setup_key" }}">
                   <i class="material-icons">content_copy</i>
               </a>
               <span id="copied-confirmation"></span>
           </div>
 
           <label for="text-field-totp-input">
-              <span id="totp-label">Enter generated code from the application</span>
+              <span id="totp-label">{{ T "identity.set_totp.enter_generated_code" }}</span>
           </label>
 
           <div id="totp-input-container" class="form-field otp-input-container">
@@ -52,14 +52,14 @@
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
             <label for="text-field-otp-input" class="text-align-center">
-              <span id="otp-label">Provide verification code you received</span>
+              <span id="otp-label">{{ T "identity.set_totp.provide_verification_code" }}</span>
             </label>
             <div id="otp-input-container" class="form-field otp-input-container">
               <input type="hidden" name="otp" value="" id="otp-input">
             </div>
             <div class="footer-with-link">
-              Still didn't receive?
-              <a href="{{ .Data.ResendPath }}">Resend code</a>
+              {{ T "identity.set_totp.still_didnt_receive" }}
+              <a href="{{ .Data.ResendPath }}">{{ T "identity.set_totp.resend_code" }}</a>
             </div>
           </div>
         {{ end }}
@@ -69,10 +69,10 @@
         {{ end }}
 
       <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
-        <button class="submit-button" type="submit" id="sign-in">Continue</button>
+        <button class="submit-button" type="submit" id="sign-in">{{ T "identity.set_totp.continue" }}</button>
         {{ if not .Data.SetWithoutAuthentication }}
           <a href="{{ .Data.RestartResetCredentialPath }}" class="text-button-link">
-            Back
+            {{ T "identity.set_totp.back" }}
           </a>
         {{ end }}
       </div>

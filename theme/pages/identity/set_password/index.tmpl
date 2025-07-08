@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }} Set password {{ end }}
+{{ define "title" }}{{ T "identity.set_password.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -17,16 +17,16 @@
       <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&identifier={{ .Data.Identifier }}&code={{ .Data.Code }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post">
         {{ .Data.CsrfField }}
 
-        <h2>Set password</h2>
+        <h1>{{ T "identity.set_password.set_password" }}</h1>
 
         <div class="form-field">
           <label for="text-field-password-input">
-            <span id="password-label">Password *</span>
+            <span id="password-label">{{ T "identity.set_password.password" }} *</span>
           </label>
 
           <div class="input-with-button">
             <input id="text-field-password-input" name="password" type="password">
-            <button id="toggle-password-visibility-button" type="button" aria-label="Toggle password visibility">
+            <button id="toggle-password-visibility-button" type="button" aria-label="{{ T "identity.set_password.toggle_password_visibility" }}">
               <i id="toggle-password-visibility-icon" class="material-icons">visibility_off</i>
             </button>
           </div>
@@ -40,12 +40,12 @@
 
         <div class="form-field">
           <label for="text-field-repeat-password-input">
-            <span id="repeat-password-label">Repeat password *</span>
+            <span id="repeat-password-label">{{ T "identity.set_password.repeat_password" }} *</span>
           </label>
 
           <div class="input-with-button">
             <input id="text-field-repeat-password-input" name="repeatPassword" type="password">
-            <button id="toggle-repeat-password-visibility-button" type="button" aria-label="Toggle password visibility">
+            <button id="toggle-repeat-password-visibility-button" type="button" aria-label="{{ T "identity.set_password.toggle_password_visibility" }}">
               <i id="toggle-repeat-password-visibility-icon" class="material-icons">visibility_off</i>
             </button>
           </div>
@@ -55,14 +55,14 @@
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
             <label for="text-field-otp-input">
-              <span id="otp-label">Provide verification code you received</span>
+              <span id="otp-label">{{ T "identity.set_password.provide_verification_code" }}</span>
             </label>
             <div id="otp-input-container" class="form-field otp-input-container">
               <input type="hidden" name="otp" value="" id="otp-input">
             </div>
             <div class="footer-with-link">
-              Still didn't receive?
-              <a href="{{ .Data.ResendPath }}">Resend code</a>
+              {{ T "identity.set_password.still_didnt_receive" }}
+              <a href="{{ .Data.ResendPath }}">{{ T "identity.set_password.resend_code" }}</a>
             </div>
           </div>
         {{ end }}
@@ -72,10 +72,10 @@
         {{ end }}
 
       <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
-        <button class="submit-button" type="submit" id="sign-in">Continue</button>
+        <button class="submit-button" type="submit" id="sign-in">{{ T "identity.set_password.continue" }}</button>
         {{ if not .Data.SetWithoutAuthentication }}
           <a href="{{ .Data.RestartResetCredentialPath }}" class="text-button-link">
-            Back
+            {{ T "identity.set_password.back" }}
           </a>
         {{ end }}
       </div>

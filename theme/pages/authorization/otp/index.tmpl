@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}MFA verification{{ end }}
+{{ define "title" }}{{ T "authorization.otp.index.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -18,7 +18,7 @@
         {{ .Data.Session.ClientInfo.Name }}
       </h1>
     {{ else }}
-      <h1 class="header">Log in to your account</h1>
+      <h1 class="header">{{ T "authorization.otp.index.log_in_to_your_account" }}</h1>
     {{ end }}
 
     <form action="?login_id={{ .Data.Session.ID }}" method="post">
@@ -32,27 +32,27 @@
             <div class="otp-send-header">
               {{ if eq .Data.SelectedMethod.Mechanism "email"}}
                 <i class="material-icons otp-method-icon">mail_outline</i>
-                <span>Email verification</span>
+                <span>{{ T "authorization.otp.index.email_verification" }}</span>
               {{ else if eq .Data.SelectedMethod.Mechanism "sms" }}
                 <i class="material-icons otp-method-icon">chat_bubble_outline</i>
-                <span>SMS verification</span>
+                <span>{{ T "authorization.otp.index.sms_verification" }}</span>
               {{ end }}
             </div>
 
-            <p>Enter the security code sent to {{ .Data.Address }}</p>
+            <p>{{ T "authorization.otp.index.enter_the_code" }} {{ .Data.Address }}</p>
 
             <div class="form-field" id="otp-container">
               <div id="otp-input-container" class="form-field otp-input-container">
                 <input type="hidden" name="otp" value="" id="otp-input">
               </div>
               <div class="footer-with-link">
-                Still didn't receive?
+                {{ T "authorization.otp.index.still_didnt_receive" }}
                 <button id="resend-otp" type="submit" name="method" value="{{ .Data.SelectedMethod.ID }}">Resend Code</button>
               </div>
             </div>
 
             <button class="submit-button" type="submit" name="action" value="allow" id="sign-in">
-              Verify
+              {{ T "authorization.otp.index.verify" }}
             </button>
 
             {{ if .Data.Message }}
@@ -63,11 +63,11 @@
             {{ end }}
 
             <div class="otp-send-options">
-              <a role="button" tabindex="0" id="go-back-to-methods-button">Other verification methods</a>
+              <a role="button" tabindex="0" id="go-back-to-methods-button">{{ T "authorization.otp.index.other_verification_methods" }}</a>
             </div>
 
           {{ else if not .Data.Methods }}
-            Cannot authenticate. You need to verify your email and/or phone number.
+            {{ T "authorization.otp.index.cannot_authenticate" }}
           {{ else }}
             {{ template "otp_select" . }}
           {{ end }}

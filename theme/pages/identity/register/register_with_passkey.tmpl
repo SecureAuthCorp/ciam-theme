@@ -3,10 +3,10 @@
 {{ template "identity_register_ux_improved_webauthn_scripts" . }}
 {{ template "submit_button_disabling_script" . }}
 
-<div class="steps-container">STEP <b>2</b> OF <b>3</b></div>
+<div class="steps-container">{{ T "identity.register.register_with_passkey.step" }} <b>2</b> {{ T "identity.register.register_with_passkey.of" }} <b>3</b></div>
 
 <div class="setup-credential-header-container">
-  <h2>Generate new passkey</h2>
+  <h1>{{ T "identity.register.register_with_passkey.generate_new_passkey" }}</h1>
   {{ if .Data.Is2FAStep }}
     <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
   {{ end }}
@@ -16,7 +16,7 @@
 
 <div class="form-field">
   <label for="entered-identifier">
-    Email | Mobile
+    {{ T "identity.register.register_with_passkey.email_or_mobile" }}
   </label>
   <input id="entered-identifier" name="notused" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.EnteredIdentifier }}" disabled>
   <div class="username-div">{{ .Data.EnteredIdentifier }}</div>
@@ -28,12 +28,12 @@
 
 <div class="buttons-container-full-width extra-top-margin flex-row-reverse">
   <button class="submit-button" type="submit" id="submit-next" name="action" value="submit" form="sign-up-form" {{ if .Data.CaptchaSiteKey }}disabled{{end}}>
-    <span>Continue</span>
+    <span>{{ T "identity.register.register_with_passkey.continue" }}</span>
     <div class="non-visible">{{ template "loader" . }}</div>
   </button>
 
   <button type="submit" name="action" value="change_to_user" class="text-button" form="sign-up-form">
-    Back
+    {{ T "identity.register.register_with_passkey.back" }}
   </button>
 </div>
 {{ template "allow_skip_2fa_in_register" . }}

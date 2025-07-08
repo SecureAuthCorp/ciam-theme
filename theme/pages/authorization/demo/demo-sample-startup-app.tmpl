@@ -114,9 +114,9 @@
     <div class="background"></div>
 
     <div class="container">
-        <h1 class="title">Welcome to Sample App</h1>
+        <h1 class="title">{{ T "authorization.demo.demo-sample-startup-app.welcome" }}</h1>
         <div class="subtitle">
-            Use this B2B application to see how to offload user management in your own app
+            {{ T "authorization.demo.demo-sample-startup-app.info" }}
         </div>
 
         <div class="cards_container">
@@ -126,13 +126,13 @@
                         [<span title="{{.Data.OrganizationName}}">{{.Data.OrganizationName}}</span>]
                     </div>
                     <div class="card_title">
-                        Your company profile
+                       {{ T "authorization.demo.demo-sample-startup-app.your_company_profile" }}
                     </div>
                     <div class="card_desc">
-                        Manage users in the organization admin panel
+                        {{ T "authorization.demo.demo-sample-startup-app.manage_users" }}
                     </div>
                     <button id="open-admin-panel-button">
-                        Open Account Admin Panel
+                        {{ T "authorization.demo.demo-sample-startup-app.open_account_admin_panel" }}
                     </button>
                 </div>
             {{ end }}
@@ -141,13 +141,13 @@
                    [<span title="{{.Data.Email}}">{{.Data.Email}}</span>]
                 </div>
                 <div class="card_title">
-                    Your profile
+                    {{ T "authorization.demo.demo-sample-startup-app.your_profile" }}
                 </div>
                 <div class="card_desc">
-                    Edit your details in the user self-service panel
+                    {{ T "authorization.demo.demo-sample-startup-app.edit_your_details" }}
                 </div>
                 <button id="open-user-portal-button">
-                    Open User Profile
+                    {{ T "authorization.demo.demo-sample-startup-app.open_user_profile" }}
                 </button>
             </div>
         </div>

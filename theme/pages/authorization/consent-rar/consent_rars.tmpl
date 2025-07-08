@@ -13,12 +13,13 @@
                 {{ or .Name .Type}}
 
               {{ if not .GrantAllowed }}
-                {{ template "tooltip" "Additional verification required" }}
+                {{ $msg := T "authorization.consent-rar.consent_rars.additional_verification_required" }}
+                {{ template "tooltip" $msg }}
               {{ end }}
             </div>
           </label>
 
-          <button type="button" aria-label="Show authoriztion detail description" data-scope-name="{{ .Type }}" class="scope-desc-toggle" style="display: {{ if and .PayloadAsString (gt (len $data.AuthorizationDetails) 1) }}flex{{else}}none{{end}}">
+          <button type="button" aria-label="{{ T "authorization.consent-rar.consent_rars.show_authorization_detail_description" }}" data-scope-name="{{ .Type }}" class="scope-desc-toggle" style="display: {{ if and .PayloadAsString (gt (len $data.AuthorizationDetails) 1) }}flex{{else}}none{{end}}">
             <i class="material-icons" data-icon-id="{{ .Type }}"> keyboard_arrow_down</i>
           </button>
         </div>
@@ -29,18 +30,18 @@
               <div>
                 <div>
                   <i class="material-icons" tabindex="-1">error_outline</i>
-                  <h5>Additional verification required</h5>
+                  <h5>{{ T "authorization.consent-rar.consent_rars.additional_verification_required" }}</h5>
                 </div>
                 <button class="submit-button" type="submit" name="verify_authorization_detail" value="{{ .Type }}">
-                  Verify now
+                  {{ T "authorization.consent-rar.consent_rars.verify_now" }}
                 </button>
               </div>
-              <p>Application features or functionality may be limited if you continue without granting this permission</p>
+              <p>{{ T "authorization.consent-rar.consent_rars.features_limited" }}</p>
             {{ else }}
               <div>
                 <div>
                   <i class="material-icons" tabindex="-1">error_outline</i>
-                  <h5>Access to this authorization detail is not authorized</h5>
+                  <h5>{{ T "authorization.consent-rar.consent_rars.access_not_authorized" }}<</h5>
                 </div>
               </div>
             {{ end }}

@@ -2,17 +2,17 @@
 
 {{ template "identity_register_ux_improved_scripts" . }}
 
-<div class="steps-container">STEP <b>1</b> OF <b>3</b></div>
-<h2 class="no-bottom-margin">Register user account</h2>
+<div class="steps-container">{{ T "identity.register.register_init.step" }} <b>1</b> {{ T "identity.register.register_init.of" }} <b>3</b></div>
+<h1 class="no-bottom-margin">{{ T "identity.register.register_init.register_user_account" }}</h1>
 
 {{ if not .Data.RegistrationWithoutAuthentication }}
-  <div class="header-bottom-info">Already have an account? <a href="{{ .Data.LoginPath }}">Sign In</a></div>
+  <div class="header-bottom-info">{{ T "identity.register.register_init.already_have_account" }} <a href="{{ .Data.LoginPath }}">{{ T "identity.register.register_init.sign_in" }}</a></div>
 {{ end }}
 
 {{ template "form" . }}
 
 <button id="submit-next" class="submit-button" type="submit" name="action" value="change_to_credential_entry" form="sign-up-form">
-  Continue
+  {{ T "identity.register.register_init.continue" }}
 </button>
 
 <input id="from-view-input" name="from-view" type="text" value="user" form="sign-up-form" hidden>

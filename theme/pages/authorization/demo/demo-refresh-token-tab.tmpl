@@ -1,11 +1,11 @@
 {{ define "demo-refresh-token-tab" }}
 
 <div id="refresh-token" class="content non-visible">
-  <h3>Raw</h3>
+  <h3>{{ T "authorization.demo.demo-refresh-token-tab.raw" }}</h3>
   <pre class="with-copy">
     <div class="pre-copy-button" data-copy-value="{{ .Data.RefreshTokenRaw }}">
       <i class="material-icons">content_copy</i>
-      <span>copy code</span>
+      <span>{{ T "authorization.demo.demo-refresh-token-tab.copy_code" }}</span>
     </div>
     {{ .Data.RefreshTokenRaw }}
   </pre>

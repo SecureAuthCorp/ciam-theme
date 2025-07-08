@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}CIBA Authentication Device Simulator{{ end }}
+{{ define "title" }}{{ T "authorization.ciba.title" }}{{ end }}
 
 {{ define "content" }}
   <div class="header-container">
@@ -8,21 +8,21 @@
   </div>
 
   <div class="card">
-    <h3 class="header">CIBA Authentication Device Simulator</h3>
+    <h3 class="header">{{ T "authorization.ciba.title" }}</h3>
 
     <div class="content" id="main-content">
 
       {{ if .Data.LoginHint }}
         {{ if (eq (len .Data.Requests) 0) }}
-          <p>No authentication requests found for <b>{{ .Data.LoginHint }}</b>.</p>
-          <p>Your client must submit ciba backchannel authentication request.</p>
+          <p>{{ T "authorization.ciba.no_authentication_requests" }} <b>{{ .Data.LoginHint }}</b>.</p>
+          <p>{{ T "authorization.ciba.info" }}</p>
         {{ else }}
           {{ range .Data.Requests }}
             <form action="?action=process" method="post">
               <div id="request-{{ .LoginID }}">
-                <h6>Welcome <b>{{ .UserIdentifier }}</b>,</h6>
+                <h6>{{ T "authorization.ciba.welcome" }} <b>{{ .UserIdentifier }}</b>,</h6>
 
-                <p><b>{{ .ClientInfo.Name }}</b> would like access to the following permissions:</p>
+                <p><b>{{ .ClientInfo.Name }}</b> {{ T "authorization.ciba.access_for_permission" }}:</p>
 
                 <ul class="scopes-list">
                   {{ range .RequestedScopes }}
@@ -39,10 +39,10 @@
 
                 <div class="buttons-container-full-width extra-top-margin">
                   <button type="submit" name="decision" value="deny" id="deny-button" class="text-button">
-                    Deny
+                    {{ T "authorization.ciba.deny" }}
                   </button>
                   <button type="submit" name="decision" value="allow" id="allow-button" class="submit-button">
-                    Allow
+                    {{ T "authorization.ciba.allow" }}
                   </button>
                 </div>
               </div>
@@ -53,13 +53,13 @@
       {{ else }}
         <form action="?action=list" method="post">
           {{ if .Data.Processed }}
-            <p>Authentication request processed</p>
+            <p>{{ T "authorization.ciba.request_processed" }}</p>
           {{ end }}
 
-          <p>Type username that you would like to receive authentication requests for</p>
+          <p>{{ T "authorization.ciba.type_username" }}</p>
 
           <div class="form-field">
-            <label for="text-field-login_hint">Login hint *</label>
+            <label for="text-field-login_hint">{{ T "authorization.ciba.login_hint" }} *</label>
             <input id="text-field-login_hint" name="login_hint" value="{{ .Data.LoginHint }}" required>
           </div>
 

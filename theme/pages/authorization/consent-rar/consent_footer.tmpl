@@ -2,27 +2,24 @@
 
 <div class="consent-footer">
   {{ if and .Data.Session.ClientInfo.PolicyURI .Data.Session.ClientInfo.TosURI }}
-    By accepting these permissions, you allow this application to use your data
-    as defined in their <a href="{{ .Data.Session.ClientInfo.PolicyURI }}" target="_blank">Privacy Policy</a>
-    and <a href="{{ .Data.Session.ClientInfo.TosURI }}" target="_blank">Terms and Conditions</a>.
+    {{ T "authorization.consent-rar.consent_footer.by_accepting" }} <a href="{{ .Data.Session.ClientInfo.PolicyURI }}" target="_blank">{{ T "authorization.consent-rar.consent_footer.privacy_policy" }}</a>
+    {{ T "authorization.consent-rar.consent_footer.and" }} <a href="{{ .Data.Session.ClientInfo.TosURI }}" target="_blank">{{ T "authorization.consent-rar.consent_footer.terms_and_conditions" }}</a>.
   {{ else if and .Data.Session.ClientInfo.PolicyURI (not .Data.Session.ClientInfo.TosURI) }}
-    By accepting these permissions, you allow this app to use your data
-    as defined in their <a href="{{.Data.Session.ClientInfo.PolicyURI }}" target="_blank">Privacy Policy</a>.
+    {{ T "authorization.consent-rar.consent_footer.by_accepting" }} <a href="{{.Data.Session.ClientInfo.PolicyURI }}" target="_blank">{{ T "authorization.consent-rar.consent_footer.privacy_policy" }}</a>.
   {{ else if and (not .Data.Session.ClientInfo.PolicyURI) .Data.Session.ClientInfo.TosURI }}
-    By accepting these permissions, you allow this app to use your data
-    as defined in their <a href="{{ .Data.Session.ClientInfo.TosURI }}" target="_blank">Terms and Conditions</a>.
+    {{ T "authorization.consent-rar.consent_footer.by_accepting" }} <a href="{{ .Data.Session.ClientInfo.TosURI }}" target="_blank">{{ T "authorization.consent-rar.consent_footer.terms_and_conditions" }}</a>.
   {{ else }}
-    By accepting these permissions, you allow this app to use your data.
+    {{ T "authorization.consent-rar.consent_footer.by_accepting_short" }}
   {{ end }}
 </div>
 
 <div class="buttons-container-full-width extra-top-margin">
-  <button class="text-button" type="submit" name="action" value="deny">Cancel</button>
+  <button class="text-button" type="submit" name="action" value="deny">{{ T "authorization.consent-rar.consent_footer.cancel" }}</button>
   {{ if eq (len .Data.ServicesWithAuthorizationDetails) 0 }}
-    <button class="submit-button" type="submit" name="action" value="allow">Allow access</button>
+    <button class="submit-button" type="submit" name="action" value="allow">{{ T "authorization.consent-rar.consent_footer.allow_access" }}</button>
   {{ end }}
   {{ if gt (len .Data.ServicesWithAuthorizationDetails) 0 }}
-    <button class="submit-button" id="continue">Continue</button>
+    <button class="submit-button" id="continue">{{ T "authorization.consent-rar.consent_footer.continue" }}</button>
   {{ end }}
 </div>
 

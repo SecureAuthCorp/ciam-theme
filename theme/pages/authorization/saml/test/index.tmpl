@@ -20,7 +20,7 @@
   </script>
 
   <div class="card" {{ if .Data.Response }} style="max-width: 90%" {{ end }}>
-    <h3 class="header">SAML Demo Application</h3>
+    <h3 class="header">{{ T "authorization.saml.test.title" }}</h3>
 
     <div class="content" id="saml-response-raw">
       {{ if .Data.Response  }}
@@ -28,20 +28,20 @@
       {{ else }}
         <form action="?action=login" method="post">
           <button class="submit-button" type="submit" id="sign-in" style="margin-bottom: 16px;">
-            Log in to demo app
+            {{ T "authorization.saml.test.log_in_to_demo_app" }}
           </button>
 
           <button id="advanced-button" class="text-button full-width" type="button">
-            Configuration
+            {{ T "authorization.saml.test.configuration" }}
           </button>
 
           <div class="aut-hidden" id="advanced" style="margin-top: 16px;">
             <div class="form-field">
-              <label>Subject Name ID</label>
+              <label>{{ T "authorization.saml.test.subject_name_id" }}</label>
               <input name="subject-name-id">
             </div>
             <div class="form-field">
-              <label>IDP ID</label>
+              <label>{{ T "authorization.saml.test.idp_id" }}</label>
               <input name="idp-id">
             </div>
           </div>

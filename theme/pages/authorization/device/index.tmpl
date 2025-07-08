@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Enter code{{ end }}
+{{ define "title" }}{{ T "authorization.device.enter_code" }}{{ end }}
 
 {{ define "content" }}
 
@@ -11,17 +11,17 @@
   <div class="card">
     <div class="content" id="main-content">
       {{ if .Data.Connected }}
-        <h1>Success! Device connected</h1>
-        <div class="header-info">Continue on your device</div>
+        <h1>{{ T "authorization.device.success" }}</h1>
+        <div class="header-info">{{ T "authorization.device.continue_on_your_device" }}</div>
       {{ else }}
         <form action="?action=verify" method="post" id="enter-code-form">
           {{ .Data.CsrfField }}
 
-          <h1>Connect a device</h1>
+          <h1>{{ T "authorization.device.connect_a_device" }}</h1>
 
           <div class="form-field">
             <label for="text-field-user-code-input">
-              Enter the code that appears on your device
+             {{ T "authorization.device.enter_the_code" }}
             </label>
             <input id="text-field-user-code-input" name="user-code" value="{{ .Data.SuggestedUserCode }}">
           </div>
@@ -33,7 +33,7 @@
           {{ end }}
 
           <button class="submit-button" type="submit" id="sign-in">
-            Next
+            {{ T "authorization.device.next" }}
           </button>
         </form>
       {{ end }}

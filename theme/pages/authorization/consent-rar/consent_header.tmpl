@@ -2,7 +2,7 @@
 
 <div class="content consent-header">
   <h1>{{ or .Data.Session.AuthenticationContext.name .Data.Session.Subject }},</h1>
-  <h3>Your consent is requested by</h3>
+  <h3>{{ T "authorization.consent-rar.consent_header.your_consent_is_requested_by" }}</h3>
 
   <div class="consent-header-name-container">
     <div>
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div>This application would like access to</div>
+  <div>{{ T "authorization.consent-rar.consent_header.this_application_would_like_to_access" }}</div>
 </div>
 
 {{ end }}

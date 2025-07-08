@@ -2,9 +2,9 @@
 
 <div class="content consent-header">
   <h1>{{ or .Data.Session.AuthenticationContext.name .Data.Session.Subject }},</h1>
-  <h3>Please authorize access</h3>
+  <h3>{{ T "authorization.consent-rar.consent_header_rar.please_authorize_access" }}</h3>
 
-  <div>This application would like to</div>
+  <div>{{ T "authorization.consent-rar.consent_header_rar.this_application_would_like_to" }}</div>
 </div>
 
 {{ end }}

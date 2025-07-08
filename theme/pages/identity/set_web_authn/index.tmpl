@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}Generate new passkey{{ end }}
+{{ define "title" }}{{ T "identity.set_web_authn.title" }}{{ end }}
 
 {{ define "content" }}
 
@@ -18,7 +18,7 @@
       <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&identifier={{ .Data.Identifier }}&code={{ .Data.Code }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post" id="reset-form">
         {{ .Data.CsrfField }}
 
-        <h2>Generate new passkey</h2>
+        <h1>{{ T "identity.set_web_authn.generate_new_passkey" }}</h1>
 
         <input id="text-field-identifier-input" type="hidden" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
         <div class="username-div">{{ .Data.Identifier }}</div>
@@ -26,14 +26,14 @@
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
             <label for="text-field-otp-input">
-              <span id="otp-label">Provide verification code you received</span>
+              <span id="otp-label">{{ T "identity.set_web_authn.provide_verification_code" }}</span>
             </label>
             <div id="otp-input-container" class="form-field otp-input-container">
               <input type="hidden" name="otp" value="" id="otp-input">
             </div>
             <div class="footer-with-link">
-              Still didn't receive?
-              <a href="{{ .Data.ResendPath }}">Resend code</a>
+              {{ T "identity.set_web_authn.still_didnt_receive" }}
+              <a href="{{ .Data.ResendPath }}">{{ T "identity.set_web_authn.resend_code" }}</a>
             </div>
           </div>
         {{ end }}
@@ -44,12 +44,12 @@
 
         <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
           <button class="submit-button" type="submit" id="reset-button">
-            <span>Continue</span>
+            <span>{{ T "identity.set_web_authn.continue" }}</span>
             <div class="non-visible">{{ template "loader" . }}</div>
           </button>
           {{ if not .Data.SetWithoutAuthentication }}
             <a href="{{ .Data.RestartResetCredentialPath }}" class="text-button-link">
-              Back
+              {{ T "identity.set_web_authn.back" }}
             </a>
           {{ end }}
         </div>
