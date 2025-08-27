@@ -34,6 +34,10 @@
       <input id="text-field-username-input" name="new_address" data-lpignore="true" form="sign-up-form">
       <div id="address-field-error" class="non-visible"></div>
     {{ end }}
+
+    {{ range .Data.FormError.Errors }}
+        {{ template "error_message" . }}
+    {{ end }}
 </div>
 
 {{ template "form" . }}

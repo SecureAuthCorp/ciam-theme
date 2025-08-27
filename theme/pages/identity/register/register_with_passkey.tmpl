@@ -20,6 +20,10 @@
   </label>
   <input id="entered-identifier" name="notused" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.EnteredIdentifier }}" disabled>
   <div class="username-div">{{ .Data.EnteredIdentifier }}</div>
+
+  {{ range .Data.FormError.Errors }}
+    {{ template "error_message" . }}
+  {{ end }}
 </div>
 
 <div id="webauthn-error" class="alert-danger" hidden></div>
