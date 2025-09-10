@@ -11,7 +11,6 @@
 
   <div class="card" style="position: relative">
     <form action="?login_id={{ .Data.Session.ID }}" method="post">
-      {{ .Data.CsrfField }}
 
       <div class="content" id="main-content">
         {{ template "consent_header" . }}

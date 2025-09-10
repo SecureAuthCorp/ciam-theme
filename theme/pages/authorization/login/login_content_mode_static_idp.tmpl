@@ -24,7 +24,6 @@
   <h1 id="log-in-header">{{ T "authorization.login.login_content_mode_static_idp.log_in_to_continue" }}</h1>
 
   <div id="username-password-form">
-    {{ .Data.CsrfField }}
 
     {{ if and .Data.IDP.SettingsHint (gt (len .Data.IDP.Credentials.Users) 0) }}
       <div id="login-hint-description">

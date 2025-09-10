@@ -15,7 +15,6 @@
         <div class="header-info">{{ T "authorization.device.continue_on_your_device" }}</div>
       {{ else }}
         <form action="?action=verify" method="post" id="enter-code-form">
-          {{ .Data.CsrfField }}
 
           <h1>{{ T "authorization.device.connect_a_device" }}</h1>
 

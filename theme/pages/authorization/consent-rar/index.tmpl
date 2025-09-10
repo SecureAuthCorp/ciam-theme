@@ -11,7 +11,6 @@
   </div>
 
   <form action="?login_id={{ .Data.Session.ID }}" method="post">
-  {{ .Data.CsrfField }}
 
   {{ if or (gt (len .Data.ServicesWithScopes) 0) (gt (len .Data.ScopesWithoutService) 0)}}
     <div class="card" id="scopes">

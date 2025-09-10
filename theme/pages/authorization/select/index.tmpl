@@ -17,7 +17,6 @@
       {{ end }}
 
       <form action="?{{ .Data.Query }}" method="post">
-        {{ .Data.CsrfField }}
         <div class="select-content">
           {{ range $method := .Data.Methods }}
             <button class="href-card" name="authentication_id" type="submit" value="{{ .ID }}" title="{{ .Name }}">
