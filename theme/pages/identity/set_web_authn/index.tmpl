@@ -16,7 +16,6 @@
       {{ end }}
 
       <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&identifier={{ .Data.Identifier }}&code={{ .Data.Code }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post" id="reset-form">
-        {{ .Data.CsrfField }}
 
         <h1>{{ T "identity.set_web_authn.generate_new_passkey" }}</h1>
 

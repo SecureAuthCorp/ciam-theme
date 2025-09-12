@@ -13,7 +13,6 @@
   <div class="card">
     <div class="content" id="main-content">
       <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post">
-        {{ .Data.CsrfField }}
 
         <h1>{{ T "identity.reset_totp.reset_authenticator_app" }}</h1>
 
