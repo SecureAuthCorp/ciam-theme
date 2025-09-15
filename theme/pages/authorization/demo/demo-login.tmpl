@@ -94,6 +94,10 @@
         <div class="text-field-helper">{{ T "authorization.demo.demo-login.rar_provide_json" }}</div>
       </div>
       {{ end }}
+
+      <div class="form-field-checkbox">
+        <input type="checkbox" id="debug-input" name="debug" value="true" {{ if .Data.Debug }} checked {{ end }}> {{ T "authorization.demo.demo-login.debug" }}
+      </div>
     </div>
   </form>
 </div>
