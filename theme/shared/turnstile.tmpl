@@ -1,0 +1,82 @@
+{{ define "turnstile" }}
+
+    {{ if .Data.TurnstileSiteKey }}
+        <style>
+            .turnstile-container {
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" nonce="{{.Config.Nonce}}" async defer></script>
+
+        <script nonce="{{.Config.Nonce}}">
+
+          document.addEventListener("DOMContentLoaded", onPageLoad);
+          var inputNodes;
+          var turnstileSuccess;
+
+          function onPageLoad() {
+            loadInputNodes();
+            setTurnstileOverrides();
+            toggleSubmitBasedOnTurnstileSuccess();
+            registerInputEventListener();
+          }
+
+          function loadInputNodes() {
+            inputNodes = Array.from(document.querySelectorAll("input")).filter(inputNode => !inputNode.hidden);
+          }
+
+          function setTurnstileOverrides() {
+            var turnstile = document.querySelector(".cf-turnstile");
+            if(!turnstile) {
+              turnstileSuccess = true;
+            } else {
+              turnstileSuccess = false;
+              turnstile.setAttribute("data-callback", "turnstileSuccessCallback");
+              turnstile.setAttribute("data-expired-callback", "turnstileFailureCallback");
+              turnstile.setAttribute("data-timeout-callback", "turnstileFailureCallback");
+              turnstile.setAttribute("data-error-callback", "turnstileFailureCallback");
+            }
+          }
+
+          function turnstileSuccessCallback() {
+            turnstileSuccess = true;
+            toggleSubmitBasedOnTurnstileSuccess();
+          }
+
+          function turnstileFailureCallback() {
+            turnstileSuccess = false;
+            toggleSubmitBasedOnTurnstileSuccess();
+          }
+
+          function registerInputEventListener() {
+            inputNodes.forEach(inputNode => {
+              inputNode.addEventListener('input', toggleSubmitBasedOnTurnstileSuccess);
+            });
+          }
+
+          function toggleSubmitBasedOnTurnstileSuccess() {
+            var submitButton = document.getElementById("submit-next");
+            if(!!submitButton) {
+              submitButton.disabled = !turnstileSuccess;
+            }
+          }
+
+        </script>
+
+        <div class="turnstile-container">
+            <div class="cf-turnstile"
+                 data-theme="light"
+                 data-appearance="interaction-only"
+                 data-sitekey="{{ .Data.TurnstileSiteKey }}"
+                 data-callback="enableSubmit"
+                 data-expired-callback="disableSubmit"
+                 data-timeout-callback="disableSubmit"
+                 data-error-callback="disableSubmit"
+            ></div>
+        </div>
+    {{ end }}
+
+{{ end }}
