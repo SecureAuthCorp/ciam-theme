@@ -26,7 +26,7 @@
     {{ end }}
 	</div>
 
-  {{ if .Data.CaptchaSiteKey }}
+  {{ if and .Data.CaptchaSiteKey (not .Data.TurnstileSiteKey) }}
     <div class="recaptcha-container">
       <div class="g-recaptcha"
         data-sitekey="{{ .Data.CaptchaSiteKey }}"
@@ -35,6 +35,10 @@
         data-error-callback="disableSubmit"
       ></div>
     </div>
+  {{ end }}
+
+  {{ if .Data.TurnstileSiteKey }}
+    {{ template "turnstile" . }}
   {{ end }}
 </form>
 
