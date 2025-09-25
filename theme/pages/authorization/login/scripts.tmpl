@@ -73,26 +73,6 @@
     passwordInput.addEventListener('input', disableSignInButtonOnEmptyInputsChange);
   }
 
-  function debounce(fn, delay) {
-    var timeout;
-
-    function debouncedFunction(username) {
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        fn(username);
-      }, delay);
-    }
-
-    function clear() {
-      clearTimeout(timeout);
-    }
-
-    return {
-      debouncedFunction: debouncedFunction,
-      clear: clear,
-    };
-  }
-
   function getCardImgSrc(idp) {
     if (idp.logo_uri) {
       return idp.logo_uri;
@@ -136,7 +116,7 @@
       case 'external':
         return '/static/images/idps/external-icon.svg';
       case 'identity_pool':
-        return '/static/images/idps/cloudentity-icon.svg';
+        return '/static/images/idps/sa-icon.svg';
       case 'organization':
         return '/static/images/idps/organization-icon.svg';
       case 'github_embedded':
@@ -284,10 +264,6 @@
       });
     }
 
-    var result = debounce(searchIdps, 3000);
-    var debouncedSearchIdps = result.debouncedFunction;
-    var clearDebounce = result.clear;
-
     form.addEventListener('submit', function () {
       usernameInput.disabled = false;
     });
@@ -295,18 +271,15 @@
     usernameInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
         e.preventDefault();
-        clearDebounce();
         searchIdps(usernameInput.value);
       }
     });
 
     usernameInput.addEventListener('input', function (e) {
       nextButton.disabled = !e.target.value;
-      debouncedSearchIdps(e.target.value);
     });
 
     nextButton.addEventListener('click', function () {
-      clearDebounce();
       searchIdps(usernameInput.value);
     });
 
