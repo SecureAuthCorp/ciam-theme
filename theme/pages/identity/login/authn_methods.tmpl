@@ -90,6 +90,20 @@
           {{ end }}
         {{ end }}
 
+        {{ if .Data.AuthenticationMechanismsAvailability.push }}
+          {{ if and (not (eq .Data.AuthnView "push_send_view" )) (not (eq .Data.AuthnView "push_wait_view" )) }}
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_push{{ else }}change_to_push{{ end }}" id="login-option-push" style="display: flex">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.push" }}</span>
+                </div>
+                <i class="material-icons">navigate_next</i>
+              </button>
+          {{ end }}
+        {{ end }}
+
       </div>
     </div>
 

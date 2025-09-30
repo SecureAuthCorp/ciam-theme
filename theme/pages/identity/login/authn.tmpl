@@ -30,6 +30,10 @@
       {{ template "authn_web_authn" . }}
     {{ else if eq .Data.AuthnView "totp_view" }}
       {{ template "authn_totp" . }}
+    {{ else if eq .Data.AuthnView "push_send_view" }}
+      {{ template "authn_push_send" . }}
+    {{ else if eq .Data.AuthnView "push_wait_view" }}
+      {{ template "authn_push_wait" . }}
     {{ end }}
 
     {{ if and (not .Data.IsForceAuthMode) (or .Data.AuthnModeSwitch .Data.PublicRegistration) }}
