@@ -2,11 +2,21 @@
 
   <div class="notification-container" id="code-sent-notification">
     <i class="material-icons">send</i>
+    {{ if .Data.PushQR }}
+    <span>{{ T "identity.login.authn_mode_push.download" }}</span>
+    {{ else }}
     <span>{{ T "identity.login.authn_mode_push.sent" }}</span>
+    {{ end }}
   </div>
 
   <div class="log-in-header-container">
-      <h1 id="log-in-header">{{ T "identity.login.authn_mode_push.confirm" }}</h1>
+      <h1 id="log-in-header">
+      {{ if .Data.PushQR }}
+        {{ T "identity.login.authn_mode_push.pair" }}
+      {{ else }}
+        {{ T "identity.login.authn_mode_push.confirm" }}
+      {{ end }}
+      </h1>
       {{ if .Data.Is2FAStep }}
           <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor icon" class="icon-2fa"/>
       {{ end }}
@@ -34,8 +44,23 @@
   {{ end }}
 
   <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-    <span class="loader"></span>
+  {{ if .Data.PushQR }}
+    <img src="data:image/png;base64, {{ .Data.PushQR }}" />
+  {{ else }}
+      <span class="loader"></span>
+  {{ end }}
   </div>
+
+  {{ if .Data.PushQR }}
+  <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px; gap: 10px;">
+    <a href="https://itunes.apple.com/us/app/acceptto-itsme/id893534370?mt=8" target="_blank">
+    <img width=144 src="{{ .Config.Assets }}/static/images/app-store.svg" alt="person icon"/>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.acceptto.mfa&hl=en" target="_blank">
+    <img width=144 src="{{ .Config.Assets }}/static/images/google-play.svg" alt="person icon"/>
+    </a>
+  </div>
+  {{ end }}
 
   {{ template "reduce_mfa_prompts" . }}
 
@@ -46,6 +71,23 @@
   <input type="checkbox" name="pushMode" id="pushMode" checked class="non-visible">
   <input type="hidden" name="authn_mode" value="push_wait" id="authnView-input">
   <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
+
+  <script src="{{ .Data.FayeURL }}/faye/faye.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/JavaScript">
+      $(function() {
+        var faye = new Faye.Client("{{ .Data.FayeURL }}/faye");
+        var form = document.getElementById("sign-in-form");
+        faye.subscribe("/messages/{{ .Data.Channel }}", function (data) {
+          {{ if .Data.PushQR }}
+          window.location.reload();
+          {{ else }}
+          form.submit();
+          {{ end }}
+        });
+      });
+    </script>
 
   <div class="non-visible" id="version" data-version="identity-pool-login"></div>
 {{ end }}
