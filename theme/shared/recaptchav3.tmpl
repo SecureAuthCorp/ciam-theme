@@ -1,0 +1,45 @@
+{{ define "recaptcha-v3" }}
+    <input type="hidden" hidden name="g-recaptcha-v3-response" id="g-recaptcha-v3-response">
+
+    <script src="https://www.google.com/recaptcha/api.js?render={{ .Data.CaptchaSiteKeyV3 }}"></script>
+
+    <script>
+      (function() {
+        var siteKey = "{{ .Data.CaptchaSiteKeyV3 }}";
+        var confirmButton;
+        var form;
+        var busy = false;
+
+        function onSubmit(e) {
+          if (busy) return;          // guard against double entry
+          e.preventDefault();
+          busy = true;
+          grecaptcha.ready(function() {
+            grecaptcha.execute(siteKey, { action: "submit" }).then(function(token) {
+              var el = document.getElementById("g-recaptcha-v3-response");
+              if (el) el.value = token;
+              // stop intercepting further clicks
+              confirmButton.removeEventListener("click", onSubmit);
+              // preferred: trigger normal validated submit
+              if (form.requestSubmit) {
+                form.requestSubmit(confirmButton);
+              } else {
+                // fallback: native submit (skips validation events)
+                form.submit();
+              }
+            }).catch(function() {
+              busy = false; // allow retry on failure
+            });
+          });
+        }
+
+        window.addEventListener("DOMContentLoaded", function() {
+          confirmButton = document.querySelector("#submit-next");
+          form = confirmButton && confirmButton.form;
+          if (confirmButton) {
+            confirmButton.addEventListener("click", onSubmit);
+          }
+        });
+      })();
+    </script>
+{{ end }}
