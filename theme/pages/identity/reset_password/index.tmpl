@@ -20,10 +20,13 @@
           <label for="text-field-identifier-input">
             {{ T "identity.reset_password.email_or_mobile" }}
           </label>
-          <input id="text-field-identifier-input" name="identifier" value="">
+          <input id="text-field-identifier-input" name="identifier" value="{{ .Data.Identifier}}">
         </div>
 
-        {{ if .Data.CaptchaSiteKey }}
+        {{ if .Data.CaptchaSiteKeyV3 }}
+            {{ template "recaptcha-v3" . }}
+        {{ end }}
+        {{ if and .Data.CaptchaSiteKey (not .Data.CaptchaSiteKeyV3) }}
           <div class="recaptcha-container">
             <div class="g-recaptcha"
               data-sitekey="{{ .Data.CaptchaSiteKey }}"

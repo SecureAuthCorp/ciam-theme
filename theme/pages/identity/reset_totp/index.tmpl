@@ -23,7 +23,10 @@
           <input id="text-field-identifier-input" name="identifier" value="">
         </div>
 
-        {{ if .Data.CaptchaSiteKey }}
+        {{ if .Data.CaptchaSiteKeyV3 }}
+          {{ template "recaptcha-v3" . }}
+        {{ end }}
+        {{ if and .Data.CaptchaSiteKey (not .Data.CaptchaSiteKeyV3) }}
           <div class="recaptcha-container">
             <div class="g-recaptcha"
               data-sitekey="{{ .Data.CaptchaSiteKey }}"
