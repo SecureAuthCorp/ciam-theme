@@ -16,9 +16,18 @@
     function registerUser() {
       var webauthnError = document.querySelector("#webauthn-error");
       var server_id = (new URL(document.location)).searchParams.get("server_id");
+      var login_id = (new URL(document.location)).searchParams.get("login_id");
+      var login_state = (new URL(document.location)).searchParams.get("login_state");
       var identifier = document.querySelector("#text-field-identifier-input").value;
+      var params = { server_id: server_id };
+      if (login_id !== null) {
+        params.login_id = login_id;
+      }
+      if (login_state !== null) {
+        params.login_state = login_state;
+      }
 
-      fetch(window.location.pathname + "/webauthn/begin?" + new URLSearchParams({ server_id: server_id }), {
+      fetch(window.location.pathname + "/webauthn/begin?" + new URLSearchParams(params), {
         method: "POST",
         body: JSON.stringify({
           identifier: identifier,
@@ -39,7 +48,7 @@
         var clientDataJSON = credential.response.clientDataJSON;
         var rawId = credential.rawId;
 
-        return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams({ server_id: server_id }), {
+        return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams(params), {
           method: "POST",
           body: JSON.stringify({
             id: credential.id,
