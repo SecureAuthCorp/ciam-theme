@@ -1,0 +1,56 @@
+{{ define "setup_with_push" }}
+  <div class="setup-credential-header-container">
+  <h1>{{ T "identity.activate.push.set_up" }}</h1>
+    {{ if .Data.Is2FAStep }}
+        <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
+    {{ end }}
+  </div>
+
+  <div class="form-field">
+    <label for="text-field-username-input">
+      {{ T "identity.activate.push.email_or_mobile" }}
+    </label>
+    <input id="text-field-username-input" name="username" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
+    <div class="username-div">{{ .Data.Identifier }}</div>
+  </div>
+
+  <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+  {{ if .Data.PushQR }}
+    <img src="data:image/png;base64, {{ .Data.PushQR }}" />
+  {{ else }}
+      <span class="loader"></span>
+  {{ end }}
+  </div>
+
+  {{ if .Data.PushQR }}
+  <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px; gap: 10px;">
+    <a href="https://itunes.apple.com/us/app/acceptto-itsme/id893534370?mt=8" target="_blank">
+    <img width=144 src="{{ .Config.Assets }}/static/images/app-store.svg" alt="person icon"/>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.acceptto.mfa&hl=en" target="_blank">
+    <img width=144 src="{{ .Config.Assets }}/static/images/google-play.svg" alt="person icon"/>
+    </a>
+  </div>
+  {{ end }}
+
+  <script src="{{ .Data.FayeURL }}/faye/faye.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script type="text/JavaScript">
+    $(function() {
+      var faye = new Faye.Client("{{ .Data.FayeURL }}/faye");
+      var form = document.getElementById("sign-in-form");
+      faye.subscribe("/messages/{{ .Data.PushChannel }}", function (data) {
+        {{ if .Data.PushQR }}
+        window.location.reload();
+        {{ else }}
+        form.submit();
+        {{ end }}
+      });
+    });
+  </script>
+
+  {{ if .Data.ModeSwitch }}
+    {{ template "activation_methods" . }}
+  {{ end }}
+{{ end }}
