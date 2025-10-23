@@ -41,6 +41,8 @@
           {{ template "setup_with_password" . }}
         {{ else if eq $mode "totp" }}
           {{ template "setup_with_totp" . }}
+        {{ else if eq $mode "push" }}
+          {{ template "setup_with_push" . }}
         {{ else if eq $mode "email" }}
           {{ template "setup_with_email" . }}
         {{ else if eq $mode "mobile" }}

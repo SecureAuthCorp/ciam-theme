@@ -37,6 +37,18 @@
   </button>
 {{ end }}
 
+
+{{ if and .Data.PushAuthEnabled (ne .Data.Mode "push") }}
+  <button class="href-card" type="submit" name="action" value="change_to_push">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image" />
+      </span>
+      <span>{{ T "identity.activate.activation_methods.push" }}</span>
+    </div>
+  </button>
+{{ end }}
+
 {{ if .Data.OTPAuthEnabled }}
   <button class="href-card" type="submit" name="action" value="skip">
     <div>
