@@ -24,7 +24,7 @@
       <div class="totp-qrcode-container">
           <div id="totp-qrcode" data-qrdata="{{.Data.TOTPRegistrationURL}}"></div>
           <div class="totp-setup-key-container">
-              <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event)">{{ T "identity.activate.totp.cant_scan_qr_code" }}</a>
+              <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event, {{ T "identity.activate.totp.cant_scan_qr_code" }}, {{ T "identity.activate.totp.hide_qr_code" }})">{{ T "identity.activate.totp.cant_scan_qr_code" }}</a>
               <span id="setup-key"></span>
           </div>
       </div>
