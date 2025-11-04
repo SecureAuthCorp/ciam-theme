@@ -89,6 +89,8 @@
               {{ else }}
                 {{ if eq .Method "github" }}
                   src="/static/images/idps/github.svg"
+                {{ else if eq .Method "active_directory" }}
+                    src="/static/images/idps/active-directory-icon.svg"
                 {{ else if eq .Method "linkedin" }}
                   src="/static/images/idps/linkedin-icon.svg"
                 {{ else if eq .Method "apple" }}
