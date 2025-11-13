@@ -1,0 +1,53 @@
+{{ template "base" . }}
+
+{{ define "title" }}{{ T "authorization.login.index.title" }}{{ end }}
+
+{{ define "content" }}
+
+  <div class="header-container">
+    {{ template "header" .Config }}
+  </div>
+
+  <div id="content-container" >
+    <div class="card" id="main-content">
+      <div id="sign-in">
+        <div class="content">
+          <h1>{{ T "authorization.login.active_directory_idp.title" }}</h1>
+
+          <form action="" method="post">
+
+            {{ range .Data.FormError.Errors }}
+            <div id="auth-error-container">
+              <div class="error-container">
+                <i class="material-icons">error_outline</i>
+                {{ .Message }}
+              </div>
+            </div>
+            {{ end }}
+
+            <div class="form-field">
+              <label for="text-field-username-input" class="label-with-link">
+                {{ T "authorization.login.active_directory_idp.username" }}
+              </label>
+              <input id="text-field-username-input" name="username" value="{{ .Data.Identifier }}">
+            </div>
+
+            <div class="form-field">
+              <label for="text-field-password-input">{{ T "authorization.login.active_directory_idp.password" }}</label>
+              <div class="input-with-button">
+                <input id="text-field-password-input" name="password" type="password">
+              </div>
+            </div>
+
+            <button id="sign-in-button" class="submit-button no-bottom-margin" type="submit">
+              {{ T "authorization.login.active_directory_idp.continue" }}
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{ template "footer" . }}
+{{ end }}
