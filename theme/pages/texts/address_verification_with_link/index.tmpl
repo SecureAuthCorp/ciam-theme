@@ -1,1 +1,1 @@
-Dear Customer, use the link to verify your address: {{ .Data.OTP.Link }}
+{{ T "texts.address_verification_with_link.message" (dict "Link" .Data.OTP.Link) }}

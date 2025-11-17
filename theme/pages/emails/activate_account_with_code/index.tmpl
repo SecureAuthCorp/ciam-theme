@@ -3,19 +3,19 @@
 {{ define "content" }}
 
 <div class="heading2">
-Excellent!
-<b> Your account is ready to be activated.</b>
+{{ T "emails.activate_account_with_code.heading" }}
+<b>{{ T "emails.activate_account_with_code.body" }}</b>
 </div>
-<div class="main-text">Enter the code below on the account activation page to activate your account.</div>
+<div class="main-text">{{ T "emails.activate_account_with_code.instruction" }}</div>
 <div class="code-container">{{ .Data.OTP.Code }}</div>
 
 <div class="caption">
-    Click <a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">here</a>
-    to activate your account directly if you're unable to enter the code manually.
+    {{ T "emails.activate_account_with_code.alternative_activation_instruction" }}
+    <a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">{{ T "emails.activate_account_with_code.alternative_activation_link" }}</a>
 </div>
 
 <div class="caption content-caption">
-You received this email because you have registered a tenant with SecureAuth.<br/>
-If you received this email although you haven't requested the code please do not use the verification code.
+    <div>{{ T "emails.activate_account_with_code.footer_info" }}</div>
+    <div>{{ T "emails.activate_account_with_code.footer_warning" }}</div>
 </div>
 {{ end }}

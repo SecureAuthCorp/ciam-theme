@@ -1,1 +1,1 @@
-Dear Customer, use the link to reset your credentials: {{ .Data.OTP.Link }}
+{{ T "texts.reset_credentials_with_link.message" (dict "Link" .Data.OTP.Link) }}

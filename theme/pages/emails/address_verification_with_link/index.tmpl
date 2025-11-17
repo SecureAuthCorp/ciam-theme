@@ -2,13 +2,13 @@
 
 {{ define "content" }}
 
-<div class="heading2">Address verification</div>
-<div class="main-text">We've received a request to verify your address.</div>
+<div class="heading2">{{ T "emails.address_verification_with_link.heading" }}</div>
+<div class="main-text">{{ T "emails.address_verification_with_link.body" }}</div>
 <div class="link-container">
-	<a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">Verify address</a>
+	<a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">{{ T "emails.address_verification_with_link.button" }}</a>
 </div>
 <div class="helper-link-container">
-Alternatively, copy this link and follow it in your browser
+{{ T "emails.address_verification_with_link.link_alternative" }}
 <div class="link-container-box">{{ .Data.OTP.Link }}</div>
 </div>
 

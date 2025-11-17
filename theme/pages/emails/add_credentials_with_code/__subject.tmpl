@@ -1,1 +1,1 @@
-New {{ if eq .Data.Details.AddCredentials.Type "webauthn" }}passkey {{ else }}credential {{ end }}enrollment
+{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}{{ T "emails.add_credentials_with_code.subject_passkey" }}{{ else }}{{ T "emails.add_credentials_with_code.subject_credential" }}{{ end }}

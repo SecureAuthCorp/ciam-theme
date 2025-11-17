@@ -1,13 +1,13 @@
 {{ template "base_email" . }}
 
 {{ define "content" }}
-<div class="heading2">{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}New passkey {{ else }}New credential {{ end }} enrollment</div>
-<div class="main-text">We've received a request to add new {{ if eq .Data.Details.AddCredentials.Type "webauthn" }} passkey{{ else }} credential{{ end }} to your account.</div>
+<div class="heading2">{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}{{ T "emails.add_credentials_with_link.heading_passkey" }}{{ else }}{{ T "emails.add_credentials_with_link.heading_credential" }}{{ end }}</div>
+<div class="main-text">{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}{{ T "emails.add_credentials_with_link.body_passkey" }}{{ else }}{{ T "emails.add_credentials_with_link.body_credential" }}{{ end }}</div>
 <div class="link-container">
-	<a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">Add {{ if eq .Data.Details.AddCredentials.Type "webauthn" }}new passkey{{ else }} credential{{ end }}</a>
+	<a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}{{ T "emails.add_credentials_with_link.button_passkey" }}{{ else }}{{ T "emails.add_credentials_with_link.button_credential" }}{{ end }}</a>
 </div>
 <div class="helper-link-container">
-Alternatively, copy this link and follow it in your browser
+{{ T "emails.add_credentials_with_link.link_alternative" }}
 <div class="link-container-box">{{ .Data.OTP.Link }}</div>
 </div>
 

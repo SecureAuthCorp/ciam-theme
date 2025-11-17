@@ -1,1 +1,1 @@
-Dear Customer, use {{ .Data.OTP.Code }} to add new {{ if eq .Data.Details.AddCredentials.Type "webauthn" }} passkey{{ else }} credential{{ end }}.
+{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}{{ T "texts.add_credentials_with_code.message_passkey" (dict "Code" .Data.OTP.Code) }}{{ else }}{{ T "texts.add_credentials_with_code.message_credential" (dict "Code" .Data.OTP.Code) }}{{ end }}

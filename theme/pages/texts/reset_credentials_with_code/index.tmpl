@@ -1,1 +1,1 @@
-Dear Customer, use {{ .Data.OTP.Code }} to reset your credentials.
+{{ T "texts.reset_credentials_with_code.message" (dict "Code" .Data.OTP.Code) }}
