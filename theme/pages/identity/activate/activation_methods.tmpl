@@ -38,13 +38,20 @@
 {{ end }}
 
 
-{{ if and .Data.PushAuthEnabled (ne .Data.Mode "push") }}
-  <button class="href-card" type="submit" name="action" value="change_to_push">
+{{ if and (or .Data.PushAuthEnabled .Data.SymbolAuthEnabled) (ne .Data.Mode "pair_device") }}
+  <button class="href-card" type="submit" name="action" value="change_to_pair_device">
     <div>
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image" />
-      </span>
-      <span>{{ T "identity.activate.activation_methods.push" }}</span>
+      {{ if  .Data.PushAuthEnabled }}
+        <span class="href-card-avatar href-card-avatar-with-img small-icon">
+          <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image" />
+        </span>
+      {{ end }}
+      {{ if  .Data.SymbolAuthEnabled }}
+        <span class="href-card-avatar href-card-avatar-with-img small-icon">
+          <img src="{{ .Config.Assets }}/static/images/symbol-icon.svg" alt="symbol method image" />
+        </span>
+      {{ end }}
+      <span>{{ T "identity.activate.activation_methods.pair_device" }}</span>
     </div>
   </button>
 {{ end }}

@@ -109,7 +109,7 @@
               <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_symbol{{ else }}change_to_symbol{{ end }}" id="login-option-symbol" style="display: flex">
                 <div>
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                    <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="symbol method image" />
+                    <img src="{{ .Config.Assets }}/static/images/symbol-icon.svg" alt="symbol method image" />
                   </span>
                   <span>{{ T "identity.login.authn_methods.symbol" }}</span>
                 </div>
