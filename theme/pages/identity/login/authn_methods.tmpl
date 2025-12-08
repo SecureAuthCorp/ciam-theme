@@ -118,6 +118,20 @@
           {{ end }}
         {{ end }}
 
+        {{ if .Data.AuthenticationMechanismsAvailability.qr_code }}
+          {{ if and (not (eq .Data.AuthnView "qr_code_scan_view" )) (not (eq .Data.AuthnView "qr_code_push_wait_view" )) }}
+              <button class="href-card" type="submit" name="action" value="change_to_qr_code" id="login-option-qr_code" style="display: flex">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/qr-code-icon.svg" alt="qr_code method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.qr_code" }}</span>
+                </div>
+                <i class="material-icons">navigate_next</i>
+              </button>
+          {{ end }}
+        {{ end }}
+
       </div>
     </div>
 
