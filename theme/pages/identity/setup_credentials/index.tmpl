@@ -1,0 +1,93 @@
+{{ template "base" . }}
+
+{{ define "title" }}Setup credentials{{ end }}
+
+{{ define "content" }}
+
+  <div class="header-container">
+    {{ template "header" .Config }}
+  </div>
+
+  <div class="card">
+    <div class="content" id="main-content">
+      <form action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post">
+
+        <h1>Setup credentials</h1>
+        <div class="form-field">
+          <h5>Select address for confirmation code</h5>
+          {{ $first := true }}
+          {{range $id, $value := .Data.UserEmails}}
+            <div class="href-card radio-card">
+              <div class="radio-card-left">
+                <img src="{{ $.Config.Assets }}/static/images/mail-icon.svg" alt="at"/>
+                <label for="option-{{$id}}">{{$value}}</label>
+              </div>
+              <input type="radio" name="destination_address_key" value="{{$id}}" id="option-{{$id}}" {{if $first}}checked{{end}} required>
+            </div>
+            {{ $first = false }}
+          {{end}}
+          {{range $id, $value := .Data.UserMobiles}}
+            <div class="href-card radio-card">
+              <div class="radio-card-left">
+                <img src="{{ $.Config.Assets }}/static/images/smartphone-icon.svg" alt="smartphone"/>
+                <label for="option-{{$id}}">{{$value}}</label>
+              </div>
+              <input type="radio" name="destination_address_key" value="{{$id}}" id="option-{{$id}}" {{if $first}}checked{{end}} required>
+            </div>
+            {{ $first = false }}
+          {{end}}
+        </div>
+
+        <h5>Pick a method you want to configure</h5>
+
+        {{ if .Data.Password }}
+          <button class="href-card" type="submit" name="action" value="setup_password">
+            <div>
+              <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image"/>
+              </span>
+              <span>{{ T "identity.activate.activation_methods.password" }}</span>
+            </div>
+          </button>
+        {{ end }}
+
+        {{ if .Data.Passkey }}
+          <button class="href-card" type="submit" name="action" value="setup_web_authn">
+            <div>
+              <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image"/>
+              </span>
+              <span>{{ T "identity.activate.activation_methods.passkey" }}</span>
+            </div>
+          </button>
+        {{ end }}
+
+        {{ if .Data.TOTP }}
+          <button class="href-card" type="submit" name="action" value="setup_totp">
+            <div>
+              <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authentication app method image"/>
+              </span>
+              <span>{{ T "identity.activate.activation_methods.authenticator_app" }}</span>
+            </div>
+          </button>
+        {{ end }}
+
+
+        {{ if .Data.PairDevice }}
+          <button class="href-card" type="submit" name="action" value="pair_device">
+            <div>
+              <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image"/>
+              </span>
+              <span>{{ T "identity.activate.activation_methods.pair_device" }}</span>
+            </div>
+          </button>
+        {{ end }}
+
+      </form>
+    </div>
+  </div>
+
+  {{ template "footer" . }}
+{{ end }}
