@@ -6,12 +6,12 @@
   </div>
 
   <div class="log-in-header-container">
-      <h1 id="log-in-header">
-        {{ T "identity.login.authn_mode_push.confirm" }}
-      </h1>
-      {{ if .Data.Is2FAStep }}
-          <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor icon" class="icon-2fa"/>
-      {{ end }}
+    <h1 id="log-in-header">
+      {{ T "identity.login.authn_mode_push.confirm" }}
+    </h1>
+    {{ if .Data.Is2FAStep }}
+      <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor icon" class="icon-2fa"/>
+    {{ end }}
   </div>
 
   <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
@@ -28,10 +28,8 @@
   <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
 
   <script src="{{ .Data.FayeURL }}/faye/faye.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-  <script type="text/JavaScript">
-    $(function() {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       var faye = new Faye.Client("{{ .Data.FayeURL }}/faye");
       var form = document.getElementById("sign-in-form");
       faye.subscribe("/messages/{{ .Data.Channel }}", function (data) {
