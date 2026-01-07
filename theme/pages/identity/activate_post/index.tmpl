@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Activating account</title>
+</head>
+<body>
+  <form method="post" action="{{ .Data.Action }}">
+    <input type="hidden" name="action" value="two_step_init" />
+  </form>
+  <script nonce="{{.Config.Nonce}}">
+    document.forms[0].submit();
+  </script>
+</body>
+</html>
