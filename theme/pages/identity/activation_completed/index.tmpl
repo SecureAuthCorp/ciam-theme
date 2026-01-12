@@ -10,8 +10,15 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <h1>{{ T "identity.activation_completed.success" }}!</h1>
-      <div class="header-info">{{ T "identity.activation_completed.info" }}</div>
+      {{ if .Data.UserAlreadyActive }}
+        <h1>{{ T "identity.activation_completed.already_active" }}</h1>
+        {{ if .Data.LoginPath }}
+          <div class="header-info">{{ T "identity.activation_completed.click_below" }}</div>
+        {{ end }}
+      {{ else }}
+        <h1>{{ T "identity.activation_completed.success" }}!</h1>
+        <div class="header-info">{{ T "identity.activation_completed.info" }}</div>
+      {{ end }}
 
       {{ if .Data.LoginPath }}
         <a href="{{ .Data.LoginPath }}">

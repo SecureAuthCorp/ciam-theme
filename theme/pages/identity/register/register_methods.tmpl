@@ -70,4 +70,27 @@
   </button>
 {{ end }}
 
+{{ if and (or .Data.PushAuthEnabled .Data.SymbolAuthEnabled .Data.QRCodeAuthEnabled) (ne .Data.TargetViewV2 "pair_device") }}
+  <button class="href-card" type="submit" name="action" value="change_to_pair_device_entry" form="sign-up-form">
+    <div>
+      {{ if .Data.PushAuthEnabled }}
+        <span class="href-card-avatar href-card-avatar-with-img small-icon">
+          <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image" />
+        </span>
+      {{ end }}
+      {{ if .Data.SymbolAuthEnabled }}
+        <span class="href-card-avatar href-card-avatar-with-img small-icon">
+          <img src="{{ .Config.Assets }}/static/images/symbol-icon.svg" alt="symbol method image" />
+        </span>
+      {{ end }}
+      {{ if .Data.QRCodeAuthEnabled }}
+        <span class="href-card-avatar href-card-avatar-with-img small-icon">
+          <img src="{{ .Config.Assets }}/static/images/qr-code-icon.svg" alt="qr code method image" />
+        </span>
+      {{ end }}
+      <span>{{ T "identity.register.register_methods.pair_device" }}</span>
+    </div>
+  </button>
+{{ end }}
+
 {{ end }}
