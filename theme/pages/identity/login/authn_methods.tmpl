@@ -5,7 +5,7 @@
         <div>{{ T "identity.login.authn_methods.or" }}{{ if not .Data.IsForceAuthMode}} {{ T "identity.login.authn_methods.log_in_with" }}{{ end }}</div>
       </div>
 
-      <div class="form-field">
+      <div class="authn-methods-grid" id="authn-methods-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
         {{ if .Data.AuthenticationMechanismsAvailability.password }}
           {{ if ne .Data.AuthnView "password_view" }}
               <button class="href-card" type="submit" name="action" value="change_to_password" id="login-option-password">
@@ -15,7 +15,6 @@
                   </span>
                   <span>{{ T "identity.login.authn_methods.password" }}</span>
                 </div>
-                <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
@@ -29,8 +28,7 @@
                         </span>
                         <span>{{ T "identity.login.authn_methods.verification_code" }}</span>
                     </div>
-                    <i class="material-icons">navigate_next</i>
-                </button>
+                    </button>
             {{ end }}
         {{ end }}
 
@@ -43,7 +41,6 @@
                   </span>
                   <span>{{ T "identity.login.authn_methods.passkey" }}</span>
                 </div>
-                <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
@@ -53,40 +50,37 @@
               <button class="href-card" type="submit" name="action" value="change_to_totp" id="login-option-totp">
                 <div>
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                    <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authenticator code method image" />
+                    <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="totp method image" />
                   </span>
                   <span>{{ T "identity.login.authn_methods.authenticator_code" }}</span>
                 </div>
-                <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
 
         {{ if .Data.AuthenticationMechanismsAvailability.email_otp }}
           {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "email"))) }}
-              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-code" style="display: flex">
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-email-otp" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                        <img src="{{ .Config.Assets }}/static/images/email-otp.svg" alt="verification code method image" />
+                        <img src="{{ .Config.Assets }}/static/images/email-otp.svg" alt="email otp method image" />
                     </span>
                       <span>{{ T "identity.login.authn_methods.email_otp" }}</span>
                   </div>
-                  <i class="material-icons">navigate_next</i>
-              </button>
+                </button>
           {{ end }}
         {{ end }}
 
         {{ if .Data.AuthenticationMechanismsAvailability.sms_otp }}
           {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "sms"))) }}
-              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-code" style="display: flex">
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-sms-otp" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                        <img src="{{ .Config.Assets }}/static/images/sms-otp.svg" alt="verification code method image" />
+                        <img src="{{ .Config.Assets }}/static/images/sms-otp.svg" alt="sms otp method image" />
                     </span>
                       <span>{{ T "identity.login.authn_methods.sms_otp" }}</span>
                   </div>
-                  <i class="material-icons">navigate_next</i>
-              </button>
+                </button>
           {{ end }}
         {{ end }}
 
@@ -99,7 +93,6 @@
                   </span>
                   <span>{{ T "identity.login.authn_methods.push" }}</span>
                 </div>
-                <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
@@ -113,7 +106,6 @@
                   </span>
                   <span>{{ T "identity.login.authn_methods.symbol" }}</span>
                 </div>
-                <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
@@ -123,16 +115,16 @@
               <button class="href-card" type="submit" name="action" value="change_to_qr_code" id="login-option-qr_code" style="display: flex">
                 <div>
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                    <img src="{{ .Config.Assets }}/static/images/qr-code-icon.svg" alt="qr_code method image" />
+                    <img src="{{ .Config.Assets }}/static/images/qr-code-icon.svg" alt="qr code method image" />
                   </span>
                   <span>{{ T "identity.login.authn_methods.qr_code" }}</span>
                 </div>
-                <i class="material-icons">navigate_next</i>
               </button>
           {{ end }}
         {{ end }}
-
       </div>
     </div>
+
+    {{ template "methods_grid_script" dict "Nonce" .Nonce "GridId" "authn-methods-grid" }}
 
 {{ end }}

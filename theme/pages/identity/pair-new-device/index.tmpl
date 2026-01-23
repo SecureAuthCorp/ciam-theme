@@ -11,7 +11,7 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}" method="post">
+      <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}" method="post">
 
         <h1>{{ T "identity.pair_new_device.pair_your_device" }}</h1>
 

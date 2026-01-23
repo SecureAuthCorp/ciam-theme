@@ -31,6 +31,13 @@
   </div>
   {{ end }}
 
+  {{ if .Data.IsSelfResetCredentialsAllowed }}
+      <div class="push-no-access-container">
+          <span class="no-access-text">{{ T "identity.login.authn_mode_push.no_access_to_device" }}</span>
+          <a href="{{ .Data.PairNewDevicePath }}" id="no-access-to-device" class="input-above-link" tabindex="0">{{ T "identity.login.authn_mode_push.pair_new_device" }}</a>
+      </div>
+  {{ end }}
+
   {{ template "reduce_mfa_prompts" . }}
 
     <div class="buttons-container-full-width flex-row-reverse">

@@ -10,7 +10,7 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <form action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&methods={{ .Data.Methods }}&user_initialized={{ .Data.IsUserInitializedView }}" method="post">
+      <form action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&methods={{ .Data.Methods }}&user_initialized={{ .Data.IsUserInitializedView }}&view={{ .Data.DeviceAuthnView }}" method="post">
 
         {{ if eq .Data.SingleMethodSetupPhrase "" }}
           <h1>Setup credential</h1>

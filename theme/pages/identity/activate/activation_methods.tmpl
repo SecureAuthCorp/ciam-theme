@@ -4,6 +4,7 @@
   <div>{{ T "identity.activate.activation_methods.or_register_with" }}</div>
 </div>
 
+<div class="methods-grid" id="activation-methods-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
 {{ if and .Data.PasswordAuthEnabled (ne .Data.Mode "password") }}
   <button class="href-card" type="submit" name="action" value="change_to_password">
     <div>
@@ -93,5 +94,8 @@
     </div>
   </button>
 {{ end }}
+</div>
+
+{{ template "methods_grid_script" dict "Nonce" .Nonce "GridId" "activation-methods-grid" }}
 
 {{ end }}
