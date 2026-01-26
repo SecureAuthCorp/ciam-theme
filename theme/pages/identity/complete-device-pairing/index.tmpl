@@ -11,6 +11,13 @@
   <div class="card">
     <div class="content" id="main-content">
 
+      <div class="setup-credential-header-container">
+        <div>
+            <h1 class="no-bottom-margin">{{ T "identity.activate.pair_device.set_up" }}</h1>
+            <div class="header-bottom-info">{{ T "identity.activate.pair_device.install_app_info" }}</div>
+        </div>
+      </div>
+
       <form id="complete-device-pairing" action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}
         &mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}" method="post">
 

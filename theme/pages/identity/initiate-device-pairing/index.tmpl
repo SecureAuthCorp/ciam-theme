@@ -19,9 +19,6 @@
 
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
-            <label for="text-field-otp-input">
-              <span id="otp-label">{{ T "identity.initiate_device_pairing.provide_verification_code" }}</span>
-            </label>
             <div id="otp-input-container" class="form-field otp-input-container">
               <input type="hidden" name="otp" value="" id="otp-input">
             </div>

@@ -21,6 +21,9 @@
   <div class="form-field">
     <label for="text-field-username-input" class="label-with-link">
       <span id="username-label">{{ T "identity.login.authn_mode_symbol.username_label" }}</span>
+        {{ if .Data.IsSelfResetCredentialsAllowed }}
+            <a href="{{ .Data.PairNewDevicePath }}" id="no-access-to-device" class="input-above-link" tabindex="0">{{ T "identity.login.authn_mode_symbol.lost_authenticate_app" }}</a>
+        {{ end }}
     </label>
       {{ if .Data.Is2FAStep }}
         <input id="text-field-username-input" name="identifier" autocomplete="off" data-lpignore="true" type="hidden" value="{{ .Data.Identifier }}" disabled>
@@ -29,13 +32,6 @@
         <input id="text-field-username-input" name="identifier" value="{{ .Data.Identifier }}">
       {{ end }}
   </div>
-  {{ end }}
-
-  {{ if .Data.IsSelfResetCredentialsAllowed }}
-      <div class="push-no-access-container">
-          <span class="no-access-text">{{ T "identity.login.authn_mode_push.no_access_to_device" }}</span>
-          <a href="{{ .Data.PairNewDevicePath }}" id="no-access-to-device" class="input-above-link" tabindex="0">{{ T "identity.login.authn_mode_push.pair_new_device" }}</a>
-      </div>
   {{ end }}
 
   {{ template "reduce_mfa_prompts" . }}

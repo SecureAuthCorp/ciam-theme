@@ -43,9 +43,11 @@
           </div>
       {{ end }}
 
-    <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
-      {{ template "allow_skip_2fa_in_activate" . }}
-    </div>
+    {{ if .Data.AllowToSkip }}
+        <div class="buttons-container-full-width flex-row-reverse extra-top-margin">
+          {{ template "allow_skip_2fa_in_activate" . }}
+        </div>
+    {{ end }}
 
     {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
 
