@@ -1,8 +1,4 @@
-{{ template "base" . }}
-
-{{ define "title" }}{{ T "identity.complete_device_pairing.title" }}{{ end }}
-
-{{ define "content" }}
+{{ define "present_qr_invitation" }}
 
   <div class="header-container">
     {{ template "header" .Config }}
@@ -18,7 +14,9 @@
         </div>
       </div>
 
-      <form id="complete-device-pairing" action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}" method="post">
+      <form id="complete-device-pairing"
+            action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}"
+            method="post">
 
         <input type="hidden" name="pair_device" value="done" id="pair_device" form="complete-device-pairing">
 
