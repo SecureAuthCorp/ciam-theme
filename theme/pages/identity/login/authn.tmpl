@@ -34,14 +34,6 @@
       {{ template "authn_push_send" . }}
     {{ else if eq .Data.AuthnView "push_wait_view" }}
       {{ template "authn_push_wait" . }}
-    {{ else if eq .Data.AuthnView "symbol_send_view" }}
-        {{ template "authn_symbol_send" . }}
-    {{ else if eq .Data.AuthnView "symbol_wait_view" }}
-        {{ template "authn_symbol_wait" . }}
-    {{ else if eq .Data.AuthnView "qr_code_scan_view" }}
-        {{ template "authn_qr_code_scan" . }}
-    {{ else if eq .Data.AuthnView "qr_code_push_wait_view" }}
-        {{ template "authn_qr_code_push_wait" . }}
     {{ end }}
 
     {{ if and (not .Data.IsForceAuthMode) (or .Data.AuthnModeSwitch .Data.PublicRegistration) }}

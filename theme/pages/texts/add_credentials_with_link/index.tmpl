@@ -1,1 +1,1 @@
-{{ if eq .Data.Details.AddCredentials.Type "webauthn" }}{{ T "texts.add_credentials_with_link.message_passkey" (dict "Link" .Data.OTP.Link) }}{{ else }}{{ T "texts.add_credentials_with_link.message_credential" (dict "Link" .Data.OTP.Link) }}{{ end }}
+Dear Customer, use the link to add new {{ if eq .Data.Details.AddCredentials.Type "webauthn" }} passkey{{ else }} credential{{ end }}: {{ .Data.OTP.Link }}

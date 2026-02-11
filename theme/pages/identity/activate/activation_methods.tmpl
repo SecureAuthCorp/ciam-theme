@@ -4,7 +4,6 @@
   <div>{{ T "identity.activate.activation_methods.or_register_with" }}</div>
 </div>
 
-<div class="methods-grid" id="activation-methods-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
 {{ if and .Data.PasswordAuthEnabled (ne .Data.Mode "password") }}
   <button class="href-card" type="submit" name="action" value="change_to_password">
     <div>
@@ -35,16 +34,6 @@
       </span>
       <span>{{ T "identity.activate.activation_methods.authenticator_app" }}</span>
     </div>
-  </button>
-{{ end }}
-
-
-{{ if and (or .Data.PushAuthEnabled .Data.SymbolAuthEnabled .Data.QRCodeAuthEnabled) (ne .Data.Mode "pair_device") }}
-  <button class="href-card" type="submit" name="action" value="change_to_pair_device">
-    <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/sa-favicon.svg" alt="sa mobile app method image" />
-      </span>
-      <span>{{ T "identity.activate.activation_methods.pair_device" }}</span>
   </button>
 {{ end }}
 
@@ -80,8 +69,5 @@
     </div>
   </button>
 {{ end }}
-</div>
-
-{{ template "methods_grid_script" dict "Nonce" .Nonce "GridId" "activation-methods-grid" }}
 
 {{ end }}

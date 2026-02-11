@@ -3,23 +3,23 @@
 {{ define "content" }}
 
 <div class="heading2">
-{{ T "emails.activate_account_with_link.heading" }}
+Excellent!
     {{ if .Data.AccountType }}
-        <b> {{ T "emails.activate_account_with_link.body_with_type" (dict "AccountType" .Data.AccountType) }}</b>
+        <b> Your {{.Data.AccountType}} account is ready to be activated.</b>
     {{ else }}
-        <b> {{ T "emails.activate_account_with_link.body" }}</b>
+        <b> Your account is ready to be activated.</b>
     {{ end }}
 </div>
-<div class="main-text">{{ T "emails.activate_account_with_link.just_one_more_step" }}</div>
+<div class="main-text">Just one more step to access it.</div>
 <div class="link-container">
-	<a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">{{ T "emails.activate_account_with_link.button" }}</a>
+	<a href="{{ .Data.OTP.Link }}" rel="noopener noreferrer">Activate account</a>
 </div>
 <div class="helper-link-container">
-{{ T "emails.activate_account_with_link.link_alternative" }}
+Alternatively, copy this link and follow it in your browser
 <div class="link-container-box">{{ .Data.OTP.Link }}</div>
 </div>
 
 <div class="caption content-caption">
-{{ T "emails.activate_account_with_link.footer_info" }}
+You received this email because you have registered a tenant with SecureAuth.
 </div>
 {{ end }}

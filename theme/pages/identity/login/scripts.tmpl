@@ -121,8 +121,6 @@
   function webAuthnLogin() {
     var webAuthnError = document.querySelector("#hidden-text-field-webauthn-error");
     var server_id = (new URL(document.location)).searchParams.get("server_id");
-    var login_id = (new URL(document.location)).searchParams.get("login_id");
-    var login_state = (new URL(document.location)).searchParams.get("login_state");
     var user_id = "";
     if (document.querySelector("#user-id") !== null) {
         user_id = document.querySelector("#user-id").value;
@@ -131,17 +129,10 @@
     if (document.querySelector("#text-field-username-input") !== null) {
         identifier = document.querySelector("#text-field-username-input").value;
     }
-    var params = { server_id: server_id };
-    if (login_id !== null) {
-      params.login_id = login_id;
-    }
-    if (login_state !== null) {
-      params.login_state = login_state;
-    }
 
     webAuthnError.value = '';
 
-    fetch(window.location.pathname + "/webauthn/options?" + new URLSearchParams(params), {
+    fetch(window.location.pathname + "/webauthn/options?" + new URLSearchParams({ server_id: server_id }), {
       method: "POST",
       body: JSON.stringify({
         identifier: identifier,
@@ -168,7 +159,7 @@
       let sig = assertion.response.signature;
       let userHandle = assertion.response.userHandle;
 
-      return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams(params), {
+      return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams({ server_id: server_id }), {
         method: "POST",
         body: JSON.stringify({
           id: assertion.id,

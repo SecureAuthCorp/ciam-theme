@@ -12,19 +12,17 @@
   <div class="card">
     <div class="content" id="main-content">
       {{ if not .Data.PublicRegistrationAllowed }}
-        {{ template "registration_not_allowed" . }}
+      {{ template "registration_not_allowed" . }}
       {{ else if eq .Data.TargetViewV2 "otp" }}
-        {{ template "register_with_verification_code" . }}
+      {{ template "register_with_verification_code" . }}
       {{ else if eq .Data.TargetViewV2 "user" }}
-        {{ template "register_init" . }}
+      {{ template "register_init" . }}
       {{ else if eq .Data.TargetViewV2 "password" }}
-        {{ template "register_with_password" . }}
+      {{ template "register_with_password" . }}
       {{ else if eq .Data.TargetViewV2 "passkey" }}
-        {{ template "register_with_passkey" . }}
+      {{ template "register_with_passkey" . }}
       {{ else if eq .Data.TargetViewV2 "totp" }}
-        {{ template "register_with_totp" . }}
-      {{ else if eq .Data.TargetViewV2 "pair_device" }}
-        {{ template "register_with_device" . }}
+      {{ template "register_with_totp" . }}
       {{ end }}
     </div>
   </div>

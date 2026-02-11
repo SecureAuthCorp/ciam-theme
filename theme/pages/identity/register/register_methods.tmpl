@@ -4,7 +4,6 @@
     <div>{{ T "identity.register.register_methods.or_register_with" }}</div>
 </div>
 
-<div class="methods-grid" id="register-methods-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
 {{ if and .Data.PasswordAuthEnabled (ne .Data.TargetViewV2 "password") }}
   <button class="href-card" type="submit" name="action" value="change_to_password_entry" form="sign-up-form">
     <div>
@@ -31,7 +30,7 @@
   <button class="href-card" type="submit" name="action" value="change_to_totp_entry" form="sign-up-form">
     <div>
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="TOTP method image"/>
+        <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authenticator app method image"/>
       </span>
       <span>{{ T "identity.register.register_methods.authenticator_app" }}</span>
     </div>
@@ -70,17 +69,5 @@
     </div>
   </button>
 {{ end }}
-
-{{ if and (or .Data.PushAuthEnabled .Data.SymbolAuthEnabled .Data.QRCodeAuthEnabled) (ne .Data.TargetViewV2 "pair_device") }}
-  <button class="href-card" type="submit" name="action" value="change_to_pair_device_entry" form="sign-up-form">
-      <span class="href-card-avatar href-card-avatar-with-img small-icon">
-        <img src="{{ .Config.Assets }}/static/images/sa-favicon.svg" alt="sa mobile app method image" />
-      </span>
-      <span>{{ T "identity.register.register_methods.pair_device" }}</span>
-  </button>
-{{ end }}
-</div>
-
-{{ template "methods_grid_script" dict "Nonce" .Nonce "GridId" "register-methods-grid" }}
 
 {{ end }}

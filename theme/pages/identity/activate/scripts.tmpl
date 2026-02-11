@@ -62,20 +62,11 @@
     function registerUser() {
       var webAuthnError = document.querySelector("#hidden-text-field-webauthn-error");
       var code = (new URL(document.location)).searchParams.get("code");
-      var login_id = (new URL(document.location)).searchParams.get("login_id");
-      var login_state = (new URL(document.location)).searchParams.get("login_state");
       var identifier = "new"
-      var params = { code: code };
-      if (login_id !== null) {
-          params.login_id = login_id;
-      }
-      if (login_state !== null) {
-          params.login_state = login_state;
-      }
 
       webAuthnError.value = '';
 
-      fetch(window.location.pathname + "/webauthn/begin?" + new URLSearchParams(params))
+      fetch(window.location.pathname + "/webauthn/begin?" + new URLSearchParams({ code: code }))
       .then(function (response) {
         return response.json();
       })
@@ -91,7 +82,7 @@
         var clientDataJSON = credential.response.clientDataJSON;
         var rawId = credential.rawId;
 
-        return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams(params), {
+        return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams({ code: code }), {
           method: "POST",
           body: JSON.stringify({
             id: credential.id,

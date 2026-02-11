@@ -3,14 +3,14 @@
 <div class="aut-banner-logo">
   {{ if eq .Styling.LogoURL "/static/images/no-logo.svg" }}
   {{ else if .Styling.LogoURL }}
-    <img src="{{ .ImageProxyURL }}{{ .Styling.LogoURL }}" alt="Company logo" crossorigin="anonymous">
+    <img src="{{ .ImageProxyURL }}{{ .Styling.LogoURL }}" alt="SecureAuth company logo" crossorigin="anonymous">
   {{ else }}
     <img src="{{ .Root }}/static/images/sa-logo-white.svg" alt="SecureAuth company logo" />
   {{ end }}
 </div>
 
 {{ if .I18n.SelectorEnabled }}
-  {{ template "language_selector" .I18n }}
+  {{ template "lanaguage_selector" .I18n }}
 {{ end }}
 
 {{ end }}

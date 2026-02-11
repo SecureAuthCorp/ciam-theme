@@ -1,4 +1,4 @@
-{{ define "language_selector" }}
+{{ define "lanaguage_selector" }}
 
 <div class="flag-selector">
   <span id="zone-display-name"></span>
@@ -156,7 +156,6 @@
 
       var flatButton = document.createElement('button');
       var nameSpan = document.createElement('span');
-      flatButton.setAttribute("type", "button");
       flatButton.setAttribute('id', "region-option-" + language);
       nameSpan.textContent = languageObj.name;
       nameSpan.setAttribute("class", "language-option-name");

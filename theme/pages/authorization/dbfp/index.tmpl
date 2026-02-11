@@ -20,9 +20,9 @@
       window.location.href = redirectURL.toString();
     }
 
-    const dbfpTimeout = setTimeout(() => {
+    setTimeout(() => {
       const duration = performance.now() - startTime;
-      console.log("dbfp timeout");
+      console.log("dbfp timeout")
       redirect('failure', duration);
     }, {{ .Data.Timeout }});
 
@@ -35,8 +35,7 @@
       });
       document.addEventListener('onBfpDataLoad', (e) => {
         const duration = performance.now() - startTime;
-        console.log("loaded dbfp");
-        clearTimeout(dbfpTimeout);
+        console.log("loaded dbfp")
         redirect('success', duration);
       });
     });
