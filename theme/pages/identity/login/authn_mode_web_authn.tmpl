@@ -9,7 +9,7 @@
         {{ end }}
     </div>
 
-    {{ if .Data.IsForceAuthMode}}
+    {{ if or (.Data.IsForceAuthMode) ( and (.Data.Is2FAStep) (eq .Data.Identifier ""))}}
         {{ if .Data.IsSelfResetCredentialsAllowed }}
             <label class="label-with-link">
                 <span id="empty-webauthn-label"></span>

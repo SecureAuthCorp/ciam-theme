@@ -8,7 +8,7 @@
       {{ end }}
   </div>
 
-  {{ if .Data.IsForceAuthMode}}
+  {{ if or (.Data.IsForceAuthMode) ( and (.Data.Is2FAStep) (eq .Data.Identifier ""))}}
       <div class="login-welcome-back-card">
         <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="person icon"/>
         <div>

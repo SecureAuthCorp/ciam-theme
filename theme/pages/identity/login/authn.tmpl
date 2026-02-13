@@ -40,8 +40,6 @@
         {{ template "authn_symbol_wait" . }}
     {{ else if eq .Data.AuthnView "qr_code_scan_view" }}
         {{ template "authn_qr_code_scan" . }}
-    {{ else if eq .Data.AuthnView "qr_code_push_wait_view" }}
-        {{ template "authn_qr_code_push_wait" . }}
     {{ end }}
 
     {{ if and (not .Data.IsForceAuthMode) (or .Data.AuthnModeSwitch .Data.PublicRegistration) }}
