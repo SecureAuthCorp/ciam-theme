@@ -41,6 +41,8 @@
       <div class="loader-text">{{ T "identity.login.authn_mode_push.waiting_for_approval" }}</div>
   </div>
 
+  {{ template "expires_countdown" dict "Nonce" .Nonce "ExpiresAt" .Data.DeviceChallengeExpirationTime }}
+
   {{ template "no_access_to_device" . }}
 
   {{ template "reduce_mfa_prompts" . }}
