@@ -65,7 +65,7 @@
         (and (eq .Data.OtpMode "email") (or (eq .Data.UserID "") (gt (len .Data.UserEmails) 1)))
         (and (eq .Data.OtpMode "sms") (or (eq .Data.UserID "") (gt (len .Data.UserMobiles) 1)))
     -}}
-    {{- $hasErrors := eq (len .Data.FormError.Errors) 0 -}}
+    {{- $hasErrors := gt (len .Data.FormError.Errors) 0 -}}
 
     {{ if or $hasErrors $showAlternativeButton }}
         <div class="notification-container" id="code-sent-notification">
