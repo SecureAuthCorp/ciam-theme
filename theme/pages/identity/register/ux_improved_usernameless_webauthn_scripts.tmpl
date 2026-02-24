@@ -1,4 +1,4 @@
-{{ define "identity_register_ux_improved_webauthn_scripts" }}
+{{ define "identity_register_ux_improved_usernameless_webauthn_scripts" }}
 
   <script nonce="{{.Config.Nonce}}">
 
@@ -27,7 +27,7 @@
         params.login_state = login_state;
       }
 
-      fetch(window.location.pathname + "/webauthn/begin?" + new URLSearchParams(params), {
+      fetch(window.location.pathname + "/usernameless-webauthn/begin?" + new URLSearchParams(params), {
         method: "POST",
         body: JSON.stringify({
           identifier: identifier,
@@ -53,7 +53,7 @@
         var clientDataJSON = credential.response.clientDataJSON;
         var rawId = credential.rawId;
 
-        return fetch(window.location.pathname + "/webauthn/finish?" + new URLSearchParams(params), {
+        return fetch(window.location.pathname + "/usernameless-webauthn/finish?" + new URLSearchParams(params), {
           method: "POST",
           body: JSON.stringify({
             id: credential.id,

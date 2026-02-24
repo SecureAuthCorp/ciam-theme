@@ -27,6 +27,17 @@
   </button>
 {{ end }}
 
+{{ if and .Data.UsernamelessPasskeyAuthEnabled (ne .Data.TargetViewV2 "usernameless_passkey") }}
+  <button class="href-card" type="submit" name="action" value="change_to_usernameless_passkey_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/usernameless-webauthn-icon.svg" alt="usernameless passkey method image"/>
+      </span>
+      <span>{{ T "identity.register.register_methods.usernameless_passkey" }}</span>
+    </div>
+  </button>
+{{ end }}
+
 {{ if and .Data.TOTPAuthEnabled (ne .Data.TargetViewV2 "totp") }}
   <button class="href-card" type="submit" name="action" value="change_to_totp_entry" form="sign-up-form">
     <div>

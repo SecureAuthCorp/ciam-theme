@@ -28,6 +28,8 @@
       {{ template "authn_set_new_password" . }}
     {{ else if eq .Data.AuthnView "web_authn_view" }}
       {{ template "authn_web_authn" . }}
+    {{ else if eq .Data.AuthnView "usernameless_web_authn_view" }}
+      {{ template "authn_usernameless_web_authn" . }}
     {{ else if eq .Data.AuthnView "totp_view" }}
       {{ template "authn_totp" . }}
     {{ else if eq .Data.AuthnView "push_send_view" }}
