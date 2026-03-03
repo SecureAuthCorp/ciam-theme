@@ -115,6 +115,19 @@
             </div>
           {{ end }}
 
+          {{ if .Data.UsernamelessPasskey }}
+            <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
+              <button id="submit-next" class="submit-button" type="submit" name="action" value="setup_usernameless_web_authn" {{ if and (eq (len .Data.UserEmails) 0) (eq (len .Data.UserMobiles) 0) }} disabled {{ end }} >
+                {{ T "identity.setup_credentials.next" }}
+              </button>
+              {{ if .Data.IsUserInitializedView }}
+                <a href="{{ .Data.LoginPath }}" class="text-button-link">
+                  {{ T "identity.setup_credentials.back" }}
+                </a>
+              {{ end }}
+            </div>
+          {{ end }}
+
           {{ if .Data.TOTP }}
             <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
               <button id="submit-next" class="submit-button" type="submit" name="action" value="setup_totp" {{ if and (eq (len .Data.UserEmails) 0) (eq (len .Data.UserMobiles) 0) }} disabled {{ end }} >
@@ -160,6 +173,17 @@
                     <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image"/>
                   </span>
                   <span>{{ T "identity.activate.activation_methods.passkey" }}</span>
+                </div>
+              </button>
+            {{ end }}
+
+            {{ if .Data.UsernamelessPasskey }}
+              <button class="href-card" type="submit" name="action" value="setup_usernameless_web_authn" {{ if and (eq (len .Data.UserEmails) 0) (eq (len .Data.UserMobiles) 0) }} disabled {{ end }} >
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/usernameless-webauthn-icon.svg" alt="usernameless passkey method image"/>
+                  </span>
+                  <span>{{ T "identity.activate.activation_methods.usernameless_passkey" }}</span>
                 </div>
               </button>
             {{ end }}

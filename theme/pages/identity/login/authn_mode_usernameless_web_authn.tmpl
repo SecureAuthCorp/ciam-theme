@@ -23,7 +23,7 @@
     {{ if .Data.IsSelfResetCredentialsAllowed }}
         <label class="label-with-link">
             <span id="empty-webauthn-label"></span>
-            <a href="{{ .Data.ResetWebAuthnPath }}" id="forgot-passkey" class="input-above-link">{{ T "identity.login.authn_mode_web_authn.no_access" }}</a>
+            <a href="{{ .Data.ResetUsernamelessWebAuthnPath }}" id="forgot-passkey" class="input-above-link">{{ T "identity.login.authn_mode_web_authn.no_access" }}</a>
         </label>
     {{ end }}
 
