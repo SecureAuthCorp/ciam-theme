@@ -7,6 +7,26 @@
   var identifier = "{{ .Data.Identifier }}";
   var isForceAuthMode = "{{.Data.IsForceAuthMode }}" === "true";
 
+  function showWebAuthnError(message) {
+    var form = document.querySelector('#sign-in-form');
+    if (!form) return;
+
+    var errorDiv = form.querySelector('.webauthn-error');
+    if (errorDiv) {
+      errorDiv.textContent = '';
+    } else {
+      errorDiv = document.createElement('div');
+      errorDiv.className = 'error-container webauthn-error';
+      form.insertBefore(errorDiv, form.firstChild);
+    }
+
+    var icon = document.createElement('i');
+    icon.className = 'material-icons';
+    icon.textContent = 'error_outline';
+    errorDiv.appendChild(icon);
+    errorDiv.appendChild(document.createTextNode(' ' + message));
+  }
+
   document.addEventListener("DOMContentLoaded", onPageLoad);
 
   function onPageLoad() {
@@ -155,6 +175,8 @@
 
     webAuthnError.value = '';
 
+    var isCredentialError = false;
+
     fetch(window.location.pathname + "/webauthn/options?" + new URLSearchParams(params), {
       method: "POST",
       body: JSON.stringify({
@@ -205,9 +227,15 @@
     })
     .catch((error) => {
       webAuthnError.value = String(error);
+      if (error instanceof DOMException) {
+        isCredentialError = true;
+      }
     })
     .finally(() => {
       if (webAuthnError.value.startsWith("NotAllowedError:") || webAuthnError.value.startsWith("AbortError:")) {
+        webAuthnError.value = '';
+      } else if (isCredentialError) {
+        showWebAuthnError("Passkey authentication failed. Try a different method or contact your administrator.");
         webAuthnError.value = '';
       } else {
         document.querySelector('form').submit();
@@ -229,6 +257,8 @@
     }
 
     webAuthnError.value = '';
+
+    var isCredentialError = false;
 
     fetch(window.location.pathname + "/usernameless-webauthn/options?" + new URLSearchParams(params), {
       method: "POST",
@@ -277,9 +307,15 @@
     })
     .catch((error) => {
       webAuthnError.value = String(error);
+      if (error instanceof DOMException) {
+        isCredentialError = true;
+      }
     })
     .finally(() => {
       if (webAuthnError.value.startsWith("NotAllowedError:") || webAuthnError.value.startsWith("AbortError:")) {
+        webAuthnError.value = '';
+      } else if (isCredentialError) {
+        showWebAuthnError("Passkey authentication failed. Try a different method or contact your administrator.");
         webAuthnError.value = '';
       } else {
         document.querySelector('form').submit();
