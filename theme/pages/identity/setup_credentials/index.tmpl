@@ -181,7 +181,7 @@
               <button class="href-card" type="submit" name="action" value="setup_usernameless_web_authn" {{ if and (eq (len .Data.UserEmails) 0) (eq (len .Data.UserMobiles) 0) }} disabled {{ end }} >
                 <div>
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
-                    <img src="{{ .Config.Assets }}/static/images/usernameless-webauthn-icon.svg" alt="usernameless passkey method image"/>
+                    <img src="{{ .Config.Assets }}/static/images/usernameless-webauthn-icon.svg" alt="smart passkey method image"/>
                   </span>
                   <span>{{ T "identity.activate.activation_methods.usernameless_passkey" }}</span>
                 </div>
