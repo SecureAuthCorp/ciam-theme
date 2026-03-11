@@ -4,7 +4,7 @@
     <div>
         <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
         <input id="destination_address-input" type="hidden" name="destination_address" value="{{ .Data.ResolvedDestinationAddress }}">
-        <input type="checkbox" name="{{ if eq .Data.OtpMode ""}}otpMode{{ else if eq .Data.OtpMode "sms" }}smsOtpMode{{ else }}emailOtpMode{{ end }}" id="otpMode" checked class="non-visible">
+        <input type="checkbox" name="{{ if eq .Data.OtpMode ""}}otpMode{{ else if eq .Data.OtpMode "sms" }}smsOtpMode{{ else if eq .Data.OtpMode "voice" }}voiceOtpMode{{ else }}emailOtpMode{{ end }}" id="otpMode" checked class="non-visible">
 
         <div class="log-in-header-container">
             <h1 id="log-in-header">{{ T "identity.login.authn_mode_otp_verify.verify_code" }}</h1>
@@ -64,13 +64,14 @@
         (and (eq .Data.OtpMode "") (or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 1)))
         (and (eq .Data.OtpMode "email") (or (eq .Data.UserID "") (gt (len .Data.UserEmails) 1)))
         (and (eq .Data.OtpMode "sms") (or (eq .Data.UserID "") (gt (len .Data.UserMobiles) 1)))
+        (and (eq .Data.OtpMode "voice") (or (eq .Data.UserID "") (gt (len .Data.UserMobiles) 1)))
     -}}
 
     <div class="notification-container" id="code-sent-notification">
         {{ if and (ne .Data.UserID "") (not .Data.OtpSent) }}
             <span>{{ T "identity.login.authn_mode_otp_verify.code_not_sent" }}{{ if eq .Data.NumberOfAddresses 0 }}. {{ T "identity.login.authn_mode_otp_verify.no_addresses_defined" }}
                 {{ else if and (eq .Data.OtpMode "email") (eq (len .Data.UserEmails) 0)}}. {{ T "identity.login.authn_mode_otp_verify.no_emails_defined" }}
-                {{ else if and (eq .Data.OtpMode "sms") (eq (len .Data.UserMobiles) 0)}}. {{ T "identity.login.authn_mode_otp_verify.no_mobiles_defined" }}
+                {{ else if and (or (eq .Data.OtpMode "sms") (eq .Data.OtpMode "voice")) (eq (len .Data.UserMobiles) 0)}}. {{ T "identity.login.authn_mode_otp_verify.no_mobiles_defined" }}
                 {{ end }}
             </span>
         {{ else }}

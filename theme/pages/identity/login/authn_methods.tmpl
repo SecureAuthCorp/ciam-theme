@@ -97,6 +97,19 @@
           {{ end }}
         {{ end }}
 
+        {{ if .Data.AuthenticationMechanismsAvailability.voice_otp }}
+          {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "voice"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "voice"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "voice"))) }}
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_voice_otp{{ else }}change_to_voice_otp{{ end }}" id="login-option-voice-otp" style="display: flex">
+                  <div>
+                    <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                        <img src="{{ .Config.Assets }}/static/images/voice-otp.svg" alt="voice otp method image" />
+                    </span>
+                      <span>{{ T "identity.login.authn_methods.voice_otp" }}</span>
+                  </div>
+                </button>
+          {{ end }}
+        {{ end }}
+
         {{ if .Data.AuthenticationMechanismsAvailability.push }}
           {{ if and (not (eq .Data.AuthnView "push_send_view" )) (not (eq .Data.AuthnView "push_wait_view" )) }}
               <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_push{{ else }}change_to_push{{ end }}" id="login-option-push" style="display: flex">
