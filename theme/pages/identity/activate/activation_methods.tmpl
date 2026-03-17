@@ -91,6 +91,17 @@
     </div>
   </button>
 {{ end }}
+
+{{ if and .Data.VoiceOTPAuthEnabled (ne .Data.Mode "mobile") }}
+  <button class="href-card" type="submit" name="action" value="change_to_voice_otp">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/voice-otp.svg" alt="voice otp method image" />
+      </span>
+      <span>{{ T "identity.activate.activation_methods.voice_otp" }}</span>
+    </div>
+  </button>
+{{ end }}
 </div>
 
 {{ template "methods_grid_script" dict "Nonce" .Nonce "GridId" "activation-methods-grid" }}

@@ -82,6 +82,17 @@
   </button>
 {{ end }}
 
+{{ if and .Data.VoiceOTPAuthEnabled (not (and (eq .Data.TargetViewV2 "otp") (eq .Data.OtpMode "voice"))) }}
+  <button class="href-card" type="submit" name="action" value="change_to_voice_otp_entry" form="sign-up-form">
+    <div>
+      <span class="href-card-avatar href-card-avatar-with-img small-icon">
+        <img src="{{ .Config.Assets }}/static/images/voice-otp.svg" alt="voice otp method image" />
+      </span>
+      <span>{{ T "identity.register.register_methods.voice_otp" }}</span>
+    </div>
+  </button>
+{{ end }}
+
 {{ if and (or .Data.PushAuthEnabled .Data.SymbolAuthEnabled .Data.QRCodeAuthEnabled) (ne .Data.TargetViewV2 "pair_device") }}
   <button class="href-card" type="submit" name="action" value="change_to_pair_device_entry" form="sign-up-form">
       <span class="href-card-avatar href-card-avatar-with-img small-icon">
