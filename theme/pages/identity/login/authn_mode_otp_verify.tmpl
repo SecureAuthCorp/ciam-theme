@@ -41,7 +41,7 @@
             {{ if or (eq .Data.UserID "") (gt .Data.NumberOfAddresses 0) }}
                 <div class="footer-with-link">
                    {{ T "identity.login.authn_mode_otp_verify.still_didnt_receive" }}
-                    <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">{{ T "identity.login.authn_mode_otp_verify.resend_code" }}</button>
+                    <button id="resend-otp" type="submit" name="action" value="send_{{ if (not (eq .Data.OtpMode "" ))}}{{ .Data.OtpMode }}_{{ end }}otp">{{ if eq .Data.OtpMode "voice" }}{{ T "identity.login.authn_mode_otp_verify.call_again" }}{{ else }}{{ T "identity.login.authn_mode_otp_verify.resend_code" }}{{ end }}</button>
                 </div>
             {{ end }}
         </div>
