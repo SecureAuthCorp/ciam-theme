@@ -67,6 +67,7 @@
         var timeEl = document.getElementById('expires-time');
         var labelEl = document.getElementById('expires-label');
         var expiredText = "{{ T "identity.login.authn_mode_push.request_expired" }}";
+        var submitted = false;
 
         if (isNaN(expiresAt.getTime())) return;
 
@@ -93,6 +94,22 @@
             }
 
             clearInterval(intervalId);
+
+            if (!submitted) {
+              submitted = true;
+              setTimeout(function() {
+                var form = container.closest('form');
+                if (form) {
+                  var input = document.createElement('input');
+                  input.type = 'hidden';
+                  input.name = 'action';
+                  input.value = 'submit';
+                  form.appendChild(input);
+                  form.submit();
+                }
+              }, 1000);
+            }
+
             return;
           }
 
@@ -112,6 +129,7 @@
         var intervalId = setInterval(update, 1000);
 
         document.addEventListener('visibilitychange', function() {
+          if (submitted) return;
           if (document.hidden) {
             clearInterval(intervalId);
           } else {
