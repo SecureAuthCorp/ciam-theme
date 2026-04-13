@@ -42,7 +42,7 @@
 
     function setButtonEnablementOnInput() {
       inputNodes.forEach(inputNode => {
-        inputNode.addEventListener('input', disableButtonsOnEmptyInputs);
+        addInputListeners(inputNode, disableButtonsOnEmptyInputs);
       });
     }
 

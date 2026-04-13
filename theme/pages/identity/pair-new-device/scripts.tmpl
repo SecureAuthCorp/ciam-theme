@@ -34,8 +34,7 @@
     }
 
     function setButtonEnablementOnInput() {
-      var identifierInput = document.getElementById("text-field-identifier-input")
-      if (!!identifierInput) identifierInput.addEventListener('input', disableButtonsOnEmptyInputs);
+      addInputListeners(document.getElementById("text-field-identifier-input"), disableButtonsOnEmptyInputs);
     }
 
     function disableButtonsOnEmptyInputs() {

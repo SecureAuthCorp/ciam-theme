@@ -84,7 +84,7 @@
     inputNodes.map(elementId => document.getElementById(elementId))
       .filter(inputNode => !!inputNode)
       .forEach(existingInputNode => {
-        existingInputNode.addEventListener('input', disableButtonsOnEmptyInputs);
+        addInputListeners(existingInputNode, disableButtonsOnEmptyInputs);
       });
   }
 

@@ -32,8 +32,8 @@
       submitButton.disabled = !passwordInput.value || !repeatPasswordInput.value;
     }
 
-    passwordInput.addEventListener('input', disableSubmitButtonOnEmptyInput);
-    repeatPasswordInput.addEventListener('input', disableSubmitButtonOnEmptyInput);
+    addInputListeners(passwordInput, disableSubmitButtonOnEmptyInput);
+    addInputListeners(repeatPasswordInput, disableSubmitButtonOnEmptyInput);
   }
 
   function initWebAuthn() {

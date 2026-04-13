@@ -12,8 +12,7 @@
     }
 
     function setButtonEnablementOnInput() {
-      var otpInput = document.getElementById("otp-input")
-      if (!!otpInput) otpInput.addEventListener('input', disableButtonsOnEmptyInputs);
+      addInputListeners(document.getElementById("otp-input"), disableButtonsOnEmptyInputs);
     }
 
     function disableButtonsOnEmptyInputs() {
