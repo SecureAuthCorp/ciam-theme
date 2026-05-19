@@ -21,7 +21,7 @@
 
         {{ if .Data.AuthenticationMechanismsAvailability.otp }}
             {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode ""))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode ""))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode ""))) }}
-                <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_otp{{ else }}change_to_otp{{ end }}" id="login-option-code" style="display: flex">
+                <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_otp{{ else }}change_to_otp{{ end }}" id="login-option-code" style="display: flex">
                     <div>
                         <span class="href-card-avatar href-card-avatar-with-img small-icon">
                             <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
@@ -73,7 +73,7 @@
 
         {{ if .Data.AuthenticationMechanismsAvailability.email_otp }}
           {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "email"))) }}
-              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-email-otp" style="display: flex">
+              <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-email-otp" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
                         <img src="{{ .Config.Assets }}/static/images/email-otp.svg" alt="email otp method image" />
@@ -86,7 +86,7 @@
 
         {{ if .Data.AuthenticationMechanismsAvailability.sms_otp }}
           {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "sms"))) }}
-              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-sms-otp" style="display: flex">
+              <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-sms-otp" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
                         <img src="{{ .Config.Assets }}/static/images/sms-otp.svg" alt="sms otp method image" />
@@ -99,7 +99,7 @@
 
         {{ if .Data.AuthenticationMechanismsAvailability.voice_otp }}
           {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "voice"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "voice"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "voice"))) }}
-              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_voice_otp{{ else }}change_to_voice_otp{{ end }}" id="login-option-voice-otp" style="display: flex">
+              <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_voice_otp{{ else }}change_to_voice_otp{{ end }}" id="login-option-voice-otp" style="display: flex">
                   <div>
                     <span class="href-card-avatar href-card-avatar-with-img small-icon">
                         <img src="{{ .Config.Assets }}/static/images/voice-otp.svg" alt="voice otp method image" />
