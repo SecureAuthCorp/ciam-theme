@@ -44,6 +44,7 @@
     }
 
     initWebAuthn();
+    initResetLinkPreFill();
 
     var form = document.querySelector('#sign-in-form');
     var formSubmitButton = document.querySelector('.submit-button');
@@ -109,6 +110,7 @@
   function initWebAuthn() {
     var form = document.querySelector('form');
     var view = {{ .Data.AuthnView }};
+    var requireInteraction = {{ .Data.RequireUserInteractionBeforePrompt }};
     var signInButton = document.getElementById('sign-in-button');
     var usernameInput = document.getElementById('text-field-username-input');
     var userIdField = document.getElementById('user-id');
@@ -127,7 +129,7 @@
       var user_id = userIdField ? userIdField.value : "";
       var hasError = document.querySelector('.error-container') !== null;
 
-      if (!hasError && (identifier !== "" || user_id !== "")) {
+      if (!requireInteraction && !hasError && (identifier !== "" || user_id !== "")) {
           webAuthnLogin();
       }
     } else if (view === "usernameless_web_authn_view") {
@@ -140,7 +142,7 @@
         usernamelessWebAuthnLogin();
       });
 
-      if (!document.querySelector('.error-container')) {
+      if (!requireInteraction && !document.querySelector('.error-container')) {
         usernamelessWebAuthnLogin();
       }
     } else {
@@ -332,6 +334,71 @@
 
   function bufferDecode(value) {
     return Uint8Array.from(atob(value.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+  }
+
+  // initResetLinkPreFill: when the user types an email or phone in the
+  // username input and clicks a reset link (Forgot password?, reset webauthn,
+  // reset totp, pair new device), rewrite the link's href to include
+  // identifier=<typed-value> before navigation. Username values and other
+  // free text are not propagated. The backend re-validates and ignores
+  // anything it considers neither email nor phone, so a slight client/server
+  // parse mismatch is harmless.
+  function initResetLinkPreFill() {
+    var input = document.getElementById('text-field-username-input');
+    if (!input) return;
+
+    var paths = [
+      '/reset-password',
+      '/reset-web-authn',
+      '/reset-usernameless-web-authn',
+      '/reset-totp',
+      '/pair-new-device'
+    ];
+
+    var links = Array.prototype.slice.call(document.querySelectorAll('a'))
+      .filter(function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return false;
+        for (var i = 0; i < paths.length; i++) {
+          if (href.indexOf(paths[i]) !== -1) return true;
+        }
+        return false;
+      });
+
+    if (!links.length) return;
+
+    function isEmailLike(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    function isPhoneLike(v) {
+      // Mirrors backend identity.IsMobileAddress (regex `^\+?[0-9]+$`).
+      return /^\+?[0-9]+$/.test(v);
+    }
+
+    function pickIdentifier(value) {
+      value = (value || '').trim();
+      if (!value) return '';
+      if (isEmailLike(value) || isPhoneLike(value)) return value;
+      return '';
+    }
+
+    links.forEach(function (a) {
+      a.addEventListener('click', function () {
+        var ident = pickIdentifier(input.value);
+        try {
+          var url = new URL(a.href, window.location.href);
+          if (ident) {
+            url.searchParams.set('identifier', ident);
+          } else {
+            url.searchParams.delete('identifier');
+          }
+          a.href = url.toString();
+        } catch (_) {
+          // Leave href untouched on URL parse errors.
+        }
+      });
+    });
   }
 
 </script>
