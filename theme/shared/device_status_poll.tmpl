@@ -1,0 +1,191 @@
+{{ define "device_status_poll" }}
+  <script nonce="{{ .Nonce }}">
+    document.addEventListener("DOMContentLoaded", function () {
+      var ENDPOINT = "{{ .Endpoint }}";
+      var SINCE = "{{ .Since }}";
+      var UNTIL = "{{ .Until }}";
+      var LOGIN_ID = "{{ .LoginID }}";
+      var LOGIN_STATE = "{{ .LoginState }}";
+      var INTERVAL_MS = 15000;
+      var STREAM_GRACE_MS = 5000;
+      var POLL_TIMEOUT_MS = 10000;
+
+      var form = document.getElementById("{{ .FormId }}");
+      var timer = null, inFlight = false, wasHidden = false, finalPollDone = false;
+      var deadline = UNTIL ? new Date(UNTIL).getTime() : 0;
+
+      if (isNaN(deadline)) {
+        deadline = 0;
+      }
+
+      // No login context is not "no identity": the activation route has none at all and the server
+      // resolves that user from its own cookie, so requiring one here disabled the poll on the one
+      // screen the feature was built for.
+      if (!form || !window.fetch) {
+        return;
+      }
+
+      // shared with faye_subscribe and expires_countdown, all of which can complete this same flow
+      function submit() {
+        if (window.acpDeviceChallengeSubmitted) {
+          return;
+        }
+
+        window.acpDeviceChallengeSubmitted = true;
+
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "action";
+        input.value = "submit";
+        form.appendChild(input);
+        form.submit();
+      }
+
+      // from the view model, not the page URL: the activation and reset screens carry the login
+      // context only in their form action, and activation carries none at all
+      function statusURL() {
+        var params = new URLSearchParams();
+
+        if (LOGIN_ID && LOGIN_STATE) {
+          params.set("login_id", LOGIN_ID);
+          params.set("login_state", LOGIN_STATE);
+        }
+
+        if (SINCE) {
+          params.set("since", SINCE);
+        }
+
+        var query = params.toString();
+
+        return query ? ENDPOINT + "?" + query : ENDPOINT;
+      }
+
+      function stop() {
+        if (timer) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function expired() {
+        return deadline > 0 && Date.now() >= deadline;
+      }
+
+      function poll() {
+        if (inFlight || window.acpDeviceChallengeSubmitted) {
+          return;
+        }
+
+        // one last read at the deadline - an approval landing between the final tick and the
+        // deadline is real, and two of these screens have no countdown to pick it up
+        var last = expired();
+
+        if (last) {
+          if (finalPollDone) {
+            stop();
+
+            return;
+          }
+
+          finalPollDone = true;
+        }
+
+        inFlight = true;
+
+        // without the abort, one request that never settles leaves inFlight set and the guard
+        // above swallows every later tick
+        var controller = window.AbortController ? new window.AbortController() : null;
+        var timeout = controller ? window.setTimeout(function () {
+          controller.abort();
+        }, POLL_TIMEOUT_MS) : null;
+
+        function settled() {
+          if (timeout) {
+            window.clearTimeout(timeout);
+          }
+
+          inFlight = false;
+
+          if (last) {
+            stop();
+          }
+        }
+
+        window.fetch(statusURL(), {
+          cache: "no-store",
+          credentials: "same-origin",
+          headers: { Accept: "application/json" },
+          signal: controller ? controller.signal : undefined
+        }).then(function (response) {
+          return response.ok ? response.json() : null;
+        }).then(function (body) {
+          settled();
+
+          if (!body || !body.status) {
+            return;
+          }
+
+          // vocabularies differ between the pairing and login endpoints, so treat anything that is
+          // no longer in progress as terminal and let the server render what actually happened
+          if (body.status !== "pending" && body.status !== "in progress") {
+            stop();
+            submit();
+          }
+        }).catch(function () {
+          // a dropped poll is not a failure; the next tick retries
+          settled();
+        });
+      }
+
+      function start() {
+        if (window.acpDeviceChallengeSubmitted || document.visibilityState === "hidden") {
+          return;
+        }
+
+        // returning from the authenticator app is the moment worth checking, so poll at once rather
+        // than waiting out an interval
+        poll();
+
+        if (!timer && !expired()) {
+          timer = window.setInterval(poll, INTERVAL_MS);
+        }
+      }
+
+      // only take over if the stream never comes up; faye_subscribe sets acpDeviceStreamUp
+      function startUnlessStreamIsUp() {
+        window.setTimeout(function () {
+          if (!window.acpDeviceStreamUp) {
+            start();
+          }
+        }, STREAM_GRACE_MS);
+      }
+
+      // pageshow also fires on an ordinary page load, so only a hide followed by a show is a resume
+      function resumed() {
+        // not redundant with start()'s: consuming wasHidden while still hidden spends it on a
+        // resume that cannot poll
+        if (!wasHidden || document.visibilityState === "hidden") {
+          return;
+        }
+
+        wasHidden = false;
+        start();
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "hidden") {
+          wasHidden = true;
+          stop();
+
+          return;
+        }
+
+        resumed();
+      });
+
+      window.addEventListener("pageshow", resumed);
+
+      startUnlessStreamIsUp();
+    });
+  </script>
+{{ end }}
