@@ -1,0 +1,103 @@
+{{ define "device_pairing_script" }}
+  <script nonce="{{ .Nonce }}">
+    (function () {
+      var link = document.getElementById("tap-to-pair");
+      var box = document.getElementById("get-the-app");
+      var label = document.getElementById("get-the-app-label");
+      var links = document.getElementById("get-the-app-links");
+      var spinner = document.getElementById("get-the-app-spinner");
+      var expiryEl = document.getElementById("pairing-expiry");
+      if (!link || !box || !label) { return; }
+
+      var CHECKING = {{ T "identity.login.authn_mode_qr_code.checking_phone" }};
+      var STILL_WAITING_NO_BUTTON = {{ T "identity.login.authn_mode_qr_code.still_waiting_get_new" }};
+      var EXPIRED = {{ T "identity.login.authn_mode_qr_code.code_expired" }};
+      var EXPIRES_AT = {{ T "identity.login.authn_mode_qr_code.expires_at" }};
+      var STILL_WAITING_MS = 90000;
+      var tapped = false, returned = false, expired = false;
+      var ticking = null, waiting = null;
+
+      function stopExpiryTicks() {
+        if (ticking) { window.clearInterval(ticking); ticking = null; }
+      }
+
+      function stopWaiting() {
+        if (waiting) { window.clearTimeout(waiting); waiting = null; }
+      }
+
+      function renderExpiry() {
+        if (!expiryEl || expired) { return; }
+        var at = new Date(expiryEl.getAttribute("data-expires-at"));
+        if (isNaN(at)) { return; }
+        if (at <= new Date()) { showExpired(); return; }
+        expiryEl.textContent = EXPIRES_AT + " " +
+          at.toLocaleTimeString({{ or .CurrentLocale "en-US" }}, {hour: "2-digit", minute: "2-digit"});
+      }
+
+      function showRestart() {
+        var restart = document.getElementById("pairing-restart");
+        if (!restart) { return false; }
+        var params = new URLSearchParams(window.location.search);
+        // Only the set-credentials URL carries an identifier. Activation builds its URL from
+        // server_id, code and the prompt alone, so stripping the code there leaves the resend
+        // branch nothing to send to and it redirects to an empty form with the link destroyed.
+        if (params.get("identifier")) {
+          // otherwise the restart replays the code and skips the verification a re-mint should cost
+          params.delete("code");
+          params.delete("otp");
+          params.set("resend", "1");
+        }
+        restart.href = window.location.pathname + "?" + params.toString();
+        restart.hidden = false;
+        return true;
+      }
+
+      function showExpired() {
+        expired = true;
+        stopExpiryTicks();
+        stopWaiting();
+        box.classList.add("device-pairing-install-box-warn");
+        label.textContent = EXPIRED;
+        if (links) { links.hidden = true; }
+        if (spinner) { spinner.hidden = true; }
+        if (expiryEl) { expiryEl.hidden = true; }
+        var separator = document.getElementById("pairing-separator");
+        if (separator) { separator.hidden = true; }
+        link.hidden = true;
+        var qr = document.getElementById("pairing-qr");
+        if (qr) { qr.classList.add("device-pairing-qr-expired"); }
+        showRestart();
+      }
+
+      // copy only: device_status_poll keeps polling past this point, so the wording must not
+      // suggest the page has stopped trying
+      function showStillWaiting() {
+        if (expired) { return; }
+        if (spinner) { spinner.hidden = true; }
+        label.textContent = STILL_WAITING_NO_BUTTON;
+        showRestart();
+      }
+
+      // a backgrounded page is frozen and misses the completion event, so returning is the signal
+      function onReturn() {
+        if (!tapped || returned || expired) { return; }
+        returned = true;
+        label.textContent = CHECKING;
+        if (links) { links.hidden = true; }
+        if (spinner) { spinner.hidden = false; }
+        waiting = window.setTimeout(showStillWaiting, STILL_WAITING_MS);
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState !== "hidden") { onReturn(); renderExpiry(); }
+      });
+      window.addEventListener("pageshow", onReturn);
+      link.addEventListener("click", function () { tapped = true; });
+
+      renderExpiry();
+      ticking = window.setInterval(renderExpiry, 30000);
+      // offered from the start: a code that stopped working should not have to lapse first
+      showRestart();
+    })();
+  </script>
+{{ end }}
