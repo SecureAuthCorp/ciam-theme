@@ -19,7 +19,9 @@
     <div class="username-div">{{ .Data.Identifier }}</div>
   </div>
 
-  <input type="hidden" name="pair_device" value="done" id="pair_device" form="sign-up-form">
+  {{ if or .Data.DevicePairingInvitationQR .Data.DeviceAlreadyPaired }}
+    <input type="hidden" name="pair_device" value="done" id="pair_device" form="sign-up-form">
+  {{ end }}
 
   {{ if .Data.DeviceAlreadyPaired}}
 
@@ -37,7 +39,7 @@
 
       {{ if .Data.DevicePairingInvitationQR }}
           {{ template "qr_code_scan_device_pairing" . }}
-      {{ else }}
+      {{ else if not .Data.DevicePairingUnavailable }}
           <div class="push-loader-container">
               <span class="loader"></span>
           </div>
@@ -49,7 +51,10 @@
         </div>
     {{ end }}
 
-    {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
+    {{ if .Data.DevicePairingInvitationChannel }}
+      {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
+      {{ template "device_status_poll" dict "Nonce" .Nonce "FormId" "sign-up-form" "Endpoint" "device-pairing-status" "Since" .Data.DevicePairingMintedTime "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.DevicePairingExpirationTime }}
+    {{ end }}
 
   {{ end }}
 

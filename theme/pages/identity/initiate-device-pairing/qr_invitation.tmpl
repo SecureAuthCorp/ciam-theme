@@ -15,7 +15,7 @@
       </div>
 
       <form id="complete-device-pairing"
-            action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}"
+            action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}&login_hint={{ .Data.LoginHint }}"
             method="post">
 
         <input type="hidden" name="pair_device" value="done" id="pair_device" form="complete-device-pairing">
@@ -29,7 +29,11 @@
     </div>
   </div>
 
-  {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "complete-device-pairing" "Channel" .Data.DevicePairingInvitationChannel }}
+  {{/* this view also renders without an invitation; neither watcher has anything to watch then */}}
+  {{ if .Data.DevicePairingInvitationChannel }}
+    {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "complete-device-pairing" "Channel" .Data.DevicePairingInvitationChannel }}
+    {{ template "device_status_poll" dict "Nonce" .Nonce "FormId" "complete-device-pairing" "Endpoint" "device-pairing-status" "Since" .Data.DevicePairingMintedTime "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.DevicePairingExpirationTime }}
+  {{ end }}
 
 
   {{ template "footer" . }}
