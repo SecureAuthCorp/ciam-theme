@@ -15,6 +15,8 @@
 
         <h1>{{ T "identity.initiate_device_pairing.initiate" }}</h1>
 
+        {{ if .Data.ShowAddress }}{{ template "identifier_display" .Data }}{{ end }}
+
         {{ if not .Data.Code }}
           <div class="form-field extra-top-margin otp-container" id="otp-container">
             <div id="otp-input-container" class="form-field otp-input-container">

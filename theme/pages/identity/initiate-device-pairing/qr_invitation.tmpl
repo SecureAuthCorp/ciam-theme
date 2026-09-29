@@ -15,7 +15,7 @@
       </div>
 
       <form id="complete-device-pairing"
-            action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}&login_hint={{ .Data.LoginHint }}"
+            action="?login_id={{ .Data.SessionID }}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}"
             method="post">
 
         <input type="hidden" name="pair_device" value="done" id="pair_device" form="complete-device-pairing">

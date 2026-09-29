@@ -18,6 +18,8 @@
 
         <h1>{{ T "identity.set_password.set_password" }}</h1>
 
+        {{ if .Data.ShowAddress }}{{ template "identifier_display" .Data }}{{ end }}
+
         <div class="form-field">
           <label for="text-field-password-input">
             <span id="password-label">{{ T "identity.set_password.password" }} *</span>
