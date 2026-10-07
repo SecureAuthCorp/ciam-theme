@@ -1,0 +1,156 @@
+{{ define "authn_methods_grid" }}
+
+    <div id="authn-mode-switch-container">
+      <div class="spacer-container">
+        <div>{{ T "identity.login.authn_methods.or" }}{{ if not .Data.IsForceAuthMode}} {{ T "identity.login.authn_methods.log_in_with" }}{{ end }}</div>
+      </div>
+
+      <div class="authn-methods-grid" id="authn-methods-grid">
+        {{ if .Data.AuthenticationMechanismsAvailability.password }}
+          {{ if ne .Data.AuthnView "password_view" }}
+              <button class="href-card" type="submit" name="action" value="change_to_password" id="login-option-password">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.password" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.otp }}
+            {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode ""))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode ""))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode ""))) }}
+                <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_otp{{ else }}change_to_otp{{ end }}" id="login-option-code">
+                    <div>
+                        <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                            <img src="{{ .Config.Assets }}/static/images/otp-icon.svg" alt="verification code method image" />
+                        </span>
+                        <span>{{ T "identity.login.authn_methods.verification_code" }}</span>
+                    </div>
+                    </button>
+            {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.webauthn }}
+          {{if ne .Data.AuthnView "web_authn_view" }}
+              <button class="href-card" type="submit" name="action" value="change_to_web_authn" id="login-option-web-authn">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.passkey" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.usernameless_webauthn }}
+          {{if ne .Data.AuthnView "usernameless_web_authn_view" }}
+              <button class="href-card" type="submit" name="action" value="change_to_usernameless_web_authn" id="login-option-usernameless-web-authn">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/usernameless-webauthn-icon.svg" alt="smart passkey method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.usernameless_passkey" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.totp }}
+          {{if ne .Data.AuthnView "totp_view" }}
+              <button class="href-card" type="submit" name="action" value="change_to_totp" id="login-option-totp">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="totp method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.authenticator_code" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.email_otp }}
+          {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "email"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "email"))) }}
+              <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-email-otp">
+                  <div>
+                    <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                        <img src="{{ .Config.Assets }}/static/images/email-otp.svg" alt="email otp method image" />
+                    </span>
+                      <span>{{ T "identity.login.authn_methods.email_otp" }}</span>
+                  </div>
+                </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.sms_otp }}
+          {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "sms"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "sms"))) }}
+              <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-sms-otp">
+                  <div>
+                    <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                        <img src="{{ .Config.Assets }}/static/images/sms-otp.svg" alt="sms otp method image" />
+                    </span>
+                      <span>{{ T "identity.login.authn_methods.sms_otp" }}</span>
+                  </div>
+                </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.voice_otp }}
+          {{ if and ( not ( and (eq .Data.AuthnView "otp_send_view") (eq .Data.OtpMode "voice"))) (not ( and (eq .Data.AuthnView "otp_verify_view") (eq .Data.OtpMode "voice"))) (not ( and (eq .Data.AuthnView "otp_use_alternative_view") (eq .Data.OtpMode "voice"))) }}
+              <button class="href-card" type="submit" name="action" value="{{ if and (or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))) (not .Data.RequireUserConfirmationBeforeSend) }}send_voice_otp{{ else }}change_to_voice_otp{{ end }}" id="login-option-voice-otp">
+                  <div>
+                    <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                        <img src="{{ .Config.Assets }}/static/images/voice-otp.svg" alt="voice otp method image" />
+                    </span>
+                      <span>{{ T "identity.login.authn_methods.voice_otp" }}</span>
+                  </div>
+                </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.push }}
+          {{ if and (not (eq .Data.AuthnView "push_send_view" )) (not (eq .Data.AuthnView "push_wait_view" )) }}
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_push{{ else }}change_to_push{{ end }}" id="login-option-push">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/push-icon.svg" alt="push method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.push" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.symbol }}
+          {{ if and (not (eq .Data.AuthnView "symbol_send_view" )) (not (eq .Data.AuthnView "symbol_wait_view" )) }}
+              <button class="href-card" type="submit" name="action" value="{{ if or .Data.IsForceAuthMode .Data.Is2FAStep (not (eq .Data.Identifier ""))}}send_symbol{{ else }}change_to_symbol{{ end }}" id="login-option-symbol">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/symbol-icon.svg" alt="symbol method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.symbol" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+
+        {{ if .Data.AuthenticationMechanismsAvailability.qr_code }}
+          {{ if and (not (eq .Data.AuthnView "qr_code_scan_view" )) (not (eq .Data.AuthnView "qr_code_push_wait_view" )) }}
+              <button class="href-card" type="submit" name="action" value="change_to_qr_code" id="login-option-qr_code">
+                <div>
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ .Config.Assets }}/static/images/qr-code-icon.svg" alt="qr code method image" />
+                  </span>
+                  <span>{{ T "identity.login.authn_methods.qr_code" }}</span>
+                </div>
+              </button>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+
+    {{ template "methods_grid_script" dict "Nonce" .Nonce "GridId" "authn-methods-grid" }}
+
+{{ end }}
