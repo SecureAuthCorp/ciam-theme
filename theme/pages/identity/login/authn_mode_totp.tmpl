@@ -7,6 +7,13 @@
       {{ end }}
   </div>
 
+  {{ $state := index .Data.MechanismStates "totp" }}
+  {{ if and (ne .Data.UserID "") (or (eq $state "needs_setup") (eq $state "unavailable_for_user")) }}
+    <div class="notification-container" id="totp-not-enrolled-notice">
+      <span>{{ T "identity.login.authn_mode_totp.not_enrolled" }}</span>
+    </div>
+  {{ end }}
+
   {{ if or (.Data.IsForceAuthMode) ( and (.Data.Is2FAStep) (eq .Data.Identifier ""))}}
       <div class="login-welcome-back-card">
         <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="person icon"/>

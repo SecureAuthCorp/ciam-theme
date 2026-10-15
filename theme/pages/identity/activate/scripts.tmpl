@@ -6,6 +6,7 @@
   var otpLength = {{ .Data.OtpLength }};
   var totpLength = {{ .Data.TotpLength }};
   var codeNotExists = {{ eq .Data.Code "" }};
+  var requireInteraction = {{ .Data.RequireUserInteractionBeforePrompt }};
 
   document.addEventListener("DOMContentLoaded", function() {
     if (!codeNotExists) {
@@ -19,6 +20,7 @@
         initTotpInput('totp-input-container', totpLength );
     }
     initOtpInput('otp-input-container', otpLength );
+    installSubmitGuard(document.querySelector('#sign-up-form'));
   });
 
   function initPassword() {
@@ -47,7 +49,9 @@
       e.preventDefault();
       registerUser();
     });
-    registerUser();
+    if (!requireInteraction) {
+      registerUser();
+    }
   }
 
   function bufferEncode(value) {
@@ -134,7 +138,9 @@
         e.preventDefault();
         registerUsernamelessUser();
       });
-      registerUsernamelessUser();
+      if (!requireInteraction) {
+        registerUsernamelessUser();
+      }
     }
 
     function registerUsernamelessUser() {

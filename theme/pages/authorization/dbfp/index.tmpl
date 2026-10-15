@@ -7,13 +7,20 @@
     <div class="spinner"></div>
   </div>
 
+  <noscript>
+    <meta http-equiv="refresh" content="0; url={{ .Data.URL }}&dbfp=noscript" />
+    <a href="{{ .Data.URL }}&dbfp=noscript">Continue</a>
+  </noscript>
+
   <script src="/dbfp/bfp7.js" defer></script>
 
-  <script nonce="{{ .Nonce }}">
+  <script nonce="{{ .Config.Nonce }}">
     const baseURL = `${window.location.protocol}//${window.location.host}`;
     const startTime = performance.now();
     let redirected = false;
 
+    // The Java acceptance helper RiskEngineSpinnerHandler regex-scrapes the
+    // redirectURL line below; keep it byte-identical.
     function redirect(status, duration) {
       if (redirected) {
         return;
@@ -25,6 +32,38 @@
       window.location.href = redirectURL.toString();
     }
 
+    function submitFingerprint(data) {
+      if (redirected) {
+        return;
+      }
+      redirected = true;
+      clearTimeout(dbfpTimeout);
+
+      try {
+        const duration = performance.now() - startTime;
+        const actionURL = new URL(decodeURI("{{ .Data.URL }}"), baseURL);
+        actionURL.searchParams.set('dbfp', 'success');
+        actionURL.searchParams.set('duration', Math.round(duration));
+
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = actionURL.toString();
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'dbfp_data';
+        input.value = data;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      } catch (err) {
+        console.log("dbfp submit failed", err);
+        redirected = false;
+        redirect('failure', performance.now() - startTime);
+      }
+    }
+
     const dbfpTimeout = setTimeout(() => {
       const duration = performance.now() - startTime;
       console.log("dbfp timeout");
@@ -34,15 +73,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       SecureAuth.getFingerprint({
         enableGps: false,
-        jwtEnabled: true,
-        apiEndpoint: "dbfp/data/fingerprint",
-        mode: "default",
-      });
-      document.addEventListener('onBfpDataLoad', (e) => {
-        const duration = performance.now() - startTime;
-        console.log("loaded dbfp");
-        clearTimeout(dbfpTimeout);
-        redirect('success', duration);
+        jwtEnabled: false,
+        rerunIntervalEnabled: false,
+        mode: "balanced",
+        onFingerprint: (data) => submitFingerprint(data),
       });
     });
   </script>

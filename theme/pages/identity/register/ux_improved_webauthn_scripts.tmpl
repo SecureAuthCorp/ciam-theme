@@ -89,6 +89,8 @@
     }
 
     function initWebAuthn() {
+      var requireInteraction = {{ .Data.RequireUserInteractionBeforePrompt }};
+
       document.querySelector("#sign-up-form").addEventListener("submit", event => {
         const element = event.submitter;
         if(element["value"] === "submit") {
@@ -96,7 +98,9 @@
           registerUser();
         }
       });
-      registerUser();
+      if (!requireInteraction) {
+        registerUser();
+      }
     }
 
     document.addEventListener("DOMContentLoaded", function () {

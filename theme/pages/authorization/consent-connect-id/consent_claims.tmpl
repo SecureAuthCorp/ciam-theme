@@ -2,10 +2,10 @@
 
 {{ range $key, $value := . }}
     {{ $length := len $value }}
-    <div class="" style="margin-bottom: 8px; background: #f7faff; border-radius: 4px; padding: 8px 12px;">
-        <div class="consent-scope-row" style="margin-bottom: 0">
+    <div class="consent-claims__row">
+        <div class="consent-scope-row consent-claims__scope-row--tight">
             <label for="{{ $key }}">
-                <div style="font-weight: 600;">
+                <div class="consent-claims__label">
                     {{ $key }}
                 </div>
             </label>
@@ -13,9 +13,9 @@
                 <i class="material-icons" data-icon-id="{{ $key }}">keyboard_arrow_down</i>
             </button>
         </div>
-        <div data-desc-id="{{ $key }}" class="non-visible" style="font-size: 12px; margin-top: 8px; margin-bottom: 4px;">
+        <div data-desc-id="{{ $key }}" class="non-visible consent-claims__details">
             {{ range $value }}
-                <div style="margin-top: 4px;">
+                <div class="consent-claims__detail-row">
                     <input type="hidden" name="claims" value="{{ .Name }}" id="{{ .Name }}" >
                     {{ if gt $length 1}}
                         {{ or .Description .Name }} {{ if .Value }} ({{ .Value }}) {{ end }}

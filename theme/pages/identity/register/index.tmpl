@@ -27,6 +27,8 @@
         {{ template "register_with_totp" . }}
       {{ else if eq .Data.TargetViewV2 "pair_device" }}
         {{ template "register_with_device" . }}
+      {{ else }}
+        {{ template "credential_setup_unavailable" . }}
       {{ end }}
     </div>
   </div>

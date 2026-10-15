@@ -1,26 +1,74 @@
 {{ define "qr_code_scan_device_pairing" }}
-  <div class="qr-code-download-text">{{ T "identity.login.authn_mode_qr_code.download_from_app_store" }}</div>
-  <div class="qr-code-app-links">
-    <a href="https://itunes.apple.com/us/app/secureauth-authenticate/id615536686" target="_blank" rel="noopener noreferrer">
-      <img width="210" src="{{ .Config.Assets }}/static/images/app-store.svg" alt="Download on App Store"/>
-    </a>
-    <a href="https://play.google.com/store/apps/details?id=secureauth.android.token&hl=en" target="_blank" rel="noopener noreferrer">
-      <img width="210" src="{{ .Config.Assets }}/static/images/google-play.svg" alt="Get it on Google Play"/>
-    </a>
-  </div>
-  <div class="qr-code-scan-container">
-    <h4 class="qr-code-instruction">{{ T "identity.login.authn_mode_qr_code.scan_instruction" }}</h4>
-    <div class="qr-code-image-wrapper">
-      <img src="data:image/png;base64, {{ .Data.DevicePairingInvitationQR }}" alt="QR Code"/>
+  {{/* the deep link doubles as the flag switch; the else branch must stay identical to dev */}}
+  {{ if .Data.DevicePairingDeepLink }}
+
+    <div class="device-pairing-code">
+      {{ template "qr_code_panel" dict "ID" "pairing-qr" "QR" .Data.DevicePairingInvitationQR "Instruction" (T "identity.login.authn_mode_qr_code.scan_to_pair") }}
+
+      <div class="device-pairing-expiry-row">
+        {{ if .Data.DevicePairingExpirationTime }}
+          <span class="device-pairing-expiry" id="pairing-expiry"
+                data-expires-at="{{ .Data.DevicePairingExpirationTime }}"></span>
+        {{ end }}
+        {{/* href set by script - a GET on the current step re-mints, on any of the three hosts */}}
+        <a id="pairing-restart" class="device-pairing-open" href="" hidden>
+          {{ T "identity.login.authn_mode_qr_code.get_new_code" }}
+        </a>
+      </div>
     </div>
-  </div>
+
+    <div id="pairing-separator" class="device-pairing-separator">{{ T "identity.login.authn_mode_qr_code.or_separator" }}</div>
+
+    {{/* new tab: a tap on a laptop, or an iPad we cannot tell from a Mac, must not cost the QR */}}
+    <a id="tap-to-pair" class="text-button-link device-pairing-open"
+       href="{{ .Data.DevicePairingDeepLink }}" target="_blank" rel="noopener noreferrer">
+      <img class="small-icon" src="{{ .Config.Assets }}/static/images/sa-favicon.svg" alt="" aria-hidden="true"/>
+      {{ T "identity.login.authn_mode_qr_code.open_app" }}
+    </a>
+
+    {{/* the script writes progress into this label, so it sits under the button */}}
+    <div id="get-the-app" class="device-pairing-install-box">
+      <div class="qr-code-download-text" id="get-the-app-text" aria-live="polite">
+        <span id="get-the-app-spinner" class="loader device-pairing-spinner" hidden></span><span
+          id="get-the-app-label">{{ T "identity.login.authn_mode_qr_code.no_app_yet" }}</span>
+      </div>
+      <div class="qr-code-app-links" id="get-the-app-links">
+        <a href="https://itunes.apple.com/us/app/secureauth-authenticate/id615536686" target="_blank" rel="noopener noreferrer">
+          <img width="210" src="{{ .Config.Assets }}/static/images/app-store.svg" alt="Download on App Store"/>
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=secureauth.android.token&hl=en" target="_blank" rel="noopener noreferrer">
+          <img width="210" src="{{ .Config.Assets }}/static/images/google-play.svg" alt="Get it on Google Play"/>
+        </a>
+      </div>
+    </div>
+
+    {{ template "device_pairing_script" . }}
+
+  {{ else }}
+
+    <div class="qr-code-download-text">{{ T "identity.login.authn_mode_qr_code.download_from_app_store" }}</div>
+    <div class="qr-code-app-links">
+      <a href="https://itunes.apple.com/us/app/secureauth-authenticate/id615536686" target="_blank" rel="noopener noreferrer">
+        <img width="210" src="{{ .Config.Assets }}/static/images/app-store.svg" alt="Download on App Store"/>
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=secureauth.android.token&hl=en" target="_blank" rel="noopener noreferrer">
+        <img width="210" src="{{ .Config.Assets }}/static/images/google-play.svg" alt="Get it on Google Play"/>
+      </a>
+    </div>
+    {{ template "qr_code_panel" dict "QR" .Data.DevicePairingInvitationQR "Instruction" (T "identity.login.authn_mode_qr_code.scan_instruction") }}
+
+  {{ end }}
 {{ end }}
 
 {{ define "qr_code_scan_auth" }}
-  <div class="qr-code-scan-container">
-    <h4 class="qr-code-instruction">{{ T "identity.login.authn_mode_qr_code.scan_instruction" }}</h4>
+  {{ template "qr_code_panel" dict "QR" .Data.AuthenticationQRCode "Instruction" (T "identity.login.authn_mode_qr_code.scan_instruction") }}
+{{ end }}
+
+{{ define "qr_code_panel" }}
+  <div{{ if .ID }} id="{{ .ID }}"{{ end }} class="qr-code-scan-container">
+    <h4 class="qr-code-instruction">{{ .Instruction }}</h4>
     <div class="qr-code-image-wrapper">
-      <img src="data:image/png;base64, {{ .Data.AuthenticationQRCode }}" alt="QR Code"/>
+      <img src="data:image/png;base64, {{ .QR }}" alt="QR Code"/>
     </div>
   </div>
 {{ end }}

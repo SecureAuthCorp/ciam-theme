@@ -49,6 +49,8 @@
           {{ template "setup_with_email" . }}
         {{ else if eq $mode "mobile" }}
           {{ template "setup_with_mobile" . }}
+        {{ else }}
+          {{ template "credential_setup_unavailable" . }}
         {{ end }}
       </div>
     </div>

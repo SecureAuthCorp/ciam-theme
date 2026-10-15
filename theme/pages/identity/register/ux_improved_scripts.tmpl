@@ -12,6 +12,7 @@
       disableButtonsOnEmptyInputs();
       setButtonEnablementOnInput();
       initTotpInput('totp-input-container', 6);
+      installSubmitGuard(document.querySelector('form'));
     }
 
     function loadInputNodes() {

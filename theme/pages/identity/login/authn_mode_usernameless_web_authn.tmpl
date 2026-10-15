@@ -9,6 +9,13 @@
         {{ end }}
     </div>
 
+    {{ $state := index .Data.MechanismStates "usernameless_webauthn" }}
+    {{ if and (ne .Data.UserID "") (or (eq $state "needs_setup") (eq $state "unavailable_for_user")) }}
+      <div class="notification-container" id="passkey-not-enrolled-notice">
+        <span>{{ T "identity.login.authn_mode_usernameless_web_authn.not_enrolled" }}</span>
+      </div>
+    {{ end }}
+
     {{ if or (.Data.IsForceAuthMode) (and (.Data.Is2FAStep) (ne .Data.UserDisplayName "")) }}
         {{ if .Data.IsSelfResetCredentialsAllowed }}
             <label class="label-with-link">
@@ -53,5 +60,6 @@
     <input type="checkbox" name="usernamelessWebAuthnMode" id="usernamelessWebAuthnMode" checked class="non-visible">
     <input type="hidden" name="authn_mode" value="usernameless_web_authn_view" id="authnView-input">
     <input type="hidden" name="web_authn_error" id="hidden-text-field-webauthn-error">
+    <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
 
 {{ end }}

@@ -1,6 +1,6 @@
 {{ define "header_profile" }}
 
-<style>
+<style nonce="{{.Config.Nonce}}">
     .profile_container {
         position:relative;
         text-transform: none;
@@ -159,8 +159,8 @@
             </div>
         {{ else }}
             <div class="item_container">
-                <a href="?">
-                    <div style="align-items: flex-start">
+                <a href="?{{ if .Data.Email }}login_hint={{ urlquery .Data.Email }}{{ end }}">
+                    <div class="profile-section--start">
                         <i class="material-icons">exit_to_app</i>
                         <div>
                             <div id="logout-button">Logout</div>
@@ -175,7 +175,7 @@
                     {{ else }}
                     <a href="{{ .Data.OIDCLogoutURL }}">
                         {{ end }}
-                        <div style="align-items: flex-start">
+                        <div class="profile-section--start">
                             <i class="material-icons">exit_to_app</i>
                             <div>
                                 <div id="logout-everywhere-button">Logout Everywhere</div>

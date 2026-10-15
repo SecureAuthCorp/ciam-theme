@@ -1,6 +1,6 @@
 {{ define "authn_methods" }}
 {{/* The grid itself lives in shared/authn_methods.tmpl as "authn_methods_grid", so the setup page can
      render it too. This define stays so a theme that overrides this file keeps winning on the login
-     page; override setup_credentials/authn_methods.tmpl to theme the grid on the setup page. */}}
+     page. The setup page renders the shared grid directly, which themes cannot override. */}}
 {{ template "authn_methods_grid" . }}
 {{ end }}

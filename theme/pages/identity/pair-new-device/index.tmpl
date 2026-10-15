@@ -12,7 +12,7 @@
 
   <div class="card">
     <div class="content" id="main-content">
-      <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&view={{ .Data.DeviceAuthnView }}" method="post">
+      <form action="?login_id={{ .Data.SessionID }}&user_id={{ .Data.UserID}}&login_state={{ .Data.SessionState }}&server_id={{ .Data.ServerID }}&mode={{ .Data.Mode }}&login_hint={{ .Data.LoginHint }}&view={{ .Data.DeviceAuthnView }}" method="post">
 
         <h1 class="no-bottom-margin">{{ T "identity.pair_new_device.pair_your_device" }}</h1>
         <div class="header-bottom-info">{{ T "identity.pair_new_device.header_info" }}</div>
@@ -43,7 +43,7 @@
         {{ end }}
 
         <div class="buttons-container-full-width flex-row-reverse no-margin-bottom extra-top-margin">
-          <button id="submit-next" class="submit-button" type="submit" {{ if .Data.CaptchaSiteKey }} disabled {{ end }} >
+          <button id="submit-next" class="submit-button" type="submit" {{ if and .Data.CaptchaSiteKey (not .Data.CaptchaSiteKeyV3) }} disabled {{ end }} >
             {{ T "identity.pair_new_device.next" }}
           </button>
           {{ if not .Data.ResetWithoutAuthentication }}

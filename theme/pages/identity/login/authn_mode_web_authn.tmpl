@@ -9,6 +9,13 @@
         {{ end }}
     </div>
 
+    {{ $state := index .Data.MechanismStates "webauthn" }}
+    {{ if and (ne .Data.UserID "") (or (eq $state "needs_setup") (eq $state "unavailable_for_user")) }}
+      <div class="notification-container" id="passkey-not-enrolled-notice">
+        <span>{{ T "identity.login.authn_mode_web_authn.not_enrolled" }}</span>
+      </div>
+    {{ end }}
+
     {{ if or (.Data.IsForceAuthMode) ( and (.Data.Is2FAStep) (eq .Data.Identifier ""))}}
         {{ if .Data.IsSelfResetCredentialsAllowed }}
             <label class="label-with-link">

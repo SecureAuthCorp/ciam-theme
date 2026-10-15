@@ -1,25 +1,169 @@
+{{/* auto-submitting variant: an interstitial has no button for "recaptcha-v3" to hook */}}
+{{ define "recaptcha-v3-auto" }}
+    <input type="hidden" hidden name="g-recaptcha-v3-response" id="g-recaptcha-v3-response">
+
+    <script src="https://www.google.com/recaptcha/api.js?render={{ .Data.CaptchaSiteKeyV3 }}" nonce="{{ .Config.Nonce }}"></script>
+
+    <script nonce="{{ .Config.Nonce }}">
+      (function() {
+        var siteKey = "{{ .Data.CaptchaSiteKeyV3 }}";
+        var submitted = false;
+
+        function markSubmitted() {
+          submitted = true;
+        }
+
+        function reveal() {
+          if (submitted) return;
+          var fallback = document.getElementById("captcha-manual-submit");
+          if (fallback) fallback.hidden = false;
+        }
+
+        function submit(token) {
+          // the revealed button may have posted already while this token was in
+          // flight, and posting it now would be a second attempt on a dead token
+          if (submitted) return;
+
+          var form = document.getElementById("captcha-form");
+          if (!form) {
+            reveal();
+            return;
+          }
+
+          var el = document.getElementById("g-recaptcha-v3-response");
+          if (el) el.value = token;
+          markSubmitted();
+          form.submit();
+        }
+
+        function execute() {
+          var form = document.getElementById("captcha-form");
+          // clicking the revealed button fires this; form.submit() dispatches no
+          // event, so the path above marks itself instead
+          if (form) form.addEventListener("submit", markSubmitted);
+
+          // a blocked api.js leaves grecaptcha undefined (throws) or never fires ready(),
+          // and the page must not sit on the loader forever
+          try {
+            grecaptcha.ready(function() {
+              grecaptcha.execute(siteKey, { action: "submit" }).then(submit).catch(reveal);
+            });
+          } catch (e) {
+            reveal();
+          }
+
+          setTimeout(reveal, 10000);
+        }
+
+        window.addEventListener("DOMContentLoaded", execute);
+      })();
+    </script>
+{{ end }}
+
 {{ define "recaptcha-v3" }}
     <input type="hidden" hidden name="g-recaptcha-v3-response" id="g-recaptcha-v3-response">
 
-    <script src="https://www.google.com/recaptcha/api.js?render={{ .Data.CaptchaSiteKeyV3 }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ .Data.CaptchaSiteKeyV3 }}" nonce="{{ .Config.Nonce }}"></script>
 
-    <script>
+    <script nonce="{{ .Config.Nonce }}">
       (function() {
         var siteKey = "{{ .Data.CaptchaSiteKeyV3 }}";
-        var confirmButton;
+        var tokenTimeout = 10000;
         var form;
-        var busy = false;
+        var pending = false;
 
-        function onSubmit(e) {
-          if (busy) return;          // guard against double entry
-          e.preventDefault();
-          busy = true;
-          grecaptcha.ready(function() {
-            grecaptcha.execute(siteKey, { action: "submit" }).then(function(token) {
-              var el = document.getElementById("g-recaptcha-v3-response");
-              if (el) el.value = token;
+        function tokenInput() {
+          return document.getElementById("g-recaptcha-v3-response");
+        }
+
+        // a token is single-use and expires, so one is fetched per submit attempt
+        // and never for a form that already carries one
+        function withToken(submit) {
+          var input = tokenInput();
+
+          if (!input || input.value) {
+            submit();
+            return;
+          }
+
+          // pending drops submits arriving mid-fetch, settled ignores whichever of
+          // the callbacks below loses the race
+          if (pending) return;
+          pending = true;
+
+          var settled = false;
+
+          // the submit goes through either way: an untokenised POST gets a
+          // server-side error the user can act on, an inert page does not
+          function proceed() {
+            if (settled) return;
+            settled = true;
+            pending = false;
+            submit();
+          }
+
+          function execute() {
+            if (settled) return;
+
+            // api.js may still be in flight, or be blocked outright - then
+            // grecaptcha stays undefined and touching it throws
+            if (typeof grecaptcha === "undefined" || !grecaptcha.ready) {
+              setTimeout(execute, 100);
+              return;
+            }
+
+            grecaptcha.ready(function() {
+              // execute() throws instead of rejecting on a refused site key, and
+              // ready() calls back asynchronously - so it needs its own catch
+              try {
+                grecaptcha.execute(siteKey, { action: "submit" }).then(function(token) {
+                  // the backstop may have submitted already - a token parked in the
+                  // form now would be reused later and rejected as expired
+                  if (settled) return;
+
+                  var el = tokenInput();
+                  if (el) el.value = token;
+                  proceed();
+                }).catch(proceed);
+              } catch (e) {
+                proceed();
+              }
+            });
+          }
+
+          execute();
+          // backstop for anything that leaves the callbacks above unreached
+          setTimeout(proceed, tokenTimeout);
+        }
+
+        // form.submit() dispatches no submit event and cannot be intercepted with
+        // a listener, so the passkey and device pairing scripts that call it
+        // would otherwise post an empty token
+        function wrapSubmit() {
+          var input = tokenInput();
+
+          if (form || !input || !input.form) return;
+
+          form = input.form;
+
+          var nativeSubmit = form.submit.bind(form);
+          form.submit = function() {
+            withToken(nativeSubmit);
+          };
+        }
+
+        // hooking the click also covers Enter in a text field: implicit submission
+        // dispatches a click on the form's default button
+        function hookConfirmButton() {
+          var confirmButton = document.querySelector("#submit-next");
+
+          if (!form || !confirmButton) return;
+
+          confirmButton.addEventListener("click", function onClick(e) {
+            e.preventDefault();
+            withToken(function() {
               // stop intercepting further clicks
-              confirmButton.removeEventListener("click", onSubmit);
+              confirmButton.removeEventListener("click", onClick);
               // preferred: trigger normal validated submit
               if (form.requestSubmit) {
                 form.requestSubmit(confirmButton);
@@ -27,18 +171,17 @@
                 // fallback: native submit (skips validation events)
                 form.submit();
               }
-            }).catch(function() {
-              busy = false; // allow retry on failure
             });
           });
         }
 
+        // wrapped before DOMContentLoaded because the passkey prompt can resolve
+        // and submit while the rest of the page is still parsing
+        wrapSubmit();
+
         window.addEventListener("DOMContentLoaded", function() {
-          confirmButton = document.querySelector("#submit-next");
-          form = confirmButton && confirmButton.form;
-          if (confirmButton) {
-            confirmButton.addEventListener("click", onSubmit);
-          }
+          wrapSubmit();
+          hookConfirmButton();
         });
       })();
     </script>

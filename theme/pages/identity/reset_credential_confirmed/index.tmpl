@@ -11,6 +11,9 @@
   <div class="card">
     <div class="content" id="main-content">
       <h1>{{ T "identity.reset_credentials_confirmed.success" }}!</h1>
+
+      {{ if .Data.ShowAddress }}{{ template "identifier_display" .Data }}{{ end }}
+
       <div class="header-info">{{ T "identity.reset_credentials_confirmed.info" }} {{ if eq .Data.CredentialType "webauthn"}}{{ T "identity.reset_credentials_confirmed.passkey" }}{{ else if eq .Data.CredentialType "totp" }}{{ T "identity.reset_credentials_confirmed.authenticator_app" }}{{ else }}{{ .Data.CredentialType }}{{ end }}.</div>
 
       {{ if .Data.LoginPath}}

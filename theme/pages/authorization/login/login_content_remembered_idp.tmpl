@@ -2,26 +2,21 @@
 
   {{ if .Data.RememberedSignInMethod }}
     {{ $context := .Data.RememberedSignInMethod.AuthenticationContext }}
+    {{ $name := or $context.name $context.idp_sub }}
 
     <div class="login-welcome-back-container" id="welcome-back">
       <h1>{{ T "authorization.login.login_content_remembered_idp.welcome_back" }}</h1>
       <div class="login-welcome-back-card">
-        <img src="{{ .Config.Assets }}/static/images/person-icon.svg" alt="welcome back image"/>
+        <span class="href-card-avatar welcome-back-card-avatar">{{ if $name }}{{ index (toChars (printf "%v" $name)) 0 }}{{ end }}</span>
         <div>
           <div class="login-welcome-back-card-name">
-            {{ or $context.name $context.idp_sub }}
+            {{ $name }}
           </div>
           <div class="login-welcome-back-card-email">
             {{ or .Data.RememberedIdentifier $context.email $context.phone $context.idp_sub nil }}
           </div>
         </div>
       </div>
-
-      {{ if (gt (len .Data.Methods) 1) }}
-        <button type="submit" class="login-welcome-back-select-different-link" id="go-back-to-idps-list-button" name="mode" value="select-different-account">
-          {{ T "authorization.login.login_content_remembered_idp.select_different_account" }}
-        </button>
-      {{ end }}
     </div>
   {{ end }}
 

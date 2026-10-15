@@ -11,6 +11,20 @@
 
   {{ template "qr_code_scan_auth" . }}
 
+  {{/* only populated when tap to app is on for the tenant, so it doubles as the flag switch;
+       without it the screen is byte-identical to the pre-feature one */}}
+  {{ if .Data.AuthenticationDeepLink }}
+    <div class="device-pairing-separator">{{ T "identity.login.authn_mode_qr_code.or_separator" }}</div>
+    {{/* new tab: a tap on a laptop, or an iPad we cannot tell from a Mac, must not cost the QR */}}
+    <a id="tap-to-login" class="text-button-link device-pairing-open"
+       href="{{ .Data.AuthenticationDeepLink }}" target="_blank" rel="noopener noreferrer">
+      <img class="small-icon" src="{{ .Config.Assets }}/static/images/sa-favicon.svg" alt="" aria-hidden="true"/>
+      {{ T "identity.login.authn_mode_qr_code.open_app" }}
+    </a>
+    {{/* the QR channel carries no expiry; once the session is gone the screen cannot advance */}}
+    {{ template "device_status_poll" dict "Nonce" .Nonce "FormId" "sign-in-form" "Endpoint" "qr-login-status" "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.LoginSessionExpirationTime }}
+  {{ end }}
+
   {{ template "no_access_to_device" . }}
 
   {{ template "reduce_mfa_prompts" . }}

@@ -2,18 +2,165 @@
   <script nonce="{{ .Nonce }}" src="{{ .FayeURL }}/faye/faye.js"></script>
   <script nonce="{{ .Nonce }}">
     document.addEventListener("DOMContentLoaded", function () {
-      var faye = new Faye.Client("{{ .FayeURL }}/faye");
+      var FAYE = "{{ .FayeURL }}/faye";
+      var CHANNEL = "/messages/{{ .Channel }}";
+      var DRAIN_MS = 30000;
+      var MAX_RECOVERIES = 4;
+      var MIN_RECOVERY_GAP_MS = 3000;
+
       var form = document.getElementById("{{ .FormId }}");
-      faye.subscribe("/messages/{{ .Channel }}", function (data) {
-        if (form) {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = 'action';
-          input.value = 'submit';
-          form.appendChild(input);
-          form.submit();
+      var client = null, clientID = "", wasHidden = false;
+      var recoveries = 0, lastRecoveryAt = 0;
+
+      // shared with expires_countdown, which can submit this same form when the challenge expires
+      function submit() {
+        if (!form || window.acpDeviceChallengeSubmitted) {
+          return;
         }
+
+        window.acpDeviceChallengeSubmitted = true;
+
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "action";
+        input.value = "submit";
+        form.appendChild(input);
+        form.submit();
+      }
+
+      // subscribe() is the only call this page cannot do without; anything beyond it is optional and
+      // probed, because calling something the client lacks would throw before we ever subscribe
+      function connect() {
+        var me;
+
+        client = me = new Faye.Client(FAYE);
+
+        // recovery leaves old clients running on purpose, so an abandoned one must not write
+        // clientID - it can re-handshake with a fresh id and misdirect the next drain
+        if (typeof client.addExtension === "function") {
+          client.addExtension({
+            incoming: function (message, callback) {
+              if (message.clientId && me === client) {
+                clientID = message.clientId;
+              }
+              callback(message);
+            }
+          });
+        } else {
+          window.console.warn("faye client has no addExtension; a resume cannot drain this session");
+        }
+
+        subscribe();
+      }
+
+      function subscribe() {
+        var subscription = client.subscribe(CHANNEL, submit);
+
+        // only a confirmed subscription may report the stream as up - claiming it without one would
+        // suppress the status poll that exists to cover a stream which never arrived
+        if (subscription && typeof subscription.then === "function") {
+          subscription.then(function () {
+            window.acpDeviceStreamUp = true;
+          }, function (error) {
+            window.console.warn("device challenge subscribe failed", error);
+          });
+        } else {
+          window.console.warn("faye client returned no thenable subscription; leaving the poll in charge");
+        }
+      }
+
+      // Re-issue the connect for the abandoned session to collect whatever arrived while the page
+      // was suspended. It has to stay a HELD request: a zero-timeout connect only peeks and misses a
+      // message landing moments later. See the ticket for why the client cannot recover on its own.
+      function drain(staleID) {
+        var controller = new AbortController();
+        var release = window.setTimeout(function () {
+          controller.abort();
+        }, DRAIN_MS);
+
+        window.fetch(FAYE, {
+          method: "POST",
+          cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+          body: JSON.stringify([{
+            channel: "/meta/connect",
+            clientId: staleID,
+            connectionType: "long-polling"
+          }])
+        }).then(function (response) {
+          return response.json();
+        }).then(function (messages) {
+          window.clearTimeout(release);
+
+          for (var i = 0; i < messages.length; i++) {
+            if (messages[i].channel === CHANNEL) {
+              submit();
+              return;
+            }
+          }
+        }).catch(function (error) {
+          window.clearTimeout(release);
+
+          // a refused drain is indistinguishable from the bug this page exists to fix, so surface it;
+          // hitting DRAIN_MS is the ordinary outcome and stays quiet
+          if (!error || error.name !== "AbortError") {
+            window.console.warn("device challenge drain failed", error);
+          }
+        });
+      }
+
+      function recover() {
+        var now = new Date().getTime();
+        var staleID = clientID;
+
+        // every recovery leaves another session open for the life of the page, so bound how many a
+        // page may start and how closely together
+        if (recoveries >= MAX_RECOVERIES || now - lastRecoveryAt < MIN_RECOVERY_GAP_MS) {
+          return;
+        }
+
+        recoveries++;
+        lastRecoveryAt = now;
+        clientID = "";
+
+        // the page has no working stream until the rebuild resubscribes; leaving this set would tell
+        // the status poll a healthy stream is covering a resume that may never complete
+        window.acpDeviceStreamUp = false;
+
+        // rebuild first: a message published between here and the drain then lands in both queues,
+        // and never disconnect the old client - /meta/disconnect would drop the queue we came for
+        connect();
+
+        if (staleID) {
+          drain(staleID);
+        }
+      }
+
+      // Returning to the page is the only trustworthy sign that it was suspended; the transport's own
+      // events cannot distinguish that from an idle connection (see the ticket). wasHidden is what
+      // makes this a resume rather than a load - pageshow also fires on an ordinary page load, and
+      // recovering there would build a second client on every page.
+      function resumed() {
+        if (!wasHidden || document.visibilityState === "hidden") {
+          return;
+        }
+
+        wasHidden = false;
+        recover();
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "hidden") {
+          wasHidden = true;
+          return;
+        }
+
+        resumed();
       });
+      window.addEventListener("pageshow", resumed);
+
+      connect();
     });
   </script>
 {{ end }}
