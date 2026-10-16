@@ -2,7 +2,6 @@
   <script nonce="{{ .Nonce }}">
     document.addEventListener("DOMContentLoaded", function () {
       var ENDPOINT = "{{ .Endpoint }}";
-      var SINCE = "{{ .Since }}";
       var UNTIL = "{{ .Until }}";
       var LOGIN_ID = "{{ .LoginID }}";
       var LOGIN_STATE = "{{ .LoginState }}";
@@ -49,10 +48,6 @@
         if (LOGIN_ID && LOGIN_STATE) {
           params.set("login_id", LOGIN_ID);
           params.set("login_state", LOGIN_STATE);
-        }
-
-        if (SINCE) {
-          params.set("since", SINCE);
         }
 
         var query = params.toString();

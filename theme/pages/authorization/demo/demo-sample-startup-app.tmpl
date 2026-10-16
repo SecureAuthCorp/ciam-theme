@@ -2,7 +2,7 @@
 
 {{ define "demo-sample-startup-app" }}
 
-    <style>
+    <style nonce="{{.Config.Nonce}}">
         .background {
             background: url({{ .Config.Assets }}/static/images/demo_app_background.svg) no-repeat fixed center 140px;
             height: 100vh;

@@ -19,15 +19,9 @@
 
         {{ if eq .Data.SetupMode "terminal" }}
           {{ if .Data.SetupUnavailableTenantOnly }}
-            <div class="setup-credential-header-container">
-              <h1 class="no-bottom-margin">{{ T "identity.setup_credentials.unavailable_tenant_title" }}</h1>
-              {{ if .Data.Is2FAStep }}
-                <img src="{{ .Config.Assets }}/static/images/2fa-icon.svg" alt="second factor step" class="icon-2fa"/>
-              {{ end }}
-            </div>
-            <h3 class="no-bottom-margin">{{ T "identity.setup_credentials.unavailable_tenant_info" }}</h3>
+            {{ template "credential_setup_unavailable_header" dict "Title" "identity.setup_credentials.unavailable_tenant_title" "Info" "identity.setup_credentials.unavailable_tenant_info" "Icon" .Data.SecondFactorStep "Assets" .Config.Assets }}
           {{ else }}
-            {{ template "credential_setup_unavailable" . }}
+            {{ template "credential_setup_unavailable_header" dict "Title" "identity.setup_credentials.unavailable_title" "Info" "identity.setup_credentials.unavailable_info" "Icon" .Data.SecondFactorStep "Assets" .Config.Assets }}
           {{ end }}
           {{ if .Data.SetupReasons }}
             <p class="header-bottom-info" id="setup-unavailable-reasons">{{ range $i, $key := .Data.SetupReasons }}{{ if $i }}; {{ end }}{{ template "setup_reason" dict "Key" $key }}{{ end }}</p>
@@ -40,7 +34,9 @@
           <h1 {{ if not .Data.IsUserInitializedView }}class="no-bottom-margin"{{ end }}>{{ T .Data.SingleMethodSetupKey }}</h1>
         {{ end }}
 
-        <div class="header-bottom-info">{{ T "identity.setup_credentials.header_info" }}</div>
+        {{ if or (not .Data.IsUserInitializedView) (ne .Data.SetupMode "legacy") }}
+          <div class="header-bottom-info">{{ T "identity.setup_credentials.header_info" }}</div>
+        {{ end }}
 
         {{ if or (gt (len .Data.UserEmails) 0) (gt (len .Data.UserMobiles) 0) }}
           {{ $totalAddresses := add (len .Data.UserEmails) (len .Data.UserMobiles) }}
@@ -98,7 +94,7 @@
             {{end}}
           </div>
 
-          {{ if not .Data.IsSingleMethodView }}
+          {{ if and (not .Data.IsSingleMethodView) (eq .Data.Primary "") }}
           <label for="text-field-username-input" class="label-with-link">
               {{ T "identity.setup_credentials.pick_method" }}
           </label>
@@ -187,14 +183,19 @@
             </div>
           {{ end }}
         {{ else }}
-          <div class="methods-grid methods-grid--flex" id="setup-credentials-methods-grid">
+          {{ if and (ne .Data.Primary "") (or .Data.HasSetupAlternatives .Data.UnavailableMethods) }}
+          <div class="spacer-container extra-top-margin" id="setup-alternatives-divider">
+            <div>{{ T "identity.login.authn_methods.or" }}</div>
+          </div>
+          {{ end }}
+          <div class="methods-grid methods-grid--flex{{ if ne .Data.SetupMode "legacy" }} methods-grid--wrap{{ end }}{{ if and (ne .Data.Primary "") (not .Data.HasSetupAlternatives) (not .Data.UnavailableMethods) }} extra-top-margin-small{{ end }}" id="setup-credentials-methods-grid">
             {{ if and .Data.Password (ne .Data.Primary "password") }}
               <button class="href-card" type="submit" name="action" value="setup_password" {{ if and (eq (len .Data.UserEmails) 0) (eq (len .Data.UserMobiles) 0) }} disabled {{ end }} >
                 <div>
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/password-icon-2.svg" alt="password method image"/>
                   </span>
-                  <span>{{ T "identity.activate.activation_methods.password" }}</span>
+                  <span{{ if ne $.Data.SetupMode "legacy" }} class="href-card-label"{{ end }}>{{ T "identity.activate.activation_methods.password" }}</span>
                 </div>
               </button>
             {{ end }}
@@ -205,7 +206,7 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/webauthn-icon.svg" alt="passkey method image"/>
                   </span>
-                  <span>{{ T "identity.activate.activation_methods.passkey" }}</span>
+                  <span{{ if ne $.Data.SetupMode "legacy" }} class="href-card-label"{{ end }}>{{ T "identity.activate.activation_methods.passkey" }}</span>
                 </div>
               </button>
             {{ end }}
@@ -216,7 +217,7 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/usernameless-webauthn-icon.svg" alt="smart passkey method image"/>
                   </span>
-                  <span>{{ T "identity.activate.activation_methods.usernameless_passkey" }}</span>
+                  <span{{ if ne $.Data.SetupMode "legacy" }} class="href-card-label"{{ end }}>{{ T "identity.activate.activation_methods.usernameless_passkey" }}</span>
                 </div>
               </button>
             {{ end }}
@@ -227,7 +228,7 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/smartphone-icon.svg" alt="authentication app method image"/>
                   </span>
-                  <span>{{ T "identity.activate.activation_methods.authenticator_app" }}</span>
+                  <span{{ if ne $.Data.SetupMode "legacy" }} class="href-card-label"{{ end }}>{{ T "identity.activate.activation_methods.authenticator_app" }}</span>
                 </div>
               </button>
             {{ end }}
@@ -238,7 +239,20 @@
                   <span class="href-card-avatar href-card-avatar-with-img small-icon">
                     <img src="{{ .Config.Assets }}/static/images/sa-favicon.svg" alt="sa mobile app method image" />
                   </span>
-                  <span>{{ T "identity.activate.activation_methods.pair_device" }}</span>
+                  <span{{ if ne $.Data.SetupMode "legacy" }} class="href-card-label"{{ end }}>{{ T "identity.activate.activation_methods.pair_device" }}</span>
+                </div>
+              </button>
+            {{ end }}
+            {{ range .Data.UnavailableMethods }}
+              <button type="button" {{ template "authn_card_attrs" .Badge }} id="setup-unavailable-{{ .Mechanism }}">
+                <div>
+                  {{ if .Icon }}
+                  <span class="href-card-avatar href-card-avatar-with-img small-icon">
+                    <img src="{{ $.Config.Assets }}/static/images/{{ .Icon }}" alt="" />
+                  </span>
+                  {{ end }}
+                  <span class="href-card-label">{{ T .Label }}</span>
+                  {{ template "authn_badge" .Badge }}
                 </div>
               </button>
             {{ end }}
@@ -254,6 +268,25 @@
       {{ if eq .Data.SetupMode "primary_with_login" }}
         <form method="post" action="{{ .Data.LoginFormAction }}" id="authn-methods-form" class="extra-top-margin">
           {{ template "authn_methods_grid" . }}
+        </form>
+      {{ end }}
+
+      {{ if .Data.SkipAllowed }}
+        <form method="post" action="{{ .Data.LoginFormAction }}" id="skip-2fa-form" class="extra-top-margin">
+          <div class="buttons-container-full-width">
+            <button class="text-button" type="submit" id="skip-2fa-button" name="action" value="skip_2fa">{{ if eq .Data.SetupMode "terminal" }}{{ T "identity.setup_credentials.skip_for_now" }}{{ else }}{{ T "identity.login.allow_skip_2fa.set_up_later" }}{{ end }}</button>
+          </div>
+        </form>
+      {{ end }}
+
+      {{ if eq .Data.SetupMode "terminal" }}
+        <form method="post" action="{{ .Data.CancelFormAction }}" id="cancel-login-form" class="{{ if .Data.SkipAllowed }}extra-top-margin-small{{ else }}extra-top-margin{{ end }}">
+          <div class="buttons-container-full-width">
+            {{ if .Data.IsUserInitializedView }}
+              <a href="{{ .Data.LoginPath }}" class="text-button-link" id="terminal-back-link">{{ T "identity.setup_credentials.back" }}</a>
+            {{ end }}
+            <button class="text-button" type="submit" id="cancel-login-button">{{ T "identity.setup_credentials.cancel" }}</button>
+          </div>
         </form>
       {{ end }}
     </div>

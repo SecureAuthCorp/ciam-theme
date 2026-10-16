@@ -15,7 +15,7 @@
   {{ range $k, $v := .Values }}
 
     <div class="input-with-button array-item">
-      <input type="text" class="{{ if $field.Classes }}{{range $field.Classes}} {{.}}{{end}}{{end}}" style="{{range $k, $v := $field.CSS}}{{$k}}:{{$v}};{{end}}" {{ if $field.ID}}id="{{$field.ID}}"{{else}}id="text-field-{{$field.Name}}-input-{{$v}}"{{end}} name="{{$field.Name}}" {{ if $v}} value="{{$v}}"{{end}} {{range $k, $v := $field.Params}} {{$k}}="{{$v}}"{{end}}>
+      <input type="text" class="{{ if $field.Classes }}{{range $field.Classes}} {{.}}{{end}}{{end}}" {{ if $field.ID}}id="{{$field.ID}}"{{else}}id="text-field-{{$field.Name}}-input-{{$v}}"{{end}} name="{{$field.Name}}" {{ if $v}} value="{{$v}}"{{end}} {{range $k, $v := $field.Params}} {{$k}}="{{$v}}"{{end}}>
       <button type="button" aria-label="Remove item" class="delete-input-array">
         <i class="material-icons">delete</i>
       </button>

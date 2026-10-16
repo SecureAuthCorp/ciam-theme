@@ -78,6 +78,13 @@
         margin-top: 64px;
       }
 
+      .tenant-id {
+        margin-top: 20px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 9px;
+        color: #555454;
+      }
+
       .code-container {
         background-color: #e9ebec;
         text-align: center;
@@ -487,6 +494,7 @@
                                 >contact us</a
                               >.
                             </div>
+                            <div class="caption tenant-id">{{ T "emails.tenant_info" (dict "TenantID" .Config.TenantID) }}</div>
                             <div class="caption footer-caption">POWERED BY</div>
                             <div class="footer-logo">
                               <a

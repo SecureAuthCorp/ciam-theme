@@ -19,7 +19,7 @@
             </div>
           </label>
 
-          <button type="button" aria-label="{{ T "authorization.consent-rar.consent_rars.show_authorization_detail_description" }}" data-scope-name="{{ .Type }}" class="scope-desc-toggle" style="display: {{ if and .PayloadAsString (gt (len $data.AuthorizationDetails) 1) }}flex{{else}}none{{end}}">
+          <button type="button" aria-label="{{ T "authorization.consent-rar.consent_rars.show_authorization_detail_description" }}" data-scope-name="{{ .Type }}" class="scope-desc-toggle {{ if and .PayloadAsString (gt (len $data.AuthorizationDetails) 1) }}scope-desc-toggle--flex{{else}}scope-desc-toggle--hidden{{end}}">
             <i class="material-icons" data-icon-id="{{ .Type }}"> keyboard_arrow_down</i>
           </button>
         </div>
