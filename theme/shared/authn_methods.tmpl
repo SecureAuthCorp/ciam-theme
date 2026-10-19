@@ -23,7 +23,7 @@
         {{ range $card := .Data.CardOrder }}
         {{ if eq $card "password" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.password }}
-          {{ if ne $.Data.AuthnView "password_view" }}
+          {{ if ne $.Data.HiddenCard "password" }}
               {{ $badge := $.Data.Badge "password" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="change_to_password" id="login-option-password">
                 <div>
@@ -40,7 +40,7 @@
 
         {{ if eq $card "otp" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.otp }}
-            {{ if and ( not ( and (eq $.Data.AuthnView "otp_send_view") (eq $.Data.OtpMode ""))) (not ( and (eq $.Data.AuthnView "otp_verify_view") (eq $.Data.OtpMode ""))) (not ( and (eq $.Data.AuthnView "otp_use_alternative_view") (eq $.Data.OtpMode ""))) }}
+            {{ if ne $.Data.HiddenCard "otp" }}
                 {{ $badge := $.Data.Badge "otp" }}
                 <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="{{ if and (or $.Data.IsForceAuthMode $.Data.Is2FAStep (not (eq $.Data.Identifier ""))) (not $.Data.RequireUserConfirmationBeforeSend) }}send_otp{{ else }}change_to_otp{{ end }}" id="login-option-code">
                     <div>
@@ -57,7 +57,7 @@
 
         {{ if eq $card "webauthn" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.webauthn }}
-          {{if ne $.Data.AuthnView "web_authn_view" }}
+          {{ if ne $.Data.HiddenCard "webauthn" }}
               {{ $badge := $.Data.Badge "webauthn" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="change_to_web_authn" id="login-option-web-authn">
                 <div>
@@ -74,7 +74,7 @@
 
         {{ if eq $card "usernameless_webauthn" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.usernameless_webauthn }}
-          {{if ne $.Data.AuthnView "usernameless_web_authn_view" }}
+          {{ if ne $.Data.HiddenCard "usernameless_webauthn" }}
               {{ $badge := $.Data.Badge "usernameless_webauthn" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="change_to_usernameless_web_authn" id="login-option-usernameless-web-authn">
                 <div>
@@ -91,7 +91,7 @@
 
         {{ if eq $card "totp" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.totp }}
-          {{if ne $.Data.AuthnView "totp_view" }}
+          {{ if ne $.Data.HiddenCard "totp" }}
               {{ $badge := $.Data.Badge "totp" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="change_to_totp" id="login-option-totp">
                 <div>
@@ -108,7 +108,7 @@
 
         {{ if eq $card "email_otp" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.email_otp }}
-          {{ if and ( not ( and (eq $.Data.AuthnView "otp_send_view") (eq $.Data.OtpMode "email"))) (not ( and (eq $.Data.AuthnView "otp_verify_view") (eq $.Data.OtpMode "email"))) (not ( and (eq $.Data.AuthnView "otp_use_alternative_view") (eq $.Data.OtpMode "email"))) }}
+          {{ if ne $.Data.HiddenCard "email_otp" }}
               {{ $badge := $.Data.Badge "email_otp" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="{{ if and (or $.Data.IsForceAuthMode $.Data.Is2FAStep (not (eq $.Data.Identifier ""))) (not $.Data.RequireUserConfirmationBeforeSend) }}send_email_otp{{ else }}change_to_email_otp{{ end }}" id="login-option-email-otp">
                   <div>
@@ -125,7 +125,7 @@
 
         {{ if eq $card "sms_otp" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.sms_otp }}
-          {{ if and ( not ( and (eq $.Data.AuthnView "otp_send_view") (eq $.Data.OtpMode "sms"))) (not ( and (eq $.Data.AuthnView "otp_verify_view") (eq $.Data.OtpMode "sms"))) (not ( and (eq $.Data.AuthnView "otp_use_alternative_view") (eq $.Data.OtpMode "sms"))) }}
+          {{ if ne $.Data.HiddenCard "sms_otp" }}
               {{ $badge := $.Data.Badge "sms_otp" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="{{ if and (or $.Data.IsForceAuthMode $.Data.Is2FAStep (not (eq $.Data.Identifier ""))) (not $.Data.RequireUserConfirmationBeforeSend) }}send_sms_otp{{ else }}change_to_sms_otp{{ end }}" id="login-option-sms-otp">
                   <div>
@@ -142,7 +142,7 @@
 
         {{ if eq $card "voice_otp" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.voice_otp }}
-          {{ if and ( not ( and (eq $.Data.AuthnView "otp_send_view") (eq $.Data.OtpMode "voice"))) (not ( and (eq $.Data.AuthnView "otp_verify_view") (eq $.Data.OtpMode "voice"))) (not ( and (eq $.Data.AuthnView "otp_use_alternative_view") (eq $.Data.OtpMode "voice"))) }}
+          {{ if ne $.Data.HiddenCard "voice_otp" }}
               {{ $badge := $.Data.Badge "voice_otp" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="{{ if and (or $.Data.IsForceAuthMode $.Data.Is2FAStep (not (eq $.Data.Identifier ""))) (not $.Data.RequireUserConfirmationBeforeSend) }}send_voice_otp{{ else }}change_to_voice_otp{{ end }}" id="login-option-voice-otp">
                   <div>
@@ -159,7 +159,7 @@
 
         {{ if eq $card "push" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.push }}
-          {{ if and (not (eq $.Data.AuthnView "push_send_view" )) (not (eq $.Data.AuthnView "push_wait_view" )) }}
+          {{ if ne $.Data.HiddenCard "push" }}
               {{ $badge := $.Data.Badge "push" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="{{ if or $.Data.IsForceAuthMode $.Data.Is2FAStep (not (eq $.Data.Identifier ""))}}send_push{{ else }}change_to_push{{ end }}" id="login-option-push">
                 <div>
@@ -176,7 +176,7 @@
 
         {{ if eq $card "symbol" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.symbol }}
-          {{ if and (not (eq $.Data.AuthnView "symbol_send_view" )) (not (eq $.Data.AuthnView "symbol_wait_view" )) }}
+          {{ if ne $.Data.HiddenCard "symbol" }}
               {{ $badge := $.Data.Badge "symbol" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="{{ if or $.Data.IsForceAuthMode $.Data.Is2FAStep (not (eq $.Data.Identifier ""))}}send_symbol{{ else }}change_to_symbol{{ end }}" id="login-option-symbol">
                 <div>
@@ -193,7 +193,7 @@
 
         {{ if eq $card "qr_code" }}
         {{ if $.Data.AuthenticationMechanismsAvailability.qr_code }}
-          {{ if and (not (eq $.Data.AuthnView "qr_code_scan_view" )) (not (eq $.Data.AuthnView "qr_code_push_wait_view" )) }}
+          {{ if ne $.Data.HiddenCard "qr_code" }}
               {{ $badge := $.Data.Badge "qr_code" }}
               <button {{ template "authn_card_attrs" $badge }} type="submit" name="action" value="change_to_qr_code" id="login-option-qr_code">
                 <div>

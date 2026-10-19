@@ -1,5 +1,18 @@
 {{ define "methods_grid_script" }}
   <script nonce="{{ .Nonce }}">
+    var phoneQuery = window.matchMedia ? window.matchMedia('(max-width: 480px)') : null;
+
+    function watchMethodsGrid(gridId) {
+      var grid = document.getElementById(gridId);
+      if (!grid || !phoneQuery || !grid.classList.contains('authn-methods-grid--badged')) return;
+      var relayout = function() { initMethodsGrid(gridId); };
+      if (phoneQuery.addEventListener) {
+        phoneQuery.addEventListener('change', relayout);
+      } else if (phoneQuery.addListener) {
+        phoneQuery.addListener(relayout);
+      }
+    }
+
     function initMethodsGrid(gridId) {
       var grid = document.getElementById(gridId);
       if (!grid) return;
@@ -16,7 +29,11 @@
       // - 8 items: [3, 3, 2]
       // - 9+ items: rows of 3, remainder in last row
       var rowCounts = [];
-      if (count === 1) {
+      if (grid.classList.contains('authn-methods-grid--badged') && phoneQuery && phoneQuery.matches) {
+        for (var paired = 0; paired < count; paired += 2) {
+          rowCounts.push(Math.min(2, count - paired));
+        }
+      } else if (count === 1) {
         rowCounts = [1];
       } else if (count === 2) {
         rowCounts = [2];
@@ -55,9 +72,10 @@
       }
     }
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() { initMethodsGrid('{{ .GridId }}'); });
+      document.addEventListener('DOMContentLoaded', function() { initMethodsGrid('{{ .GridId }}'); watchMethodsGrid('{{ .GridId }}'); });
     } else {
       initMethodsGrid('{{ .GridId }}');
+      watchMethodsGrid('{{ .GridId }}');
     }
   </script>
 {{ end }}
