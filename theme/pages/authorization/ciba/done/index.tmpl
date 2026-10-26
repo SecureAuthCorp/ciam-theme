@@ -1,0 +1,18 @@
+{{ template "base" . }}
+
+{{ define "title" }}{{ if eq .Data.Result "approved" }}{{ T "authorization.ciba.done.approved.title" }}{{ else if eq .Data.Result "rejected" }}{{ T "authorization.ciba.done.rejected.title" }}{{ else if eq .Data.Result "inactive" }}{{ T "authorization.ciba.done.inactive.title" }}{{ else if eq .Data.Result "stale" }}{{ T "authorization.ciba.done.stale.title" }}{{ end }}{{ end }}
+
+{{ define "content" }}
+  <div class="header-container">
+    {{ template "header" .Config }}
+  </div>
+
+  <div class="card">
+    <div class="content" id="main-content">
+      <h1 id="ciba-result-{{ .Data.Result }}">{{ template "title" . }}</h1>
+      <div class="header-info">{{ if eq .Data.Result "approved" }}{{ T "authorization.ciba.done.approved.info" }}{{ else if eq .Data.Result "rejected" }}{{ T "authorization.ciba.done.rejected.info" }}{{ else if eq .Data.Result "inactive" }}{{ T "authorization.ciba.done.inactive.info" }}{{ else if eq .Data.Result "stale" }}{{ T "authorization.ciba.done.stale.info" }}{{ end }}</div>
+    </div>
+  </div>
+
+  {{ template "footer" . }}
+{{ end }}

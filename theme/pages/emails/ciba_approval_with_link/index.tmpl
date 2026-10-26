@@ -1,0 +1,17 @@
+{{ template "base_email" . }}
+
+{{ define "content" }}
+
+<div class="heading2">{{ T "emails.ciba_approval_with_link.heading" }}</div>
+<div class="main-text">{{ T "emails.ciba_approval_with_link.body" (dict "ClientName" .Data.ClientName) }}</div>
+<div class="main-text">{{ T "emails.ciba_approval_with_link.review" }}</div>
+<div class="main-text">{{ T "emails.ciba_approval_with_link.expires" (dict "Minutes" .Data.ExpiresInMinutes) }}</div>
+<div class="link-container">
+	<a href="{{ .Data.Link }}" rel="noopener noreferrer">{{ T "emails.ciba_approval_with_link.button" }}</a>
+</div>
+<div class="helper-link-container">
+{{ T "emails.ciba_approval_with_link.link_alternative" }}
+<div class="link-container-box">{{ .Data.Link }}</div>
+</div>
+
+{{ end }}

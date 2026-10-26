@@ -1,0 +1,29 @@
+{{ template "base" . }}
+
+{{ define "title" }}{{ T "authorization.ciba.approve.title" }}{{ end }}
+
+{{ define "content" }}
+  <div class="header-container">
+    {{ template "header" .Config }}
+  </div>
+
+  <div class="card">
+    <div class="content" id="main-content">
+      <h1>{{ T "authorization.ciba.approve.title" }}</h1>
+      <div class="header-info" id="ciba-wants-to-act">{{ T "authorization.ciba.approve.wants_to_act" (dict "ClientName" .Data.ClientName) }}</div>
+      {{ if .Data.BindingMessage }}
+        <blockquote class="binding-message" id="ciba-binding-message">{{ .Data.BindingMessage }}</blockquote>
+      {{ end }}
+      <form method="post" action="approve" id="ciba-approval-form">
+        <input type="hidden" name="hash" value="{{ .Data.Hash }}">
+        <input type="hidden" name="csrf" value="{{ .Data.CSRF }}">
+        <div class="buttons-container-full-width extra-top-margin">
+          <button class="text-button" type="submit" name="action" value="deny" id="ciba-reject">{{ T "authorization.ciba.approve.reject" }}</button>
+          <button class="submit-button" type="submit" name="action" value="allow" id="ciba-approve">{{ T "authorization.ciba.approve.approve" }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {{ template "footer" . }}
+{{ end }}
