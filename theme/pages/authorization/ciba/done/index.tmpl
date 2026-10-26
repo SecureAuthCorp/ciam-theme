@@ -1,6 +1,6 @@
 {{ template "base" . }}
 
-{{ define "title" }}{{ if eq .Data.Result "approved" }}{{ T "authorization.ciba.done.approved.title" }}{{ else if eq .Data.Result "rejected" }}{{ T "authorization.ciba.done.rejected.title" }}{{ else if eq .Data.Result "inactive" }}{{ T "authorization.ciba.done.inactive.title" }}{{ else if eq .Data.Result "stale" }}{{ T "authorization.ciba.done.stale.title" }}{{ end }}{{ end }}
+{{ define "title" }}{{ if eq .Data.Result "approved" }}{{ T "authorization.ciba.done.approved.title" }}{{ else if eq .Data.Result "rejected" }}{{ T "authorization.ciba.done.rejected.title" }}{{ else if eq .Data.Result "inactive" }}{{ T "authorization.ciba.done.inactive.title" }}{{ else if eq .Data.Result "wrong_account" }}{{ T "authorization.ciba.done.wrong_account.title" }}{{ else if eq .Data.Result "not_allowed" }}{{ T "authorization.ciba.done.not_allowed.title" }}{{ else if eq .Data.Result "login_incomplete" }}{{ T "authorization.ciba.done.login_incomplete.title" }}{{ else if eq .Data.Result "stale" }}{{ T "authorization.ciba.done.stale.title" }}{{ end }}{{ end }}
 
 {{ define "content" }}
   <div class="header-container">
@@ -10,7 +10,10 @@
   <div class="card">
     <div class="content" id="main-content">
       <h1 id="ciba-result-{{ .Data.Result }}">{{ template "title" . }}</h1>
-      <div class="header-info">{{ if eq .Data.Result "approved" }}{{ T "authorization.ciba.done.approved.info" }}{{ else if eq .Data.Result "rejected" }}{{ T "authorization.ciba.done.rejected.info" }}{{ else if eq .Data.Result "inactive" }}{{ T "authorization.ciba.done.inactive.info" }}{{ else if eq .Data.Result "stale" }}{{ T "authorization.ciba.done.stale.info" }}{{ end }}</div>
+      <div class="header-info">{{ if eq .Data.Result "approved" }}{{ T "authorization.ciba.done.approved.info" }}{{ else if eq .Data.Result "rejected" }}{{ T "authorization.ciba.done.rejected.info" }}{{ else if eq .Data.Result "inactive" }}{{ T "authorization.ciba.done.inactive.info" }}{{ else if eq .Data.Result "wrong_account" }}{{ T "authorization.ciba.done.wrong_account.info" }}{{ else if eq .Data.Result "not_allowed" }}{{ T "authorization.ciba.done.not_allowed.info" }}{{ else if eq .Data.Result "login_incomplete" }}{{ T "authorization.ciba.done.login_incomplete.info" }}{{ else if eq .Data.Result "stale" }}{{ T "authorization.ciba.done.stale.info" }}{{ end }}</div>
+      {{ if and (eq .Data.Result "wrong_account") .Data.State }}
+        <a class="login-welcome-back-select-different-link" href="approve?state={{ .Data.State }}&amp;switch_account=1" id="ciba-switch-account">{{ T "authorization.ciba.done.wrong_account.switch" }}</a>
+      {{ end }}
     </div>
   </div>
 

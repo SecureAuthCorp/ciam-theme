@@ -22,6 +22,9 @@
           <button class="submit-button" type="submit" name="action" value="allow" id="ciba-approve">{{ T "authorization.ciba.approve.approve" }}</button>
         </div>
       </form>
+      {{ if .Data.Authenticated }}
+        <div class="text-field-helper extra-top-margin" id="ciba-signed-in-as">{{ T "authorization.ciba.approve.signed_in_as" (dict "Email" .Data.Email) }}</div>
+      {{ end }}
     </div>
   </div>
 
