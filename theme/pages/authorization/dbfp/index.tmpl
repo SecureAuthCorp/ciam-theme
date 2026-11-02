@@ -12,7 +12,7 @@
     <a href="{{ .Data.URL }}&dbfp=noscript">Continue</a>
   </noscript>
 
-  <script src="/dbfp/bfp7.js" defer></script>
+  <script src="/dbfp/bfp7.js" nonce="{{ .Config.Nonce }}" defer></script>
 
   <script nonce="{{ .Config.Nonce }}">
     const baseURL = `${window.location.protocol}//${window.location.host}`;

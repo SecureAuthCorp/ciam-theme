@@ -55,7 +55,7 @@
 
       {{ template "qr_code_scan_device_pairing" . }}
 
-      {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
+      {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Config.Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
 
       <div class="buttons-container-full-width extra-top-margin flex-row-reverse">
         <button type="submit" name="action" value="change_to_user" class="text-button" form="sign-up-form">

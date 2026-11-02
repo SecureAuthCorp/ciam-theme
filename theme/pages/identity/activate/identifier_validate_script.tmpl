@@ -1,5 +1,5 @@
 {{ define "identifier_validate_script_in_activate" }}
-  <script nonce="{{.Nonce}}">
+  <script nonce="{{.Config.Nonce}}">
 
     window.addEventListener("DOMContentLoaded", function () {
       var identifierInput = document.getElementById("text-field-address-input");

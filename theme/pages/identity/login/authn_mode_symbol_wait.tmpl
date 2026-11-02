@@ -37,12 +37,12 @@
   {{ end }}
 
   <div class="push-loader-container">
-      {{ template "lottie_player" dict "Nonce" .Nonce "Assets" .Config.Assets "Src" "loader-symbol.json" }}
+      {{ template "lottie_player" dict "Nonce" .Config.Nonce "Assets" .Config.Assets "Src" "loader-symbol.json" }}
       <div class="push-symbol">{{ .Data.PushSymbol }}</div>
       <div class="loader-text">{{ T "identity.login.authn_mode_push.waiting_for_approval" }}</div>
   </div>
 
-  {{ template "expires_countdown" dict "Nonce" .Nonce "ExpiresAt" .Data.DeviceChallengeExpirationTime }}
+  {{ template "expires_countdown" dict "Nonce" .Config.Nonce "ExpiresAt" .Data.DeviceChallengeExpirationTime }}
 
   {{ template "no_access_to_device" . }}
 
@@ -56,8 +56,8 @@
   <input type="hidden" name="authn_mode" value="symbol_wait" id="authnView-input">
   <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
 
-  {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-in-form" "Channel" .Data.Channel }}
-  {{ template "device_status_poll" dict "Nonce" .Nonce "FormId" "sign-in-form" "Endpoint" "device-challenge-status" "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.DeviceChallengeExpirationTime }}
+  {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Config.Nonce "FormId" "sign-in-form" "Channel" .Data.Channel }}
+  {{ template "device_status_poll" dict "Nonce" .Config.Nonce "FormId" "sign-in-form" "Endpoint" "device-challenge-status" "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.DeviceChallengeExpirationTime }}
 
   <div class="non-visible" id="version" data-version="identity-pool-login"></div>
 {{ end }}

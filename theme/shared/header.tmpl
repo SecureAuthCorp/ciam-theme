@@ -10,7 +10,7 @@
 </div>
 
 {{ if .I18n.SelectorEnabled }}
-  {{ template "language_selector" .I18n }}
+  {{ template "language_selector" dict "I18n" .I18n "Nonce" .Nonce "CurrentLocale" .I18n.CurrentLocale "SupportedLocales" .I18n.SupportedLocales "SelectorEnabled" .I18n.SelectorEnabled }}
 {{ end }}
 
 {{ end }}

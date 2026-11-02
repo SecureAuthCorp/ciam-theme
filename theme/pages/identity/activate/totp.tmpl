@@ -22,13 +22,13 @@
           <div id="authenticator-label" class="authenticator-label">{{ T "identity.activate.totp.scan_qr_code"  }}</div>
           <div id="totp-qrcode" data-qrdata="{{.Data.TOTPRegistrationURL}}"></div>
           <div class="totp-setup-key-container">
-              <a id="setup-key-toggle" href="" onclick="toggleSetupKey(event, {{ T "identity.activate.totp.cant_scan_qr_code" }}, {{ T "identity.activate.totp.hide_qr_code" }})">{{ T "identity.activate.totp.cant_scan_qr_code" }}</a>
+              <a id="setup-key-toggle" href="" data-cant-scan-qr-code="{{ T "identity.activate.totp.cant_scan_qr_code" }}" data-hide-qr-code="{{ T "identity.activate.totp.hide_qr_code" }}">{{ T "identity.activate.totp.cant_scan_qr_code" }}</a>
               <span id="setup-key"></span>
           </div>
       </div>
       <div class="setup-key-block">
           <span id="setup-key"></span>
-          <a href="" onclick="copySetupKey(event)" aria-label="{{ T "identity.activate.totp.copy_setup_key" }}">
+          <a href="" data-copy-setup-key aria-label="{{ T "identity.activate.totp.copy_setup_key" }}">
               <i class="material-icons">content_copy</i>
           </a>
           <span id="copied-confirmation"></span>

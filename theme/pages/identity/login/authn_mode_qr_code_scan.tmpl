@@ -22,7 +22,7 @@
       {{ T "identity.login.authn_mode_qr_code.open_app" }}
     </a>
     {{/* the QR channel carries no expiry; once the session is gone the screen cannot advance */}}
-    {{ template "device_status_poll" dict "Nonce" .Nonce "FormId" "sign-in-form" "Endpoint" "qr-login-status" "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.LoginSessionExpirationTime }}
+    {{ template "device_status_poll" dict "Nonce" .Config.Nonce "FormId" "sign-in-form" "Endpoint" "qr-login-status" "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.LoginSessionExpirationTime }}
   {{ end }}
 
   {{ template "no_access_to_device" . }}
@@ -36,7 +36,7 @@
   <input type="checkbox" name="qrCodeMode" id="qrCodeMode" checked class="non-visible">
   <input id="original-identifier-input" type="hidden" name="identifier" value="{{ .Data.Identifier }}">
 
-  {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-in-form" "Channel" .Data.Channel }}
+  {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Config.Nonce "FormId" "sign-in-form" "Channel" .Data.Channel }}
 
   <div class="non-visible" id="version" data-version="identity-pool-login"></div>
 {{ end }}

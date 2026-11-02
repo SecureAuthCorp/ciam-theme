@@ -1,5 +1,13 @@
 {{ define "language_selector" }}
 
+{{/* Custom-branding header.tmpl overrides still pass the bare I18n config, which carries its own nonce. */}}
+{{ $i18n := . }}
+{{ $nonce := .Nonce }}
+{{ if kindIs "map" . }}
+  {{ $i18n = .I18n }}
+  {{ $nonce = .Nonce }}
+{{ end }}
+
 <div class="flag-selector">
   <span id="zone-display-name"></span>
   <div class="dropdown-button-container">
@@ -14,7 +22,7 @@
   <input type="hidden" name="languageID" id="languageID">
 </div>
 
-<script>
+<script nonce="{{ $nonce }}">
   var acceptedLanguageObjects = [
    { code: "af", name: "Afrikaans", flag: "🇿🇦" },
    { code: "sq", name: "Shqip", flag: "🇦🇱" },
@@ -110,10 +118,10 @@
   ];
 
   var languages = [];
-  {{ range .SupportedLocales }}
+  {{ range $i18n.SupportedLocales }}
     languages.push("{{ . }}");
   {{ end }}
-  var currentLanguage =  {{ or .CurrentLocale "en-US" }};
+  var currentLanguage =  {{ or $i18n.CurrentLocale "en-US" }};
   var dropdownButtonContent;
   var flagDropdown;
   var input;

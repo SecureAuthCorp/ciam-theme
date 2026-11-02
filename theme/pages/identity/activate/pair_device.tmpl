@@ -52,9 +52,9 @@
     {{ end }}
 
     {{ if .Data.DevicePairingInvitationChannel }}
-      {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
+      {{ template "faye_subscribe" dict "FayeURL" .Data.FayeURL "Nonce" .Config.Nonce "FormId" "sign-up-form" "Channel" .Data.DevicePairingInvitationChannel }}
       {{/* Since is unread by the partial; it stays because removing a .Data reference fails the theme lint */}}
-    {{ template "device_status_poll" dict "Nonce" .Nonce "FormId" "sign-up-form" "Endpoint" "device-pairing-status" "Since" .Data.DevicePairingMintedTime "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.DevicePairingExpirationTime }}
+    {{ template "device_status_poll" dict "Nonce" .Config.Nonce "FormId" "sign-up-form" "Endpoint" "device-pairing-status" "Since" .Data.DevicePairingMintedTime "LoginID" .Data.SessionID "LoginState" .Data.SessionState "Until" .Data.DevicePairingExpirationTime }}
     {{ end }}
 
   {{ end }}
