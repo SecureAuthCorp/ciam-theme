@@ -19,7 +19,7 @@
 
         <div class="form-field">
           <label for="text-field-identifier-input">
-            {{ T "identity.pair_new_device.email_or_mobile" }}
+            {{ if eq .Data.AllowedAddressType "email" }}{{ T "identity.pair_new_device.email" }}{{ else if eq .Data.AllowedAddressType "mobile" }}{{ T "identity.pair_new_device.mobile" }}{{ else }}{{ T "identity.pair_new_device.email_or_mobile" }}{{ end }}
           </label>
           <input id="text-field-identifier-input" name="identifier" value="{{ .Data.Identifier}}">
         </div>
