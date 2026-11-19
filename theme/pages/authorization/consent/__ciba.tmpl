@@ -1,0 +1,41 @@
+{{ template "base" . }}
+
+{{ define "title" }}{{ T "authorization.consent.index.title" }}{{ end }}
+
+{{ define "content" }}
+
+  {{ template "consent_scripts" . }}
+
+  <div class="header-container">
+    {{ template "header" .Config }}
+  </div>
+
+  <div class="card">
+    <form action="approve" method="post" id="ciba-consent-form">
+      <input type="hidden" name="hash" value="{{ .Data.Hash }}">
+      <input type="hidden" name="csrf" value="{{ .Data.CSRF }}">
+      <input type="hidden" name="step" value="consent">
+
+      {{ template "consent_header" . }}
+
+      <div class="content" id="main-content">
+        {{ if .Data.ScopesWithoutService }}
+          {{ template "consent_scopes_without_service" . }}
+        {{ end }}
+
+        {{ if .Data.ServicesWithScopes }}
+          {{ template "consent_scopes_with_service" . }}
+        {{ end }}
+
+        {{ if or .Data.ScopesWithoutService .Data.ServicesWithScopes }}
+          {{ template "consent_footer" . }}
+        {{ else }}
+          <div class="consent-footer">{{ T "authorization.consent.consent_scopes_with_service.access_not_authorized" }}</div>
+          <div class="buttons-container-full-width extra-top-margin">
+            <button class="text-button" type="submit" name="action" value="deny">{{ T "authorization.consent.consent_footer.cancel" }}</button>
+          </div>
+        {{ end }}
+      </div>
+    </form>
+  </div>
+{{ end }}
