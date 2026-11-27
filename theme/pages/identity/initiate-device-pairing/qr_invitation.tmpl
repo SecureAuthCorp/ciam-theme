@@ -19,6 +19,7 @@
             method="post">
 
         <input type="hidden" name="pair_device" value="done" id="pair_device" form="complete-device-pairing">
+        <input type="hidden" name="pairing_reference" value="{{ .Data.DevicePairingReference }}" form="complete-device-pairing">
 
         {{ if .Data.DevicePairingInvitationQR }}
           {{ template "qr_code_scan_device_pairing" . }}
